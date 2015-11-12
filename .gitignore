@@ -1,0 +1,8 @@
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
+.phpintel
+laravel.blog.sublime-project
+laravel.blog.sublime-workspace
