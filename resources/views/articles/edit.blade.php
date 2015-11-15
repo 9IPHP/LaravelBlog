@@ -28,8 +28,8 @@
         <div class="dropzone-previews" id="dropzonePreview"></div>
     {!! Form::close() !!}
     <div id="preview-img"></div>
-    {!! Form::open(['url' => '/article']) !!}
 
+    {!! Form::model($article, ['method' => 'PATCH', 'action' => ['ArticleController@update', $article->slug]]) !!}
     <div class="form-group">
         {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => '标题']) !!}
     </div>

@@ -30,7 +30,7 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $articles = $this->articles->all($request->user());
+        $articles = $this->articles->all();
         return view('articles.index', compact('articles'));
     }
 
@@ -41,7 +41,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $tags = Tag::lists('name', 'slug');
+        $tags = Tag::lists('name', 'slug')->toArray();
         /*$existingTags = Article::existingTags();
         foreach($existingTags as $tag){
             $tags[$tag['name']] = $tag['name'];
@@ -58,34 +58,13 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request)
     {
         $requests = $request->all();
-        $tags = $requests['tags'];
-        $tagall = Tag::all()->toArray();
-        $existingSlug = $existingTag = [];
-        if(!empty($tagall)) foreach($tagall as $tag){
-            $existingSlug[] = $tag['slug'];
-            $existingTag[$tag['slug']] = $tag;
-        }
-        foreach($tags as $tag){
-            if(!in_array(mb_strtolower($tag, 'UTF-8'), $existingSlug)){
-                $name = filter_allowed_words($tag);
-                $slug = preg_replace('/\s+/', '-', mb_strtolower($name, 'UTF-8'));
-                if(in_array($slug, $existingSlug))
-                    $tagIds[] = $existingTag[$slug]['id'];
-                else{
-                    $newId = Tag::insertGetId(array('name' => $name, 'slug' => $slug));
-                    $tagIds[] = $newId;
-                }
-            }else
-                $tagIds[] = $existingTag[$tag]['id'];
-        }
-        $tagIds = array_unique($tagIds);
         $slug = $requests['slug'] ? $requests['slug'] : baidu_translate($requests['title']);
         $requests['slug'] = str_slug($slug).'-'.rand_letter();
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
         if (empty($requests['slug']))
             return redirect()->back()->withErrors(array('Slug is required!'))->withInput();
         $article = Auth::user()->articles()->create($requests);
-        $article->tags()->attach($tagIds);
+        $this->articles->syncTags($article, $requests['tag_list']);
         return redirect('/articles');
     }
 
@@ -95,9 +74,9 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Article $article)
     {
-        $article = Article::whereSlug($slug)->actived()->firstOrFail();
+        // $article = Article::whereSlug($slug)->actived()->firstOrFail();
         return view('articles.show', compact('article'));
     }
 
@@ -107,9 +86,12 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        // dd($article->toArray());
+        $tags = Tag::lists('name', 'slug')->toArray();
+        // dd($tags);
+        return view('articles.edit', compact('article', 'tags'));
     }
 
     /**
@@ -119,9 +101,11 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Article $article, ArticleRequest $request)
     {
-        //
+        $article->update($request->all());
+        $this->articles->syncTags($article, $request->input('tag_list'));
+        return redirect('articles');
     }
 
     /**
@@ -186,4 +170,11 @@ class ArticleController extends Controller
         );
         return response()->json($data);
     }
+
+    public function forUser(Request $request, $uid){
+        $articles = $this->articles->forUser($uid);
+        return view('articles.index', compact('articles'));
+    }
+
+
 }

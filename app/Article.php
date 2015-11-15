@@ -26,4 +26,8 @@ class Article extends Model
     public function tags(){
         return $this->belongstoMany(Tag::class)->withTimestamps();
     }
+
+    public function getTagListAttribute(){
+        return $this->tags->lists('slug', 'name')->toArray();
+    }
 }

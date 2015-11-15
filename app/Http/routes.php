@@ -26,6 +26,7 @@ Route::get('/', function () {
 Route::resource('article', 'ArticleController', ['except' => ['index', 'create']]);
 Route::get('articles/create', 'ArticleController@create');
 Route::post('articles/upload', 'ArticleController@upload');
+Route::get('articles/user/{user_id}', 'ArticleController@forUser');
 Route::get('articles', 'ArticleController@index');
 
 Route::controllers([
