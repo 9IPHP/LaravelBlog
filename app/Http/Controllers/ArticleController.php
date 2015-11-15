@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\User;
 use App\Article;
+use App\Tag;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -40,7 +41,12 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $tags = Tag::lists('name', 'slug');
+        /*$existingTags = Article::existingTags();
+        foreach($existingTags as $tag){
+            $tags[$tag['name']] = $tag['name'];
+        }*/
+        return view('articles.create', compact('tags'));
     }
 
     /**
@@ -52,14 +58,34 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request)
     {
         $requests = $request->all();
+        $tags = $requests['tags'];
+        $tagall = Tag::all()->toArray();
+        $existingSlug = $existingTag = [];
+        if(!empty($tagall)) foreach($tagall as $tag){
+            $existingSlug[] = $tag['slug'];
+            $existingTag[$tag['slug']] = $tag;
+        }
+        foreach($tags as $tag){
+            if(!in_array(mb_strtolower($tag, 'UTF-8'), $existingSlug)){
+                $name = filter_allowed_words($tag);
+                $slug = preg_replace('/\s+/', '-', mb_strtolower($name, 'UTF-8'));
+                if(in_array($slug, $existingSlug))
+                    $tagIds[] = $existingTag[$slug]['id'];
+                else{
+                    $newId = Tag::insertGetId(array('name' => $name, 'slug' => $slug));
+                    $tagIds[] = $newId;
+                }
+            }else
+                $tagIds[] = $existingTag[$tag]['id'];
+        }
+        $tagIds = array_unique($tagIds);
         $slug = $requests['slug'] ? $requests['slug'] : baidu_translate($requests['title']);
-        $requests['slug'] = str_slug($slug);
+        $requests['slug'] = str_slug($slug).'-'.rand_letter();
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
-        // dd($requests);
         if (empty($requests['slug']))
             return redirect()->back()->withErrors(array('Slug is required!'))->withInput();
-        $article = new Article($requests);
-        Auth::user()->articles()->save($article);
+        $article = Auth::user()->articles()->create($requests);
+        $article->tags()->attach($tagIds);
         return redirect('/articles');
     }
 

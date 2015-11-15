@@ -13,10 +13,23 @@
 @stop
 
 @section('site-heading')
-    <h1>{{ $article->title }}</h1>
-    <span class="meta">Posted on {{ $article->created_at->format('Y-m-d') }}</span>
+    <div class="post-heading">
+        <h1>{{ $article->title }}</h1>
+        <span class="meta">Posted by {{ $article->user->name }} on {{ $article->created_at->format('Y-m-d') }}</span>
+    </div>
 @stop
 
 @section('container')
-    {!! $article->body !!}
+    @unless($article->tags->isEmpty())
+        <div class="article-meta-tags">
+            Tags:
+            @foreach($article->tags as $tag)
+                <a href="/tag/{{ $tag->slug }}">{{ $tag->name }}</a>
+            @endforeach
+        </div>
+    @endunless
+    <div class="article-body">
+        {!! $article->body !!}
+    </div>
+
 @stop

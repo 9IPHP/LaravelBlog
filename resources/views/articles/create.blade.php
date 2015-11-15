@@ -7,12 +7,16 @@
 @section('head')
     <link href="/css/simditor.css" rel="stylesheet">
     <link href="/css/dropzone.css" rel="stylesheet">
+    <link href="/css/selectize.bootstrap3.css" rel="stylesheet" />
+    <link href="/css/bootstrap-tagsinput.css" rel="stylesheet" />
     <script src="/js/mobilecheck.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
 
 @section('site-heading')
-    <h1>发布文章</h1>
+    <div class="site-heading">
+        <h1>发布文章</h1>
+    </div>
 @stop
 
 @section('container')
@@ -43,11 +47,16 @@
     </div>
 
     <div class="form-group">
-        {!! Form::textarea('excerpt', null, ['class' => 'form-control', 'rows' => 3, 'placeholder' => '若留空，则取内容前一部分']) !!}
+        {!! Form::textarea('excerpt', null, ['class' => 'form-control', 'rows' => 3, 'placeholder' => '文章摘要，若留空，则取内容前一部分']) !!}
     </div>
 
     <div class="form-group editor">
         {!! Form::textarea('body', null, ['id' => 'myEditor', 'class' => 'form-control', 'placeholder' => '文章内容']) !!}
+    </div>
+
+    <div class="form-group">
+        {{-- {!! Form::label('tags', 'Tags:') !!} --}}
+        {!! Form::select('tags[]', $tags, null, ['id' => 'tag_list', 'class' => 'form-control', 'multiple', 'placeholder' => '标签( 只允许汉字 英文 数字 - _ )']) !!}
     </div>
 
     <div class="form-group">
@@ -63,6 +72,8 @@
     <script src="/js/uploader.js"></script>
     <script src="/js/simditor.js"></script>
     <script src="/js/dropzone.js"></script>
+    <script src="/js/selectize.min.js"></script>
+    <script src="/js/bootstrap-tagsinput.min.js"></script>
     <script type="text/javascript">
     $.ajaxSetup({
             headers: {
@@ -70,6 +81,12 @@
             }
         });
     $(function(){
+        $('#tag_list').selectize({
+            maxItems: 5,
+            persist: false,
+            createOnBlur: true,
+            create: true,
+        });
         var $preview, editor, mobileToolbar, toolbar;
         Simditor.locale = 'zh-CN';
         toolbar = ['title', 'bold', 'italic', 'strikethrough', 'color', 'ol', 'ul', 'blockquote', 'code', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];

@@ -252,7 +252,7 @@ hr.small {
 
 @media only screen and (min-width: 768px) {
     .intro-header .post-heading h1 {
-        font-size: 55px;
+        font-size: 45px;
     }
     .intro-header .post-heading .subheading {
         font-size: 30px;
@@ -473,4 +473,29 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #0085a1;
+}
+
+.article-meta-tags{
+    font-size: 14px;
+    color: #a1a4ab;
+    font-weight: 300;
+    margin: 0 0 15px;
+}
+.article-meta-tags a{
+    color: rgba(161,164,171,0.89);
+    display: inline-block;
+    padding: 3px 5px;
+    line-height: 16px;
+    margin-bottom: 10px;
+    border-bottom: none;
+    margin: 0 3px;
+}
+.article-meta-tags a:hover {
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    padding: 3px 5px;
+}
+.article-body p{
+    margin: 0 0 30px;
 }

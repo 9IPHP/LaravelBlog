@@ -12,6 +12,14 @@
 */
 
 Route::get('/', function () {
+    $letter = 'abcdefgHIJKLMN0123456789';
+    $str = '';
+    for ($i=0; $i < 5; $i++) {
+        $str = $str . $letter[rand(0,23)];
+    }
+    return $str;
+    echo urlencode('s中国s lf&*$    43-9_42');
+    return baidu_translate('s中国s lf&*$    43-9_42');
     return view('welcome');
 });
 
