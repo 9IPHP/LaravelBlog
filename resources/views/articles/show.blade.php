@@ -15,7 +15,7 @@
 @section('site-heading')
     <div class="post-heading">
         <h1>{{ $article->title }}</h1>
-        <span class="meta">Posted by {{ $article->user->name }} on {{ $article->created_at->format('Y-m-d') }}</span>
+        <span class="meta">Posted by <a href="/articles/user/{{ $article->user->id }}">{{ $article->user->name }}</a> on {{ $article->created_at->format('Y-m-d') }}</span>
     </div>
 @stop
 

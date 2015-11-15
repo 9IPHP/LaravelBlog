@@ -11,7 +11,7 @@ class ArticleRepository{
     {
         return Article::actived()
                     ->Orderby('created_at', 'DESC')
-                    ->paginate(10);
+                    ->simplePaginate(10);
     }
 
     public function forUser($user_id)
