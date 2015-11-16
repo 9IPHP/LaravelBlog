@@ -18,6 +18,7 @@ use App\Repositories\ArticleRepository;
 class ArticleController extends Controller
 {
     protected $articles;
+
     public function __construct(ArticleRepository $articles)
     {
         $this->middleware('auth', ['except' => ['index', 'show']]);

@@ -26,6 +26,9 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+Route::get('tags', 'TagController@index');
+Route::get('tag/{slug}', 'TagController@show');
+
 /*// Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');

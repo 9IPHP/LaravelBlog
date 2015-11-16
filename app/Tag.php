@@ -12,10 +12,8 @@ class Tag extends Model
         'slug'
     ];
 
-    public $timestamps = true;
-
     public function articles()
     {
-        $this->belongsToMany(Article::class);
+        return $this->belongsToMany(Article::class);
     }
 }

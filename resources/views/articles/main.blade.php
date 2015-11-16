@@ -53,6 +53,9 @@
                     <li>
                         <a href="/articles">Home</a>
                     </li>
+                     <li>
+                        <a href="/tags">Tags</a>
+                    </li>
                     @if(Auth::guest())
                         <li>
                             <a href="/auth/login">Login</a>
@@ -77,9 +80,7 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url( @section('bgimg')
-            /img/home-bg.jpg
-        @show)">
+    <header class="intro-header" style="background-image: url(@section('bgimg') /img/home-bg.jpg @show)">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">

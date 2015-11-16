@@ -6,9 +6,7 @@
 
 @section('site-heading')
     <div class="site-heading">
-        <h1>Laravel博客</h1>
-        <hr class="small">
-        <span class="subheading">A Blog Created with Laravel</span>
+        <h1>标签 [{{ $tag->name }}] 下的所有文章</h1>
     </div>
 @stop
 

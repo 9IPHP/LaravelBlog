@@ -499,3 +499,10 @@ body {
 .article-body p{
     margin: 0 0 30px;
 }
+.tags-body a {
+    display: inline-block;
+    padding: 2px 5px;
+    margin-bottom: 5px;
+    border: 1px solid #e1e1e1;
+    margin-right: 5px;
+}

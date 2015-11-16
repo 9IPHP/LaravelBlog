@@ -16,7 +16,6 @@ class CreateTagsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            // $table->timestamps();
         });
 
         Schema::create('article_tag', function (Blueprint $table){
@@ -31,8 +30,6 @@ class CreateTagsTable extends Migration
                     ->references('id')
                     ->on('tags')
                     ->onDelete('cascade');
-
-            $table->timestamps();
         });
     }
 
@@ -43,7 +40,7 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tags');
         Schema::drop('article_tag');
+        Schema::drop('tags');
     }
 }
