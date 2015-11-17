@@ -35,7 +35,8 @@ class ArticleRepository{
                 if(in_array($slug, $existingSlug))
                     $tagIds[] = $existingTag[$slug]['id'];
                 else{
-                    $newId = Tag::insertGetId(array('name' => $name, 'slug' => $slug));
+                    $newtag = Tag::create(array('name' => $name, 'slug' => $slug));
+                    $newId = $newtag->id;
                     $tagIds[] = $newId;
                 }
             }else
