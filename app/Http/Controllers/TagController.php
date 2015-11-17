@@ -12,7 +12,7 @@ class TagController extends Controller
 {
     public function index(Request $request)
     {
-        $tags = Tag::orderBy('id', 'desc')->get();
+        $tags = Tag::orderBy('count', 'desc')->get();
         return view('articles.tags', compact('tags'));
         // dd($tags);
     }

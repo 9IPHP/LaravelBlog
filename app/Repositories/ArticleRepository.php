@@ -32,15 +32,18 @@ class ArticleRepository{
             if(!in_array(mb_strtolower($tag, 'UTF-8'), $existingSlug)){
                 $name = filter_allowed_words($tag);
                 $slug = preg_replace('/\s+/', '-', mb_strtolower($name, 'UTF-8'));
-                if(in_array($slug, $existingSlug))
+                if(in_array($slug, $existingSlug)){
+                    Tag::whereSlug($slug)->increment('count');
                     $tagIds[] = $existingTag[$slug]['id'];
-                else{
+                } else{
                     $newtag = Tag::create(array('name' => $name, 'slug' => $slug));
                     $newId = $newtag->id;
                     $tagIds[] = $newId;
                 }
-            }else
+            }else{
+                Tag::whereSlug($tag)->increment('count');
                 $tagIds[] = $existingTag[$tag]['id'];
+            }
         }
         $tagIds = array_unique($tagIds);
         $article->tags()->sync($tagIds);

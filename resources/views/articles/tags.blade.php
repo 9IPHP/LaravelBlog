@@ -13,7 +13,7 @@
 @section('container')
     <div class="tags-body">
         @foreach($tags as $tag)
-            <a href="/tag/{{ $tag->slug }}">{{ $tag->name }}</a>
+            <a href="/tag/{{ $tag->slug }}">{{ $tag->name }} <sup>({{ $tag->count }})</sup></a>
         @endforeach
     </div>
 @stop
