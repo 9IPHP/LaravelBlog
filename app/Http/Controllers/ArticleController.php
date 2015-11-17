@@ -60,7 +60,7 @@ class ArticleController extends Controller
     {
         $requests = $request->all();
         $slug = $requests['slug'] ? $requests['slug'] : baidu_translate($requests['title']);
-        $requests['slug'] = str_slug($slug).'-'.rand_letter();
+        $requests['slug'] = str_slug($slug).'-'.str_random(8);
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
         if (empty($requests['slug']))
             return redirect()->back()->withErrors(array('Slug is required!'))->withInput();
