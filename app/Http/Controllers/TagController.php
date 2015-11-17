@@ -12,9 +12,8 @@ class TagController extends Controller
 {
     public function index(Request $request)
     {
-        $tags = Tag::orderBy('count', 'desc')->get();
+        $tags = Tag::where('count', '>', 0)->orderBy('count', 'desc')->get();
         return view('articles.tags', compact('tags'));
-        // dd($tags);
     }
 
     public function show($slug)

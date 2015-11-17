@@ -24,7 +24,7 @@ class Article extends Model
     }
 
     public function tags(){
-        return $this->belongstoMany(Tag::class);
+        return $this->belongstoMany(Tag::class)->withTimestamps();
     }
 
     public function getTagListAttribute(){

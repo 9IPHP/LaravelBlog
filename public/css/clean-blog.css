@@ -506,3 +506,6 @@ body {
     /*border: 1px solid #e1e1e1;*/
     margin-right: 5px;
 }
+.tags-body a:hover, .tags-body a:focus{
+    text-decoration: none;
+}

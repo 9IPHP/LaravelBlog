@@ -65,7 +65,7 @@ class ArticleController extends Controller
         if (empty($requests['slug']))
             return redirect()->back()->withErrors(array('Slug is required!'))->withInput();
         $article = Auth::user()->articles()->create($requests);
-        $this->articles->syncTags($article, $requests['tag_list']);
+        $this->articles->syncTags($article, $requests['tag_list'], true);
         return redirect('/articles');
     }
 
@@ -104,8 +104,8 @@ class ArticleController extends Controller
      */
     public function update(Article $article, ArticleRequest $request)
     {
-        $article->update($request->all());
         $this->articles->syncTags($article, $request->input('tag_list'));
+        $article->update($request->all());
         return redirect('articles');
     }
 
@@ -176,6 +176,5 @@ class ArticleController extends Controller
         $articles = $this->articles->forUser($uid);
         return view('articles.index', compact('articles'));
     }
-
 
 }
