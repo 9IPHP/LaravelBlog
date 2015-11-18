@@ -179,4 +179,14 @@ class ArticleController extends Controller
         return view('articles.index', compact('articles'));
     }
 
+    public function getslug(Request $request){
+        $title = $request->get('title');
+        $slug = str_slug(baidu_translate($title));
+        $data = array(
+            'status' => true,
+            'slug' => $slug
+        );
+        return response()->json($data);
+    }
+
 }

@@ -8,7 +8,6 @@
     <link href="/css/simditor.css" rel="stylesheet">
     <link href="/css/dropzone.css" rel="stylesheet">
     <link href="/css/selectize.bootstrap3.css" rel="stylesheet" />
-    <link href="/css/bootstrap-tagsinput.css" rel="stylesheet" />
     <script src="/js/mobilecheck.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
@@ -28,8 +27,8 @@
         <div class="dropzone-previews" id="dropzonePreview"></div>
     {!! Form::close() !!}
     <div id="preview-img"></div>
-    {!! Form::open(['url' => '/article']) !!}
 
+    {!! Form::open(['url' => '/article']) !!}
     <div class="form-group">
         {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => '标题']) !!}
     </div>
@@ -73,7 +72,6 @@
     <script src="/js/simditor.js"></script>
     <script src="/js/dropzone.js"></script>
     <script src="/js/selectize.min.js"></script>
-    <script src="/js/bootstrap-tagsinput.min.js"></script>
     <script type="text/javascript">
     $.ajaxSetup({
             headers: {
@@ -81,6 +79,16 @@
             }
         });
     $(function(){
+        $('input[name=title]').blur(function(){
+            if($('input[name="title"]').val() != '' && $('input[name="slug"]').val() == ''){
+                $.get('/articles/getslug', {
+                    title: $.trim($('input[name="title"]').val())
+                }, function(response){
+                    if(response.status == true)
+                        $('input[name="slug"]').val(response.slug)
+                }, 'json')
+            }
+        });
         $('#tag_list').selectize({
             maxItems: 5,
             persist: false,

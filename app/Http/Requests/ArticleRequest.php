@@ -26,7 +26,7 @@ class ArticleRequest extends Request
         return [
             'title' => 'required|min:3',
             'slug' => 'alpha_dash|min:3',
-            // 'slug' => 'unique:articles|alpha_dash|min:3',
+            'slug' => 'unique:articles|alpha_dash|min:3',
             // 'excerpt' => 'required',
             'body' => 'required',
             'is_active' => 'boolean',

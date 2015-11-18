@@ -24,7 +24,7 @@
                 <p class="post-excerpt">
                     {{ $article->excerpt }}
                 </p>
-                <p class="post-meta">Posted by <a href="/articles/user/{{ $article->user->id }}">{{ $article->user->name }}</a> on {{ $article->created_at->format('Y-m-d') }}</p>
+                <p class="post-meta">Posted by <a href="/articles/user/{{ $article->user->id }}">{{ $article->user->name }}</a> on {{ $article->created_at->diffForHumans() }}</p>
             </div>
             <hr>
         @endforeach
