@@ -502,10 +502,14 @@ body {
 .tags-body a {
     display: inline-block;
     padding: 2px 5px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     /*border: 1px solid #e1e1e1;*/
     margin-right: 5px;
 }
 .tags-body a:hover, .tags-body a:focus{
     text-decoration: none;
+}
+.post-heading .meta i {
+    font-size: 14px;
+    margin-left: 10px;
 }

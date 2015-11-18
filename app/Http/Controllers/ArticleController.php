@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use Auth, Gate;
 use App\User;
 use App\Article;
 use App\Tag;
@@ -89,6 +89,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $this->authorize('update', $article);
         // dd($article->toArray());
         $tags = Tag::lists('name', 'slug')->toArray();
         // dd($tags);
@@ -104,6 +105,7 @@ class ArticleController extends Controller
      */
     public function update(Article $article, ArticleRequest $request)
     {
+        $this->authorize('update', $article);
         $this->articles->syncTags($article, $request->input('tag_list'));
         $article->update($request->all());
         return redirect('articles');
@@ -117,7 +119,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('destroy', $article);
     }
 
     public function upload(Request $request)
