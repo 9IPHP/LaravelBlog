@@ -41,11 +41,6 @@
 @section('footer')
     <script src="/js/highlight.pack.js"></script>
     <script>
-        /*hljs.configure({
-          tabReplace: '    ', // 4 spaces
-          classPrefix: 'hljs-'     // don't append class prefix
-                              // … other options aren't changed
-        });*/
         $('pre code').each(function(i, block) {
             hljs.highlightBlock(block);
         });
