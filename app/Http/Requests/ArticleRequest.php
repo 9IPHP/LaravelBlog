@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Article;
 use App\Http\Requests\Request;
+use Illuminate\Http\Request as Requests;
 
 class ArticleRequest extends Request
 {
@@ -21,12 +23,15 @@ class ArticleRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(Requests $request)
     {
+        $segment = $request->segment(2);
+        $req_slug = $request->get('slug');
+        $id = ($segment == $req_slug ? ','.Article::whereSlug($req_slug)->first()->id : '');
         return [
             'title' => 'required|min:3',
             'slug' => 'alpha_dash|min:3',
-            'slug' => 'unique:articles|alpha_dash|min:3',
+            'slug' => 'alpha_dash|min:3|unique:articles,slug'.$id,
             // 'excerpt' => 'required',
             'body' => 'required',
             'is_active' => 'boolean',
