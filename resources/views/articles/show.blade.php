@@ -4,6 +4,10 @@
     {{ $article->title }} - @parent
 @stop
 
+@section('head')
+    <link href="/css/monokai_sublime.css" rel="stylesheet">
+@stop
+
 @section('bgimg')
     @if($article->thumb)
         {{ $article->thumb }}
@@ -32,4 +36,18 @@
         {!! $article->body !!}
     </div>
 
+@stop
+
+@section('footer')
+    <script src="/js/highlight.pack.js"></script>
+    <script>
+        /*hljs.configure({
+          tabReplace: '    ', // 4 spaces
+          classPrefix: 'hljs-'     // don't append class prefix
+                              // … other options aren't changed
+        });*/
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    </script>
 @stop

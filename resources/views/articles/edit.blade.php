@@ -9,7 +9,6 @@
     <link href="/css/dropzone.css" rel="stylesheet">
     <link href="/css/selectize.bootstrap3.css" rel="stylesheet" />
     <script src="/js/mobilecheck.js"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
 
 @section('site-heading')
@@ -40,4 +39,5 @@
     <script src="/js/simditor-markdown.js"></script>
     <script src="/js/dropzone.js"></script>
     <script src="/js/selectize.min.js"></script>
+    <script src="/js/editor-setting.js"></script>
 @stop
