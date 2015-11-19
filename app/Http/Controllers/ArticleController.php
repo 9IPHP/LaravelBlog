@@ -42,11 +42,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $tags = Tag::lists('name', 'slug')->toArray();
-        /*$existingTags = Article::existingTags();
-        foreach($existingTags as $tag){
-            $tags[$tag['name']] = $tag['name'];
-        }*/
+        $tags = Tag::orderBy('count', 'desc')->lists('name', 'slug')->toArray();
+
         return view('articles.create', compact('tags'));
     }
 
@@ -62,10 +59,10 @@ class ArticleController extends Controller
         $slug = $requests['slug'] ? $requests['slug'] : baidu_translate($requests['title']);
         $requests['slug'] = str_slug($slug).'-'.str_random(8);
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
-        /*if (empty($requests['slug']))
-            return redirect()->back()->withErrors(array('Slug is required!'))->withInput();*/
+
         $article = Auth::user()->articles()->create($requests);
-        $this->articles->syncTags($article, $requests['tag_list'], true);
+        $tag_list = $request->input('tag_list') ? $request->input('tag_list') : array();
+        $this->articles->syncTags($article, $tag_list, true);
         return redirect('/articles');
     }
 
@@ -77,7 +74,6 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        // $article = Article::whereSlug($slug)->actived()->firstOrFail();
         return view('articles.show', compact('article'));
     }
 
@@ -90,9 +86,7 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         $this->authorize('update', $article);
-        // dd($article->toArray());
-        $tags = Tag::lists('name', 'slug')->toArray();
-        // dd($tags);
+        $tags = Tag::orderBy('count', 'desc')->lists('name', 'slug')->toArray();
         return view('articles.edit', compact('article', 'tags'));
     }
 
@@ -106,8 +100,13 @@ class ArticleController extends Controller
     public function update(Article $article, ArticleRequest $request)
     {
         $this->authorize('update', $article);
-        $this->articles->syncTags($article, $request->input('tag_list'));
-        $article->update($request->all());
+        $tag_list = $request->input('tag_list') ? $request->input('tag_list') : array();
+        $this->articles->syncTags($article, $tag_list);
+
+        $requests = $request->all();
+        $requests['is_active'] = $request->is_active ? $request->is_active : 0;
+        $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
+        $article->update($requests);
         return redirect('articles');
     }
 
@@ -163,7 +162,6 @@ class ArticleController extends Controller
             }
         }catch (\Exception $e){
             $message = $e->getMessage();
-            // self::addError($e->getMessage());
         }
 
         $data = array(
@@ -180,7 +178,7 @@ class ArticleController extends Controller
     }
 
     public function getslug(Request $request){
-        $title = $request->get('title');
+        $title = $request->input('title');
         $slug = str_slug(baidu_translate($title));
         $data = array(
             'status' => true,

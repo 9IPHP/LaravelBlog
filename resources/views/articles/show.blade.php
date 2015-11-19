@@ -39,6 +39,7 @@
 @stop
 
 @section('footer')
+    <script src="/js/zoom.js"></script>
     <script src="/js/highlight.pack.js"></script>
     <script>
         $('pre code').each(function(i, block) {

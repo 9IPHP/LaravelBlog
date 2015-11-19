@@ -27,6 +27,7 @@ class ArticleRepository{
             $existingSlug[] = $tag['slug'];
             $existingTag[$tag['slug']] = $tag;
         }
+        $newTagIds = [];
         foreach($tags as $tag){
             if(!in_array(mb_strtolower($tag, 'UTF-8'), $existingSlug)){
                 $name = filter_allowed_words($tag);

@@ -1,0 +1,10 @@
+<script src="/js/module.js"></script>
+<script src="/js/hotkeys.js"></script>
+<script src="/js/uploader.js"></script>
+<script src="/js/simditor.js"></script>
+<script src="/js/marked.js"></script>
+<script src="/js/to-markdown.js"></script>
+<script src="/js/simditor-markdown.js"></script>
+<script src="/js/dropzone.js"></script>
+<script src="/js/selectize.min.js"></script>
+<script src="/js/editor-setting.js"></script>

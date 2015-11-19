@@ -27,7 +27,7 @@ class ArticleRequest extends Request
     {
         $segment = $request->segment(2);
         $req_slug = $request->get('slug');
-        $id = ($segment == $req_slug ? ','.Article::whereSlug($req_slug)->first()->id : '');
+        $id = ($segment === $req_slug ? ','.Article::whereSlug($req_slug)->first()->id : '');
         return [
             'title' => 'required|min:3',
             'slug' => 'alpha_dash|min:3',
