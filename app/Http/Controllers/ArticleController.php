@@ -62,8 +62,8 @@ class ArticleController extends Controller
         $slug = $requests['slug'] ? $requests['slug'] : baidu_translate($requests['title']);
         $requests['slug'] = str_slug($slug).'-'.str_random(8);
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
-        if (empty($requests['slug']))
-            return redirect()->back()->withErrors(array('Slug is required!'))->withInput();
+        /*if (empty($requests['slug']))
+            return redirect()->back()->withErrors(array('Slug is required!'))->withInput();*/
         $article = Auth::user()->articles()->create($requests);
         $this->articles->syncTags($article, $requests['tag_list'], true);
         return redirect('/articles');
