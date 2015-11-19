@@ -1,7 +1,7 @@
 @extends('articles.main')
 
 @section('title')
-    发布文章 - @parent
+    修改文章 - @parent
 @stop
 
 @section('head')
@@ -14,7 +14,7 @@
 
 @section('site-heading')
     <div class="site-heading">
-        <h1>发布文章</h1>
+        <h1>修改文章</h1>
     </div>
 @stop
 
