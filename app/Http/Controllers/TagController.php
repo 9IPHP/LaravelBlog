@@ -12,8 +12,19 @@ class TagController extends Controller
 {
     public function index(Request $request)
     {
-        $tags = Tag::where('count', '>', 0)->orderBy('count', 'desc')->get();
-        return view('articles.tags', compact('tags'));
+        $tags = Tag::where('count', '>', 0)->get();
+        $tagLists = [];
+        foreach ($tags as $tag) {
+            $tagLists[$tag['letter']][] = $tag;
+        }
+        $Unknown = [];
+        if(isset($tagLists['Unknown'])){
+            $Unknown = $tagLists['Unknown'];
+            unset($tagLists['Unknown']);
+        }
+        ksort($tagLists);
+        if($Unknown) $tagLists['Unknown'] = $Unknown;
+        return view('articles.tags', compact('tagLists'));
     }
 
     public function show($slug)

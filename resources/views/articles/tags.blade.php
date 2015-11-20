@@ -12,8 +12,12 @@
 
 @section('container')
     <div class="tags-body">
-        @foreach($tags as $tag)
-            <a href="/tag/{{ $tag->slug }}">{{ $tag->name }} <sup>({{ $tag->count }})</sup></a>
+        @foreach($tagLists as $key => $tags)
+            <h2>{{ $key }}</h2>
+            <hr/>
+            @foreach($tags as $tag)
+                <a href="/tag/{{ $tag->slug }}">{{ $tag->name }} <sup>({{ $tag->count }})</sup></a>
+            @endforeach
         @endforeach
     </div>
 @stop
