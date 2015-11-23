@@ -63,6 +63,7 @@ class ArticleController extends Controller
         $article = Auth::user()->articles()->create($requests);
         $tag_list = $request->input('tag_list') ? $request->input('tag_list') : array();
         $this->articles->syncTags($article, $tag_list, true);
+        flash()->message('文章发布成功！');
         return redirect('/articles');
     }
 

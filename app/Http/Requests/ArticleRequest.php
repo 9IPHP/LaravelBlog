@@ -39,7 +39,7 @@ class ArticleRequest extends Request
             'tag_list' => 'array',
         ];
 
-        foreach($this->request->get('tag_list') as $key => $val)
+        if(is_array($this->request->get('tag_list')) && !empty($this->request->get('tag_list'))) foreach($this->request->get('tag_list') as $key => $val)
         {
             $rules['tag_list.'.$key] = 'regex:/^[a-zA-Z0-9\x{4e00}-\x{9fa5}-_]+$/iu';
         }
