@@ -9,14 +9,14 @@ class ArticleRepository{
 
     public function all()
     {
-        return Article::actived()
+        return Article::with('user')->actived()
                     ->Orderby('created_at', 'DESC')
                     ->simplePaginate(10);
     }
 
     public function forUser($user_id)
     {
-        return Article::where('user_id', $user_id)->actived()
+        return Article::with('user')->where('user_id', $user_id)->actived()
                     ->Orderby('created_at', 'DESC')
                     ->simplePaginate(10);
     }

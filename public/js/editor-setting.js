@@ -10,7 +10,7 @@ $(function(){
         }
     });
 
-    $('#tag_list').selectize({
+    if($('#tag_list').length > 0) $('#tag_list').selectize({
         maxItems: 5,
         persist: false,
         createOnBlur: true,
@@ -63,7 +63,7 @@ $(function(){
                 name: 'Apache',
                 value: 'apache'
             }
-        ]
+        ],
     });
     $preview = $('#preview');
     if ($preview.length > 0) {

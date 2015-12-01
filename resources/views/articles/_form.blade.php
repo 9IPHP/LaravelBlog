@@ -22,6 +22,8 @@
     {!! Form::textarea('body', null, ['id' => 'myEditor', 'class' => 'form-control', 'placeholder' => '文章内容']) !!}
 </div>
 
+{{-- <div id="preview"></div> --}}
+
 <div class="form-group">
     {{-- {!! Form::label('tags', 'Tags:') !!} --}}
     {!! Form::select('tag_list[]', $tags, null, ['id' => 'tag_list', 'class' => 'form-control', 'multiple', 'placeholder' => '标签( 只允许汉字 英文 数字 - _ )']) !!}

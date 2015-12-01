@@ -5,7 +5,10 @@ $.ajaxSetup({
 });
 
 $(function(){
-
+    $('.article-body img').each(function(index, el) {
+        // console.log($(el).parents('p').css('text-align'));
+        $(el).attr('data-action', 'zoom');
+    });
 })
 
 
