@@ -20,8 +20,8 @@ class CreateArticlesTable extends Migration
             $table->string('thumb')->nullable();
             $table->text('excerpt');
             $table->text('body');
-            $table->tinyInteger('is_active')->unsigned()->default(0);
-            $table->tinyInteger('comment_status')->unsigned()->default(0);
+            $table->boolean('is_active')->default(false);
+            $table->tinyInteger('comment_status')->default(false);
             $table->integer('comment_count')->unsigned()->default(0);
             $table->timestamps();
 

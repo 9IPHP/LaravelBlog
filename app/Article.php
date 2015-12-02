@@ -23,6 +23,16 @@ class Article extends Model
         return $query->where('is_active', 1);
     }
 
+    public function scopeWhose($query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
+    }
+
+    public function scopeRecent($query)
+    {
+        return $query->Orderby('created_at', 'DESC');
+    }
+
     public function tags(){
         return $this->belongstoMany(Tag::class)->withTimestamps();
     }
@@ -30,4 +40,5 @@ class Article extends Model
     public function getTagListAttribute(){
         return $this->tags->lists('slug', 'name')->toArray();
     }
+
 }

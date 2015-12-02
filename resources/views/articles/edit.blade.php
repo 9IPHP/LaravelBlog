@@ -11,9 +11,19 @@
     <script src="/js/mobilecheck.js"></script>
 @stop
 
+@section('bgimg')
+    @if($article->thumb)
+        {{ $article->thumb }}
+    @else
+        @parent
+    @endif
+@stop
+
 @section('site-heading')
     <div class="site-heading">
         <h1>修改文章</h1>
+        <hr class="small">
+        <span class="subheading">{{ $article->title }}</span>
     </div>
 @stop
 

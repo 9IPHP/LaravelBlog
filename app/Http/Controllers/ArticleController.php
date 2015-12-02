@@ -174,8 +174,9 @@ class ArticleController extends Controller
     }
 
     public function forUser(Request $request, $uid){
+        $user = User::findOrFail($uid);
         $articles = $this->articles->forUser($uid);
-        return view('articles.index', compact('articles'));
+        return view('articles.user', compact('articles', 'user'));
     }
 
     public function getslug(Request $request){

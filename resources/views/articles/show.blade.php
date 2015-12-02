@@ -17,8 +17,9 @@
 @stop
 
 @section('site-heading')
-    <div class="post-heading">
+    <div class="site-heading">
         <h1>{{ $article->title }}</h1>
+        <hr class="small">
         <span class="meta"><i class="fa fa-user"></i> <a href="/articles/user/{{ $article->user->id }}">{{ $article->user->name }}</a> <i class="fa fa-calendar"></i> {{ $article->created_at->diffForHumans() }}@can('update', $article) <i class="fa fa-edit"></i> <a href="/article/{{ $article->slug }}/edit">Update</a> @endcan</span>
     </div>
 @stop

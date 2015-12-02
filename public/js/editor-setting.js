@@ -77,13 +77,14 @@ $(function(){
         maxFilesize: 2,
         thumbnailWidth: 400,
         thumbnailHeight: 100,
-        addRemoveLinks: true,
-        dictRemoveFile: 'Remove',
+        // addRemoveLinks: true,
+        // dictRemoveFile: 'Remove',
         dictFileTooBig: 'Image is bigger than 2MB',
         // previewTemplate: '<div id="preview-template" style="display: none;"></div>',
         init: function() {
             this.on('success', function(file, response){
                 $("input[name=thumb]").val(response.file_path);
+                $(".intro-header").css('background-image', 'url('+response.file_path+')');
             }).on('removedfile', function(file){
                 $("input[name=thumb]").val('');
             })

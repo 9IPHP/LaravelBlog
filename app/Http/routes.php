@@ -30,6 +30,11 @@ Route::controllers([
 Route::get('tags', 'TagController@index');
 Route::get('tag/{slug}', 'TagController@show');
 
+Route::get('users', 'UserController@index');
+Route::get('users/{id}', 'UserController@show');
+Route::get('users/{id}/articles', 'UserController@articles');
+Route::get('users/{id}/edit', 'UserController@edit');
+
 /*// Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');

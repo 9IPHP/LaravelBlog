@@ -31,9 +31,6 @@ class TagController extends Controller
     {
         $tag = Tag::whereSlug($slug)->firstOrFail();
         $articles = $tag->articles()->orderBy('created_at', 'desc')->simplePaginate(10);
-        // dd($articles);
         return view('articles.tag', compact('tag', 'articles'));
-        // dd(Tag::whereSlug($slug)->firstOrFail()->toArray());
-        dd($this->articles->toArray());
     }
 }
