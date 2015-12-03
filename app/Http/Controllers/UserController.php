@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -17,7 +18,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $users)
     {
-        // $this->middleware('auth', ['except' => ['index', 'show', 'forUser']]);
+        $this->middleware('auth', ['only' => ['edit', 'update']]);
         $this->users = $users;
     }
 
@@ -41,12 +42,13 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
     public function update(User $user, UserRequest $request)
     {
-        dd($user->toArray());
+        $this->authorize('update', $user);
         $user->update($request->all());
         flash()->message('修改成功！');
         return redirect('user/' . $user->id . '/edit');

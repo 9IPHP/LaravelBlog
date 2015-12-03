@@ -32,9 +32,11 @@
                             @if($user->website)<p><i class="fa fa-globe"></i> <a href="{{ $user->website }}" target="_blank">{{ $user->website }}</a></p>@endif
                             @if($user->weibo)<p><i class="fa fa-weibo"></i> <a href="{{ $user->weibo }}" target="_blank">{{ $user->weibo }}</a></p>@endif
                             @if($user->github)<p><i class="fa fa-github-alt"></i> <a href="{{ $user->github }}" target="_blank">{{ $user->github }}</a></p>@endif
-                            @if($user->qq)<p><i class="fa fa-qq"></i> <a href="{{ $user->qq }}"{{ $user->qq }}</p>@endif
+                            @if($user->qq)<p><i class="fa fa-qq"></i> {{ $user->qq }}</p>@endif
                         </div>
+                        @can('update', $user)
                         <a href="/user/{{ $user->id }}/edit" class="btn btn-primary btn-block btn-sm" data-original-title="" title=""><span class="fa fa-edit"></span> 编辑个人资料</a>
+                        @endcan
                     </div>
                 </div>
             </div>

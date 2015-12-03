@@ -30,7 +30,7 @@ Route::controllers([
 Route::get('tags', 'TagController@index');
 Route::get('tag/{slug}', 'TagController@show');
 
-Route::resource('user', 'UserController', ['except' => ['index', 'create', 'store']]);
+Route::resource('user', 'UserController', ['only' => ['show', 'edit', 'update']]);
 // Route::get('user/{id}/articles', 'UserController@articles');
 // Route::get('users', 'UserController@index');
 /*Route::get('users', 'UserController@index');
