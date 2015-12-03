@@ -31,6 +31,9 @@ class RouteServiceProvider extends ServiceProvider
         $router->bind('article', function($slug){
             return \App\Article::actived()->whereSlug($slug)->firstOrFail();
         });
+        $router->bind('user', function($id){
+            return \App\User::findOrFail($id);
+        });
     }
 
     /**

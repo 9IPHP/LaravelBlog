@@ -8,6 +8,7 @@ body {
     font-family: 'Lora', 'Times New Roman', serif;
     font-size: 20px;
     color: #404040;
+    background: #ddd;
 }
 
 p {
@@ -479,7 +480,7 @@ body {
     font-size: 14px;
     color: #a1a4ab;
     font-weight: 300;
-    margin: 0 0 15px;
+    margin: 10px 0;
 }
 .article-meta-tags a{
     color: rgba(161,164,171,0.89);
@@ -496,6 +497,9 @@ body {
     text-decoration: none;
     padding: 3px 5px;
 }
+.article-body{
+    margin-top: 15px;
+}
 .article-body p{
     margin: 0 0 30px;
 }
@@ -509,7 +513,7 @@ body {
 .tags-body a:hover, .tags-body a:focus{
     text-decoration: none;
 }
-.post-heading .meta i {
+.site-heading .meta i, .post-heading .meta i {
     font-size: 14px;
     margin-left: 10px;
 }
@@ -556,6 +560,7 @@ img.zoom-img {
   cursor: default;
 }
 
+/* simditor markdown style start */
 .simditor .markdown-editor {
   display: none;
 }
@@ -583,4 +588,54 @@ img.zoom-img {
 }
 .simditor .simditor-toolbar .toolbar-item.toolbar-item-markdown .simditor-icon {
   font-size: 18px;
+}
+/** simditor markdown style end */
+
+.mg-75{
+    margin-top: 75px;
+}
+
+.ucard{
+    background-color: #ffffff;
+    border: 1px solid #d3e0e9;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.ucard .bg {
+    height: 150px;
+    background-size: cover;
+}
+.ucard .body {
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+.ucard .body .avatar img{
+    width: 100px;
+    height: 100px;
+    margin-top: -70px;
+    margin-bottom: 5px;
+    border: 3px solid #fff;
+    border-radius: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.ucard h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+.ucard .body p{
+    font-size: 14px;
+    margin: 0 10px 10px;
+}
+.ucard .body .user-meta{
+    text-align: left;
+}
+.ucard a.btn {
+    padding: 5px 10px;
+}
+
+.main-content{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #FFF;
 }

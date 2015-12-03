@@ -5,7 +5,7 @@
 <script src="/js/marked.js"></script>
 <script src="/js/to-markdown.js"></script>
 <script src="/js/simditor-markdown.js"></script>
-<script src="/js/simditor-autosave.js"></script>
+{{-- <script src="/js/simditor-autosave.js"></script> --}}
 <script src="/js/dropzone.js"></script>
 <script src="/js/selectize.min.js"></script>
 <script src="/js/editor-setting.js"></script>

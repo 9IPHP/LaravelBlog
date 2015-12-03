@@ -20,7 +20,8 @@ class ArticleRepository{
                     ->Orderby('created_at', 'DESC')
                     ->simplePaginate(10);
     }
-    public function syncTags(Article $article, array $tags, $isNew = false){
+
+    public function syncTags(Article $article, $tags = array(), $isNew = false){
         $tagall = Tag::all()->toArray();
         $newTagIds = $updateTagIds = $existingSlug = $existingTag = [];
         if(!empty($tagall)) foreach($tagall as $tag){

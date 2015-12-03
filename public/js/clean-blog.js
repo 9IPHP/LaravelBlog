@@ -17,7 +17,7 @@ jQuery(document).ready(function($) {
     var MQL = 1170;
 
     //primary navigation slide-in effect
-    if ($(window).width() > MQL) {
+    if (webConfig.navScroll && $(window).width() > MQL) {
         var headerHeight = $('.navbar-custom').height();
         $(window).on('scroll', {
                 previousTop: 0

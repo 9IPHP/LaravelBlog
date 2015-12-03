@@ -61,10 +61,9 @@ class ArticleController extends Controller
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
 
         $article = Auth::user()->articles()->create($requests);
-        $tag_list = $request->input('tag_list') ? $request->input('tag_list') : array();
-        $this->articles->syncTags($article, $tag_list, true);
+        $this->articles->syncTags($article, $request->tag_list);
         flash()->message('文章发布成功！');
-        return redirect('/articles');
+        return redirect('article/' . $article->slug);
     }
 
     /**
@@ -75,6 +74,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        $article->increment('view_count');
         return view('articles.show', compact('article'));
     }
 
@@ -101,14 +101,17 @@ class ArticleController extends Controller
     public function update(Article $article, ArticleRequest $request)
     {
         $this->authorize('update', $article);
-        $tag_list = $request->input('tag_list') ? $request->input('tag_list') : array();
-        $this->articles->syncTags($article, $tag_list);
 
         $requests = $request->all();
+
+        $this->articles->syncTags($article, $request->tag_list);
+
         $requests['is_active'] = $request->is_active ? $request->is_active : 0;
+        $requests['comment_status'] = $request->comment_status ? $request->comment_status : 0;
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
         $article->update($requests);
-        return redirect('articles');
+        flash()->message('文章修改成功！');
+        return redirect('article/' . $article->slug);
     }
 
     /**

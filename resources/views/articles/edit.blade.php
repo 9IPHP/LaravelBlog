@@ -1,4 +1,4 @@
-@extends('articles.main')
+@extends('layouts.articles')
 
 @section('title')
     修改文章 - @parent

@@ -30,10 +30,14 @@ Route::controllers([
 Route::get('tags', 'TagController@index');
 Route::get('tag/{slug}', 'TagController@show');
 
-Route::get('users', 'UserController@index');
-Route::get('users/{id}', 'UserController@show');
-Route::get('users/{id}/articles', 'UserController@articles');
-Route::get('users/{id}/edit', 'UserController@edit');
+Route::resource('user', 'UserController', ['except' => ['index', 'create', 'store']]);
+// Route::get('user/{id}/articles', 'UserController@articles');
+// Route::get('users', 'UserController@index');
+/*Route::get('users', 'UserController@index');
+Route::get('user/{id}', 'UserController@show');
+Route::get('user/{id}/articles', 'UserController@articles');
+Route::get('user/{id}/edit', 'UserController@edit');
+Route::patch('user/{id}', 'UserController@update');*/
 
 /*// Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
