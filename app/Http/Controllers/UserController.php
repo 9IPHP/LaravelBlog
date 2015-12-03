@@ -37,7 +37,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $articles = $user->articles()->actived()->recent()->simplePaginate(10);
-        return view('articles.user', compact('user', 'articles'));
+        return view('users.articles', compact('user', 'articles'));
     }
 
     public function edit(User $user)

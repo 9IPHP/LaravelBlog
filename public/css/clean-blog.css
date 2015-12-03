@@ -8,7 +8,7 @@ body {
     font-family: 'Lora', 'Times New Roman', serif;
     font-size: 20px;
     color: #404040;
-    background: #ddd;
+    /*background: #ddd;*/
 }
 
 p {
@@ -633,9 +633,42 @@ img.zoom-img {
 .ucard a.btn {
     padding: 5px 10px;
 }
-
+.remove-pd-v{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.remove-pd-h{
+    padding-left: 0;
+    padding-right: 0;
+}
 .main-content{
     padding-top: 10px;
     padding-bottom: 10px;
     background: #FFF;
+}
+@media (min-width: 768px){
+    .panel-user-info{
+        border: 0;
+    }
+}
+.panel-user-info{
+    font-size: 14px;
+    /*margin-bottom: 10px;*/
+}
+.panel-user-info .user-info{
+    margin: 20px auto;
+}
+.user-articles-meta{
+    color: #888;
+    font-size: 12px;
+}
+.user-articles-meta .fa{
+    margin-left: 8px;
+}
+.panel-user-info .pager li > a, .panel-user-info .pager li > span{
+    padding: 10px 15px;
+}
+.panel-user-info .list-group-item:first-child{
+    border-top: 0;
+    border-radius: 0;
 }

@@ -24,8 +24,8 @@
                 <div class="ucard">
                     <div class="bg" style="background-image: url(http://img.t.sinajs.cn/t6/skin/skinvip037/images/body_bg.jpg);"></div>
                     <div class="body">
-                        <p class="avatar"><img src="http://secure.gravatar.com/avatar/{{ md5($user->email) }}?s=100&amp;d=monsterid&amp;r=g"></p>
-                        <h4>{{ $user->name }}</h4>
+                        <p class="avatar"><a href="/user/{{ $user->id }}"><img src="http://secure.gravatar.com/avatar/{{ md5($user->email) }}?s=100&amp;d=monsterid&amp;r=g"></a></p>
+                        <h4><a href="/user/{{ $user->id }}">{{ $user->name }}</a></h4>
                         @if($user->description)<p class="des">{{ $user->description }}</p>@endif
                         <hr>
                         <div class="user-meta">
@@ -41,11 +41,11 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <div class="panel panel-default">
-                    <div class="panel-body ">
+                <div class="panel panel-default panel-user-info">
+                    {{-- <div class="panel-body "> --}}
                         @include('flash::message')
                         @yield('container')
-                    </div>
+                    {{-- </div> --}}
                 </div>
             </div>
         </div>
