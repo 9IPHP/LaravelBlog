@@ -21,7 +21,7 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url(@section('bgimg') /img/home-bg.jpg @show)">
+    <header class="intro-header" style="background-image: url(@section('bgimg') /img/home-bg.jpg @show)"data-bg="@if(isset($article) && $article->thumb){{$article->thumb}} @else /img/home-bg.jpg @endif">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">

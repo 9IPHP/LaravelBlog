@@ -10,7 +10,7 @@ class Article extends Model
 {
 
     protected $fillable = [
-        'title', 'slug', 'thumb', 'excerpt', 'body', 'is_active', 'comment_status',
+        'title', 'thumb', 'excerpt', 'body', 'is_active', 'comment_status',
     ];
 
     public function user()

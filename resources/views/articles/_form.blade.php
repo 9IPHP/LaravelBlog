@@ -1,9 +1,6 @@
 <div class="form-group">
     {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => '标题']) !!}
 </div>
-<div class="form-group">
-    {!! Form::text('slug', null, ['class' => 'form-control', 'placeholder' => '别名 Slug']) !!}
-</div>
 {!! Form::hidden('thumb') !!}
 <div class="form-group">
     <label class="checkbox-inline">

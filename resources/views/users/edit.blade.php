@@ -5,6 +5,7 @@
 @section('container')
     {{-- <div class="panel panel-default"> --}}
         <div class="panel-body ">
+            @include('flash::message')
             @include('errors.errlist')
             <div class="alert alert-warning">本站头像使用 <a href="http://en.gravatar.com/" target="_blank">Gravatar 头像</a></div>
 

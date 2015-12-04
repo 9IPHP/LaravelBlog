@@ -1,14 +1,4 @@
 $(function(){
-    $('input[name=title]').blur(function(){
-        if($('input[name="title"]').val() != '' && $('input[name="slug"]').val() == ''){
-            $.get('/articles/getslug', {
-                title: $.trim($('input[name="title"]').val())
-            }, function(response){
-                if(response.status == true)
-                    $('input[name="slug"]').val(response.slug)
-            }, 'json')
-        }
-    });
 
     if($('#tag_list').length > 0) $('#tag_list').selectize({
         maxItems: 5,
@@ -77,8 +67,8 @@ $(function(){
         maxFilesize: 2,
         thumbnailWidth: 400,
         thumbnailHeight: 100,
-        // addRemoveLinks: true,
-        // dictRemoveFile: 'Remove',
+        addRemoveLinks: true,
+        dictRemoveFile: 'Remove',
         dictFileTooBig: 'Image is bigger than 2MB',
         // previewTemplate: '<div id="preview-template" style="display: none;"></div>',
         init: function() {
@@ -86,8 +76,9 @@ $(function(){
                 $("input[name=thumb]").val(response.file_path);
                 $(".intro-header").css('background-image', 'url('+response.file_path+')');
             }).on('removedfile', function(file){
+                $(".intro-header").css('background-image', 'url('+$(".intro-header").data('bg')+')');
                 $("input[name=thumb]").val('');
             })
-        }
+        },
     };
 })

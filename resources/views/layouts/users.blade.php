@@ -43,7 +43,7 @@
             <div class="col-md-9">
                 <div class="panel panel-default panel-user-info">
                     {{-- <div class="panel-body "> --}}
-                        @include('flash::message')
+
                         @yield('container')
                     {{-- </div> --}}
                 </div>

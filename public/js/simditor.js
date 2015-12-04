@@ -474,7 +474,7 @@ Formatter = (function(superClass) {
     this.editor = this._module;
     this._allowedTags = $.merge(['br', 'span', 'a', 'img', 'b', 'strong', 'i', 'strike', 'u', 'font', 'p', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'h1', 'h2', 'h3', 'h4', 'hr'], this.opts.allowedTags);
     this._allowedAttributes = $.extend({
-      img: ['src', 'alt', 'width', 'height', 'data-non-image'],
+      img: ['src', 'alt', 'width', 'height', 'data-non-image', 'class'],
       a: ['href', 'target'],
       font: ['color'],
       code: ['class']
@@ -2674,6 +2674,7 @@ Simditor.i18n = {
     'imageUrl': '图片地址',
     'imageSize': '图片尺寸',
     'imageAlt': '图片描述',
+    'imageClass': '图片属性',
     'restoreImageSize': '还原图片尺寸',
     'uploading': '正在上传',
     'indent': '向右缩进',
@@ -2727,6 +2728,7 @@ Simditor.i18n = {
     'imageUrl': 'Url',
     'imageSize': 'Size',
     'imageAlt': 'Alt',
+    'imageClass': 'Class',
     'restoreImageSize': 'Restore Origin Size',
     'uploading': 'Uploading',
     'indent': 'Indent',
@@ -4621,12 +4623,13 @@ ImagePopover = (function(superClass) {
 
   ImagePopover.prototype.render = function() {
     var tpl;
-    tpl = "<div class=\"link-settings\">\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageUrl')) + "</label>\n    <input class=\"image-src\" type=\"text\" tabindex=\"1\" />\n    <a class=\"btn-upload\" href=\"javascript:;\"\n      title=\"" + (this._t('uploadImage')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-upload\"></span>\n    </a>\n  </div>\n  <div class='settings-field'>\n    <label>" + (this._t('imageAlt')) + "</label>\n    <input class=\"image-alt\" id=\"image-alt\" type=\"text\" tabindex=\"1\" />\n  </div>\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageSize')) + "</label>\n    <input class=\"image-size\" id=\"image-width\" type=\"text\" tabindex=\"2\" />\n    <span class=\"times\">×</span>\n    <input class=\"image-size\" id=\"image-height\" type=\"text\" tabindex=\"3\" />\n    <a class=\"btn-restore\" href=\"javascript:;\"\n      title=\"" + (this._t('restoreImageSize')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-undo\"></span>\n    </a>\n  </div>\n</div>";
+    tpl = "<div class=\"link-settings\">\n  <div class=\"settings-field\">\n    <label>" + (this._t('imageUrl')) + "</label>\n    <input class=\"image-src\" type=\"text\" tabindex=\"1\" />\n    <a class=\"btn-upload\" href=\"javascript:;\"\n      title=\"" + (this._t('uploadImage')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-upload\"></span>\n    </a>\n  </div>\n  <div class='settings-field'>\n    <label>" + (this._t('imageAlt')) + "</label>\n    <input class=\"image-alt\" id=\"image-alt\" type=\"text\" tabindex=\"1\" />\n  </div>\n <div class='settings-field'>\n    <label>" + (this._t('imageClass')) + "</label>\n    <input class=\"image-class\" id=\"image-class\" type=\"text\" tabindex=\"1\" />\n  </div>\n <div class=\"settings-field\">\n    <label>" + (this._t('imageSize')) + "</label>\n    <input class=\"image-size\" id=\"image-width\" type=\"text\" tabindex=\"2\" />\n    <span class=\"times\">×</span>\n    <input class=\"image-size\" id=\"image-height\" type=\"text\" tabindex=\"3\" />\n    <a class=\"btn-restore\" href=\"javascript:;\"\n      title=\"" + (this._t('restoreImageSize')) + "\" tabindex=\"-1\">\n      <span class=\"simditor-icon simditor-icon-undo\"></span>\n    </a>\n  </div>\n</div>";
     this.el.addClass('image-popover').append(tpl);
     this.srcEl = this.el.find('.image-src');
     this.widthEl = this.el.find('#image-width');
     this.heightEl = this.el.find('#image-height');
     this.altEl = this.el.find('#image-alt');
+    this.classEl = this.el.find('#image-class');
     this.srcEl.on('keydown', (function(_this) {
       return function(e) {
         var range;
@@ -4697,6 +4700,26 @@ ImagePopover = (function(superClass) {
         }
         _this.alt = _this.altEl.val();
         return _this.target.attr('alt', _this.alt);
+      };
+    })(this));
+    this.classEl.on('keydown', (function(_this) {
+      return function(e) {
+        var range;
+        if (e.which === 13) {
+          e.preventDefault();
+          range = document.createRange();
+          _this.button.editor.selection.setRangeAfter(_this.target, range);
+          return _this.hide();
+        }
+      };
+    })(this));
+    this.classEl.on('keyup', (function(_this) {
+      return function(e) {
+        if (e.which === 13 || e.which === 27 || e.which === 9) {
+          return;
+        }
+        _this.class = _this.classEl.val();
+        return _this.target.attr('class', _this.class);
       };
     })(this));
     this.el.find('.btn-restore').on('click', (function(_this) {
@@ -4836,12 +4859,14 @@ ImagePopover = (function(superClass) {
     this.width = $img.width();
     this.height = $img.height();
     this.alt = $img.attr('alt');
+    this.class = $img.attr('class');
     if ($img.hasClass('uploading')) {
       return this.srcEl.val(this._t('uploading')).prop('disabled', true);
     } else {
       this.srcEl.val($img.attr('src')).prop('disabled', false);
       this.widthEl.val(this.width);
       this.heightEl.val(this.height);
+      this.classEl.val(this.class);
       return this.altEl.val(this.alt);
     }
   };

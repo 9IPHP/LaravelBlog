@@ -9,6 +9,36 @@ $(function(){
         // console.log($(el).parents('p').css('text-align'));
         $(el).attr('data-action', 'zoom');
     });
+
+    // 文章是否显示及是否开启评论设置
+    $(".article-opt").click(function(){
+        var $that = $(this),
+            $child = $that.children('i'),
+            id = $that.parents('li.article').data('id');
+        if ($that.hasClass('publish')) type = 'is_active';
+        else if($that.hasClass('comment')) type = 'comment_status';
+        else return;
+        if($child.hasClass('fa-square-o')) {
+            $child.removeClass('fa-square-o').addClass('fa-spinner fa-spin');
+            newStatus = 1;
+        } else {
+            $child.removeClass('fa-check-square-o').addClass('fa-spinner fa-spin');
+            newStatus = 0;
+        }
+        $.post('/articles/active', {
+            id: id,
+            newStatus: newStatus,
+            type: type
+        }, function(response) {
+            if(response == 200){
+                if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
+                else $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
+            }else{
+                if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
+                else $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
+            }
+        });
+    })
 })
 
 

@@ -14,7 +14,7 @@
     @if(count($articles) > 0)
         @foreach($articles as $article)
             <div class="post-preview">
-                <a href="/article/{{ $article->slug }}">
+                <a href="/article/{{ $article->id }}">
                     <h2 class="post-title">
                         {{ $article->title }}
                     </h2>

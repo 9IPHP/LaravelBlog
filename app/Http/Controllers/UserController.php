@@ -36,7 +36,10 @@ class UserController extends Controller
     public function articles($id)
     {
         $user = User::findOrFail($id);
-        $articles = $user->articles()->actived()->recent()->simplePaginate(10);
+        if(Auth::id() == $user->id)
+            $articles = $user->articles()->recent()->simplePaginate(10);
+        else
+            $articles = $user->articles()->actived()->recent()->simplePaginate(10);
         return view('users.articles', compact('user', 'articles'));
     }
 
@@ -49,7 +52,8 @@ class UserController extends Controller
     public function update(User $user, UserRequest $request)
     {
         $this->authorize('update', $user);
-        $user->update($request->all());
+        $data = $request->only(['website', 'weibo', 'qq', 'github', 'description']);
+        $user->update($data);
         flash()->message('修改成功！');
         return redirect('user/' . $user->id . '/edit');
     }

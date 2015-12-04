@@ -16,7 +16,6 @@ class CreateArticlesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('title');
-            $table->string('slug')->unique('slug');
             $table->string('thumb')->nullable();
             $table->text('excerpt');
             $table->text('body');

@@ -56,14 +56,12 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request)
     {
         $requests = $request->all();
-        $slug = $requests['slug'] ? $requests['slug'] : baidu_translate($requests['title']);
-        $requests['slug'] = str_slug($slug).'-'.str_random(8);
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
 
         $article = Auth::user()->articles()->create($requests);
         $this->articles->syncTags($article, $request->tag_list);
         flash()->message('文章发布成功！');
-        return redirect('article/' . $article->slug);
+        return redirect('article/' . $article->id);
     }
 
     /**
@@ -74,6 +72,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        if ($article->is_active == 0 && Auth::id() != $article->user_id)
+            abort(404);
         $article->increment('view_count');
         return view('articles.show', compact('article'));
     }
@@ -111,7 +111,7 @@ class ArticleController extends Controller
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
         $article->update($requests);
         flash()->message('文章修改成功！');
-        return redirect('article/' . $article->slug);
+        return redirect('article/' . $article->id);
     }
 
     /**
@@ -123,6 +123,23 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $this->authorize('destroy', $article);
+    }
+
+    public function active(Request $request)
+    {
+        $article = Article::find($request->id);
+        if (empty($article)) return response()->json(404);
+
+        if (Gate::denies('active', $article))
+            return response()->json(403);
+
+        $requests = $request->all();
+        if (!in_array($request->type, array('is_active', 'comment_status')))
+            return response()->json(403);
+
+        $data[$request->type] = $request->newStatus;
+        if($article->update($data)) return response()->json(200);
+        return response()->json(500);
     }
 
     public function upload(Request $request)
@@ -180,16 +197,6 @@ class ArticleController extends Controller
         $user = User::findOrFail($uid);
         $articles = $this->articles->forUser($uid);
         return view('articles.user', compact('articles', 'user'));
-    }
-
-    public function getslug(Request $request){
-        $title = $request->input('title');
-        $slug = str_slug(baidu_translate($title));
-        $data = array(
-            'status' => true,
-            'slug' => $slug
-        );
-        return response()->json($data);
     }
 
 }

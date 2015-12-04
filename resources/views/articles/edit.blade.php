@@ -32,7 +32,7 @@
 
     @include('articles._upload')
 
-    {!! Form::model($article, ['method' => 'PATCH', 'action' => ['ArticleController@update', $article->slug]]) !!}
+    {!! Form::model($article, ['method' => 'PATCH', 'action' => ['ArticleController@update', $article->id]]) !!}
 
         @include('articles._form')
 

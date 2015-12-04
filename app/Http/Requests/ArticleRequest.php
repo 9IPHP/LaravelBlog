@@ -25,13 +25,8 @@ class ArticleRequest extends Request
      */
     public function rules(Requests $request)
     {
-        $segment = $request->segment(2);
-        $req_slug = $request->get('slug');
-        $id = ($segment === $req_slug ? ','.Article::whereSlug($req_slug)->first()->id : '');
         $rules = [
             'title' => 'required|min:3',
-            'slug' => 'alpha_dash|min:3',
-            'slug' => 'alpha_dash|min:3|unique:articles,slug'.$id,
             // 'excerpt' => 'required',
             'body' => 'required',
             'is_active' => 'boolean',
