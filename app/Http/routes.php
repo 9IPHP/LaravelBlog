@@ -32,7 +32,7 @@ Route::get('tag/{slug}', 'TagController@show');
 
 Route::resource('user', 'UserController', ['only' => ['show', 'edit', 'update']]);
 Route::get('user/{id}/articles', 'UserController@articles');
-// Route::get('users', 'UserController@index');
+Route::get('users', 'UserController@index');
 /*Route::get('users', 'UserController@index');
 Route::get('user/{id}', 'UserController@show');
 Route::get('user/{id}/articles', 'UserController@articles');

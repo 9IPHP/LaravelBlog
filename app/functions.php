@@ -26,6 +26,11 @@ function filter_allowed_words($str){
     return trim($str);
 }
 
+function getAvarar($email, $size = 50)
+{
+    return 'http://secure.gravatar.com/avatar/' . md5($email) . '?s=' . $size . '&amp;d=monsterid&amp;r=g';
+}
+
 /**
  * 汉字转拼音类
  * Author: Specs

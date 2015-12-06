@@ -18,8 +18,11 @@
                 <li>
                     <a href="/articles">Home</a>
                 </li>
-                 <li>
+                <li>
                     <a href="/tags">Tags</a>
+                </li>
+                <li>
+                    <a href="/users">Users</a>
                 </li>
                 @if(Auth::guest())
                     <li>

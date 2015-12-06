@@ -38,7 +38,9 @@ $(function(){
                 else $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
             }
         });
-    })
+    });
+
+    $('[data-toggle="tooltip"]').tooltip()
 })
 
 
