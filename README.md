@@ -1,2 +1,3 @@
 # LaravelBlog
-Laravel 5 Blog
+
+A Simple Blog created using Laravel.
