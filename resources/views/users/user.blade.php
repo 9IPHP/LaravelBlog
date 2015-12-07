@@ -1,6 +1,6 @@
 @extends('layouts.users')
 
-@section('title'){{$user->name}}的最新动态 - @parent @stop
+@section('title'){{$user->nickname}}的最新动态 - @parent @stop
 
 @section('container')
     <ul class="nav nav-tabs nav-justified">

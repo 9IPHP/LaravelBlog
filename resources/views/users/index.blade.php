@@ -16,7 +16,7 @@
     <div class="row user-body">
         @foreach($users as $user)
             <div class="col-md-2 col-xs-3 avatar">
-                <a href="/user/{{ $user->id }}" data-toggle="tooltip" title="{{ $user->name }}" target="_blank">
+                <a href="/user/{{ $user->id }}" data-toggle="tooltip" title="{{ $user->nickname }}">
                     <img class="img-circle img-thumbnail" src="{{ getAvarar($user->email, 60) }}">
                 </a>
             </div>

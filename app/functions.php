@@ -28,7 +28,9 @@ function filter_allowed_words($str){
 
 function getAvarar($email, $size = 50)
 {
-    return 'http://secure.gravatar.com/avatar/' . md5($email) . '?s=' . $size . '&amp;d=monsterid&amp;r=g';
+    return 'http://cn.gravatar.com/avatar/' . md5($email) . '?s=' . $size . '&amp;d=monsterid&amp;r=g';
+    // or http://gravatar.duoshuo.com/
+    // or http://secure.gravatar.com/
 }
 
 /**

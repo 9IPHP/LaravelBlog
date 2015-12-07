@@ -27,6 +27,7 @@ class CreateArticlesTable extends Migration
             $table->integer('collect_count')->unsigned()->default(0);
             $table->integer('report_count')->unsigned()->default(0);
             $table->timestamps();
+            $table->softDeletes();
 
             // 生成外键，并且指定在删除用户时同时删除该用户的所有文章
             $table->foreign('user_id')

@@ -25,7 +25,29 @@ $(function(){
             $child.removeClass('fa-check-square-o').addClass('fa-spinner fa-spin');
             newStatus = 0;
         }
-        $.post('/articles/active', {
+        $.ajax({
+            type: 'post',
+            url: '/articles/active',
+            data: {
+                id: id,
+                newStatus: newStatus,
+                type: type
+            },
+            dataType: 'json',
+            success: function(response){
+                if(response == 200){
+                    if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
+                    else $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
+                }else{
+                    if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
+                    else $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
+                }
+            },
+            error: function(data){
+
+            }
+        });
+        /*$.post('/articles/active', {
             id: id,
             newStatus: newStatus,
             type: type
@@ -37,8 +59,17 @@ $(function(){
                 if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
                 else $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
             }
-        });
+        });*/
     });
+
+    $('#delArticleUserCenter').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            title = button.data('title'),
+            id = button.data('id'),
+            modal = $(this);
+        modal.find('.modal-title').text('删除：' + title)
+        modal.find('.modal-body input[name="id"]').val(id)
+    })
 
     $('[data-toggle="tooltip"]').tooltip()
 })
@@ -73,3 +104,33 @@ jQuery(document).ready(function($) {
             });
     }
 });
+
+function delArticle () {
+    var modal = $("#delArticleUserCenter"),
+        id = modal.find('input[name="id"]').val();
+    $.post('/article/'+id, {
+        id: id,
+        _method: 'DELETE'
+    }, function(response) {
+        if (response == 200) {
+            $('.article[data-id='+id+']').slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else{
+            AlertMsg('删除失败');
+        }
+        modal.modal('hide')
+
+    });
+}
+
+function AlertMsg (msg, newclass) {
+    var alertDom = $($("#flash-template").html());
+    $(".Alert").remove();
+    alertDom.addClass(newclass || '').find(".Alert__body").html(msg).end().appendTo("body").hide().fadeIn(300).delay(2800).animate({
+        marginRight: "-100%"
+    }, 300, "swing", function() {
+        $(this).remove()
+    })
+}

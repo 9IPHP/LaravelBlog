@@ -52,7 +52,7 @@ class UserController extends Controller
     public function update(User $user, UserRequest $request)
     {
         $this->authorize('update', $user);
-        $data = $request->only(['website', 'weibo', 'qq', 'github', 'description']);
+        $data = $request->only(['nickname', 'website', 'weibo', 'qq', 'github', 'description']);
         $user->update($data);
         flash()->message('修改成功！');
         return redirect('user/' . $user->id . '/edit');

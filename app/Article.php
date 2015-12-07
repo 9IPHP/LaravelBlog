@@ -5,9 +5,13 @@ namespace App;
 use App\User;
 use App\Tag;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'title', 'thumb', 'excerpt', 'body', 'is_active', 'comment_status',

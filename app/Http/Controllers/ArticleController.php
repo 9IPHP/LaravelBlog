@@ -120,14 +120,22 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        $this->authorize('destroy', $article);
+        /*if (Gate::denies('destroy', $article))
+            return response()->json(403);
+        // delete tags
+        $this->articles->delTags($article);
+        // TODO: delete comments
+
+        // delete article
+        $article->delete();*/
+        return response()->json(200);
     }
 
     public function active(Request $request)
     {
-        $article = Article::find($request->id);
+        $article = Article::find($request->id, ['id' ,'user_id']);
         if (empty($article)) return response()->json(404);
 
         if (Gate::denies('active', $article))

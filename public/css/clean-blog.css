@@ -607,7 +607,15 @@ img.zoom-img {
 .mg-75{
     margin-top: 75px;
 }
-
+.avatar-20{
+    width: 20px;
+    height: 20px;
+}
+.avatar-35{
+    width: 35px;
+    height: 35px;
+    margin-top: -4px;
+}
 .avatar a, .avatar img{
     cursor: pointer !important;
 }
@@ -685,11 +693,64 @@ img.zoom-img {
 .panel-user-info .pager li > a, .panel-user-info .pager li > span{
     padding: 10px 15px;
 }
-.panel-user-info .list-group-item:first-child{
-    border-top: 0;
-    border-radius: 0;
-}
+
 .user-body .avatar img{
     width: 60px;
     height: 60px;
+}
+.opt{
+    cursor: pointer;
+}
+/*Flash Mag*/
+.Alert {
+    display: inline-block;
+    color: #fff;
+    background-color: #99c93d;
+    padding: 12px 30px;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 15px;
+}
+@media only screen and (max-width: 1050px) {
+    .Alert {
+        text-align: center;
+        right: 0;
+        left: 50%;
+        width: 300px;
+        margin-left: -150px
+    }
+}
+.Alert i {
+    margin-right: 8px
+}
+.Alert .Alert__body {
+    color: inherit
+}
+.Alert--Muted {
+    background: #eee;
+    color: #3a3a3a;
+    border: 1px solid #e2e2e2
+}
+.Alert--Muted-Dark {
+    background: #133259;
+    color: #e2e1e7
+}
+.Alert--Bright a,
+.Alert--Primary-Darker a {
+    color: #fff
+}
+.Alert--Danger {
+    background: #f76752;
+    color: #fff
+}
+.Alert--Primary {
+    background: #573e81
+}
+.Alert--Primary-Darker {
+    background: linear-gradient(to right, #133259 30%, #0d233e)
+}
+.Alert--Bright {
+    background: #00baf3
 }

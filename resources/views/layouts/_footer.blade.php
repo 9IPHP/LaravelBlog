@@ -34,6 +34,12 @@
         </div>
     </div>
 </footer>
+<script id="flash-template" type="text/template">
+    <div class="Alert">
+        <i class="fa fa-info-circle"></i>
+        <span class="Alert__body"></span>
+    </div>
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 

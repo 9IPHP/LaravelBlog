@@ -13,22 +13,7 @@
 @stop
 
 @section('container')
-    @if(count($articles) > 0)
-        @foreach($articles as $article)
-            <div class="post-preview">
-                <a href="/article/{{ $article->id }}">
-                    <h2 class="post-title">
-                        {{ $article->title }}
-                    </h2>
-                </a>
-                <p class="post-excerpt">
-                    {{ $article->excerpt }}
-                </p>
-                <p class="post-meta">@include('articles._meta')</p>
-            </div>
-            <hr>
-        @endforeach
-    @endif
 
-    {!! $articles->render() !!}
+    @include('articles._preview')
+
 @stop

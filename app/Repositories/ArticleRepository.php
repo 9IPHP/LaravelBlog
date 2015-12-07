@@ -54,12 +54,7 @@ class ArticleRepository{
             $delTagIds = array_diff($oldTagIds, $updateTagIds);
             $addTagIds = array_diff($updateTagIds, $oldTagIds);
             if (!empty($delTagIds)) {
-                foreach($delTagIds as $delId){
-                    Tag::whereId($delId)->decrement('count');
-                    /*$tagData = Tag::whereId($delId)->select('count')->first();
-                    if ($tagData->count == 1) Tag::whereId($delId)->delete();
-                    else Tag::whereId($delId)->decrement('count');*/
-                }
+                Tag::whereIn('id', $delTagIds)->decrement('count');
             }
             if (!empty($addTagIds)) {
                 foreach($addTagIds as $addId){
@@ -70,5 +65,11 @@ class ArticleRepository{
         }
         $article->tags()->sync($updateTagIds);
         unset($newTagIds, $updateTagIds, $existingSlug, $existingTag);
+    }
+
+    public function delTags(Article $article)
+    {
+        $tagIds = $article->tags->lists('id');
+        Tag::whereIn('id', $tagIds)->decrement('count');
     }
 }
