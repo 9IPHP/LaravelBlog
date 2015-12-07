@@ -9,14 +9,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/articles">Laravel博客</a>
+            <a class="navbar-brand" href="/">Laravel博客</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/articles">Home</a>
+                    <a href="/articles">Articles</a>
                 </li>
                 <li>
                     <a href="/tags">Tags</a>

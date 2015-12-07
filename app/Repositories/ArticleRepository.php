@@ -4,14 +4,23 @@ namespace App\Repositories;
 use App\User;
 use App\Tag;
 use App\Article;
+/*use Illuminate\Pagination\Paginator;
+use Cache;*/
 
 class ArticleRepository{
 
     public function all()
     {
-        return Article::with('user')->actived()
+        /*$currentPage = Paginator::resolveCurrentPage('page');
+        $currentPage = $currentPage ? $currentPage : 1;
+        if($articles =  Cache::get('articles-page-' . $currentPage))
+            return $articles;*/
+
+        $articles =  Article::with('user')->actived()
                     ->Orderby('created_at', 'DESC')
                     ->simplePaginate(10);
+        // Cache::put('articles-page-' . $currentPage, $articles, 10);
+        return $articles;
     }
 
     public function forUser($user_id)

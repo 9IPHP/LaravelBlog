@@ -24,7 +24,7 @@
                 <div class="ucard">
                     <div class="bg" style="background-image: url(http://img.t.sinajs.cn/t6/skin/skinvip037/images/body_bg.jpg);"></div>
                     <div class="body">
-                        <p class="avatar"><a href="/user/{{ $user->id }}"><img src="{{ getAvarar($user->email, 100) }}"></a></p>
+                        <p class="avatar-area"><a href="/user/{{ $user->id }}"><img src="{{ getAvarar($user->email, 100) }}"></a></p>
                         <h4><a href="/user/{{ $user->id }}">{{ $user->nickname }}</a></h4>
                         @if($user->description)<p class="des">{{ $user->description }}</p>@endif
                         <hr>

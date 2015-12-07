@@ -36,7 +36,7 @@
     <div class="article-body">
         {!! $article->body !!}
     </div>
-
+    @include('articles._footer_meta')
 @stop
 
 @section('footer')

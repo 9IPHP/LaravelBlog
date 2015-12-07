@@ -34,6 +34,7 @@
         </style>
     </head>
     <body>
+    @include('layouts._nav', ['navClass' => 'is-fixed is-visible'])
         <div class="container">
             <div class="content">
                 <div class="title">Laravel 5</div>

@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use App\User;
+use App\Article;
+use Cache;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -29,10 +32,16 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot($router);
 
         $router->bind('article', function($id){
-            return \App\Article::findOrFail($id);
+            /*if ($article = Cache::get('article-' . $id))
+                return $article;
+            $article = Article::with('user')->findOrFail($id);
+            Cache::put('article-' . $id, $article, 10);
+            return $article;*/
+
+            return Article::findOrFail($id);
         });
         $router->bind('user', function($id){
-            return \App\User::findOrFail($id);
+            return User::findOrFail($id);
         });
     }
 

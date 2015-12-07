@@ -122,14 +122,14 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        /*if (Gate::denies('destroy', $article))
+        if (Gate::denies('destroy', $article))
             return response()->json(403);
         // delete tags
         $this->articles->delTags($article);
         // TODO: delete comments
 
         // delete article
-        $article->delete();*/
+        $article->delete();
         return response()->json(200);
     }
 
