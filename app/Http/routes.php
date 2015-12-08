@@ -10,11 +10,21 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('test', function(){
+    $user = Auth::loginUsingId(1);
+    // dd($user);
+    $article = App\Article::find(1);
+
+    dd($article->likes);
+    foreach ($article->likes as $like) {
+    }
+});
 Route::get('/', 'ArticleController@index');
 
 Route::resource('article', 'ArticleController', ['except' => ['index', 'create']]);
 Route::get('articles/create', 'ArticleController@create');
 Route::post('articles/active', 'ArticleController@active');
+Route::post('articles/like', 'ArticleController@like');
 Route::post('articles/upload', 'ArticleController@upload');
 Route::get('articles/user/{user_id}', 'ArticleController@forUser');
 Route::get('articles', 'ArticleController@index');

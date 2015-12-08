@@ -47,19 +47,22 @@ $(function(){
 
             }
         });
-        /*$.post('/articles/active', {
+    });
+
+    $('.js-actionLike').click(function() {
+        var id = $(this).parents('.article-footer-meta').data('article-id');
+        $.post('/articles/like', {
             id: id,
-            newStatus: newStatus,
-            type: type
         }, function(response) {
-            if(response == 200){
+            console.log(response)
+            /*if(response == 200){
                 if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
                 else $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
             }else{
                 if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
                 else $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
-            }
-        });*/
+            }*/
+        });
     });
 
     $('#delArticleUserCenter').on('show.bs.modal', function (event) {

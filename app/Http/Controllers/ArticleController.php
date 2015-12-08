@@ -6,6 +6,7 @@ use Auth, Gate;
 use App\User;
 use App\Article;
 use App\Tag;
+// use App\Like;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -148,6 +149,15 @@ class ArticleController extends Controller
         $data[$request->type] = $request->newStatus;
         if($article->update($data)) return response()->json(200);
         return response()->json(500);
+    }
+
+    public function like()
+    {
+        $article = Article::find(1);
+        $like = $article->likes->count();
+        $user_id = Auth::id();
+        // $article->likes()->create(['user_id' => $user_id]);
+        return response()->json($like);
     }
 
     public function upload(Request $request)

@@ -45,4 +45,9 @@ class Article extends Model
         return $this->tags->lists('slug', 'name')->toArray();
     }
 
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
+
 }
