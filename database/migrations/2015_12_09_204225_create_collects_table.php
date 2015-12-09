@@ -13,16 +13,21 @@ class CreateCollectsTable extends Migration
     public function up()
     {
         Schema::create('collects', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('markable_id');
-            $table->string('markable_type');
-            $table->timestamps();
+            $table->integer('article_id')->unsigned()->index();
 
+            $table->foreign('article_id')
+                  ->references('id')
+                  ->on('articles')
+                  ->onDelete('cascade');
+
+            $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
+
+
+            $table->timestamps();
         });
     }
 

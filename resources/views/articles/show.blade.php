@@ -25,18 +25,20 @@
 @stop
 
 @section('container')
-    @unless($article->tags->isEmpty())
-        <div class="article-meta-tags">
-            Tags:
-            @foreach($article->tags as $tag)
-                <a href="/tag/{{ $tag->slug }}">{{ $tag->name }}</a>
-            @endforeach
+    <article class="article" data-id="{{ $article->id }}">
+        @unless($article->tags->isEmpty())
+            <div class="article-meta-tags">
+                Tags:
+                @foreach($article->tags as $tag)
+                    <a href="/tag/{{ $tag->slug }}">{{ $tag->name }}</a>
+                @endforeach
+            </div>
+        @endunless
+        <div class="article-body">
+            {!! $article->body !!}
         </div>
-    @endunless
-    <div class="article-body">
-        {!! $article->body !!}
-    </div>
-    @include('articles._footer_meta')
+        @include('articles._footer_meta')
+    </article>
 @stop
 
 @section('footer')

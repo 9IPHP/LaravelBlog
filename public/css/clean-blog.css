@@ -538,8 +538,10 @@ body {
     margin: 30px auto 10px;
 }
 .article-footer-meta label{
-    cursor: pointer;
     margin-right: 15px;
+}
+.js-action{
+    cursor: pointer;
 }
 
 img[data-action="zoom"] {

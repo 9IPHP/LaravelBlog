@@ -47,12 +47,12 @@ class Article extends Model
 
     public function likes()
     {
-        return $this->morphMany('App\Like', 'likeable');
+        return $this->morphMany(Like::class, 'likeable');
     }
 
     public function collects()
     {
-        return $this->morphMany('App\Collect', 'markable');
+        return $this->belongsToMany(User::class, 'collects', 'article_id', 'user_id')->withTimestamps();
     }
 
 }

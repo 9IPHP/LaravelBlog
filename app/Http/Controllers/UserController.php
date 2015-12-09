@@ -43,6 +43,14 @@ class UserController extends Controller
         return view('users.articles', compact('user', 'articles'));
     }
 
+    public function collects($id)
+    {
+        $user = User::findOrFail($id);
+        $articles = $user->collects()->simplePaginate(10);
+        // dd($articles->pivot->created_at);
+        return view('users.collects', compact('user', 'articles'));
+    }
+
     public function edit(User $user)
     {
         $this->authorize('update', $user);

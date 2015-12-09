@@ -49,8 +49,9 @@ $(function(){
         });
     });
 
+    // 文章详情页操作
     $('.js-action').click(function() {
-        var id = $(this).parents('.article-footer-meta').data('article-id'),
+        var id = $(this).parents('.article').data('id'),
             $that = $(this),
             $icon = $that.children('i'),
             $count = $that.children('span'),
@@ -77,7 +78,12 @@ $(function(){
             dataType: 'json',
             success: function(response){
                 if (response.status == 200) {
-                    if(response.action == 'up'){
+                    if ($that.hasClass('js-delete')){
+                        $that.parents('.todel').slideUp(function(){
+                            $(this).remove();
+                        })
+                        AlertMsg('删除成功', 'Alert--Danger');
+                    } else if(response.action == 'up'){
                         $icon.removeClass(icon).addClass(iconActive);
                         $count.html(count+1);
                         AlertMsg(msg);

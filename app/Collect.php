@@ -6,15 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Collect extends Model
 {
-    protected $fillable = ['user_id'];
-
-    public function markable()
+    public function user()
     {
-        return $this->morphTo();
+        return $this->belongstoMany(User::class, 'collects');
     }
 
-    public function scopeByUser($query, $user_id)
+    public function article()
     {
-        return $query->where('user_id', $user_id);
+        return $this->belongstoMany(Article::class, 'collects');
+    }
+
+    public static function isCollect(User $user, Article $article)
+    {
+        return Collect::where('user_id', $user->id)
+                ->where('article_id', $article->id)
+                ->first();
     }
 }

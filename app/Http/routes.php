@@ -34,6 +34,7 @@ Route::get('tag/{slug}', 'TagController@show');
 
 Route::resource('user', 'UserController', ['only' => ['show', 'edit', 'update']]);
 Route::get('user/{id}/articles', 'UserController@articles');
+Route::get('user/{id}/collects', 'UserController@collects');
 Route::get('users', 'UserController@index');
 /*Route::get('users', 'UserController@index');
 Route::get('user/{id}', 'UserController@show');

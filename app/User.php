@@ -41,4 +41,9 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany(Article::class);
     }
+
+    public function collects()
+    {
+        return $this->belongsToMany(Article::class, 'collects')->withTimestamps();
+    }
 }

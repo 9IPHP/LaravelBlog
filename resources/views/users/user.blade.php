@@ -6,6 +6,7 @@
     <ul class="nav nav-tabs nav-justified">
         <li role="presentation" class="active"><a href="/user/{{ $user->id }}">Home</a></li>
         <li role="presentation"><a href="/user/{{ $user->id }}/articles">文章</a></li>
+        <li role="presentation"><a href="/user/{{ $user->id }}/collects">收藏</a></li>
         <li role="presentation"><a href="#">Messages</a></li>
     </ul>
     <div class="panel-body">

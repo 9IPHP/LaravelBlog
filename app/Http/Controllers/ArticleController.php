@@ -6,7 +6,7 @@ use Auth, Gate, DB;
 use App\User;
 use App\Article;
 use App\Tag;
-// use App\Like;
+use App\Collect;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -173,16 +173,16 @@ class ArticleController extends Controller
     public function collect(Request $request)
     {
         $article = Article::find($request->id, ['id', 'user_id']);
+
         if (empty($article)) return response()->json(['status' => 404]);
 
-        $user_id = Auth::id();
-
-        if($collect = $article->collects()->byUser($user_id)->first()){
-            $collect->delete();
+        $user = Auth::user();
+        if($collect = Collect::isCollect(Auth::user(), $article)){
+            $user->collects()->detach($article->id);
             $article->decrement('collect_count');
             return response()->json(['status' => 200, 'action' => 'down']);
         }else{
-            $collect = $article->collects()->create(['user_id' => $user_id]);
+            $user->collects()->attach($article->id);
             $article->increment('collect_count');
             return response()->json(['status' => 200, 'action' => 'up']);
         }
