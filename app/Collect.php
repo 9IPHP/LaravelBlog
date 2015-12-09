@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Like extends Model
+class Collect extends Model
 {
     protected $fillable = ['user_id'];
 
-    public function likeable()
+    public function markable()
     {
         return $this->morphTo();
     }

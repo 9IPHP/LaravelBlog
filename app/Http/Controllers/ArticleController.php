@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth, Gate;
+use Auth, Gate, DB;
 use App\User;
 use App\Article;
 use App\Tag;
@@ -24,6 +24,7 @@ class ArticleController extends Controller
     {
         $this->middleware('auth', ['except' => ['index', 'show', 'forUser']]);
         $this->articles = $articles;
+        view()->share('currentUser', Auth::user());
     }
     /**
      * Display a listing of the resource.
@@ -151,13 +152,40 @@ class ArticleController extends Controller
         return response()->json(500);
     }
 
-    public function like()
+    public function like(Request $request)
     {
-        $article = Article::find(1);
-        $like = $article->likes->count();
+        $article = Article::find($request->id, ['id', 'user_id']);
+        if (empty($article)) return response()->json(['status' => 404]);
+
         $user_id = Auth::id();
-        // $article->likes()->create(['user_id' => $user_id]);
-        return response()->json($like);
+
+        if($like = $article->likes()->byUser($user_id)->first()){
+            $like->delete();
+            $article->decrement('like_count');
+            return response()->json(['status' => 200, 'action' => 'down']);
+        }else{
+            $like = $article->likes()->create(['user_id' => $user_id]);
+            $article->increment('like_count');
+            return response()->json(['status' => 200, 'action' => 'up']);
+        }
+    }
+
+    public function collect(Request $request)
+    {
+        $article = Article::find($request->id, ['id', 'user_id']);
+        if (empty($article)) return response()->json(['status' => 404]);
+
+        $user_id = Auth::id();
+
+        if($collect = $article->collects()->byUser($user_id)->first()){
+            $collect->delete();
+            $article->decrement('collect_count');
+            return response()->json(['status' => 200, 'action' => 'down']);
+        }else{
+            $collect = $article->collects()->create(['user_id' => $user_id]);
+            $article->increment('collect_count');
+            return response()->json(['status' => 200, 'action' => 'up']);
+        }
     }
 
     public function upload(Request $request)

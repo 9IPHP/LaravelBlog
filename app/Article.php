@@ -50,4 +50,9 @@ class Article extends Model
         return $this->morphMany('App\Like', 'likeable');
     }
 
+    public function collects()
+    {
+        return $this->morphMany('App\Collect', 'markable');
+    }
+
 }

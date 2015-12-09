@@ -49,19 +49,50 @@ $(function(){
         });
     });
 
-    $('.js-actionLike').click(function() {
-        var id = $(this).parents('.article-footer-meta').data('article-id');
-        $.post('/articles/like', {
-            id: id,
-        }, function(response) {
-            console.log(response)
-            /*if(response == 200){
-                if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
-                else $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
-            }else{
-                if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
-                else $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
-            }*/
+    $('.js-action').click(function() {
+        var id = $(this).parents('.article-footer-meta').data('article-id'),
+            $that = $(this),
+            $icon = $that.children('i'),
+            $count = $that.children('span'),
+            action = $that.data('action'),
+            count = parseInt($count.html());
+        $that.attr('disabled', true);
+        if(action == 'Like'){
+            var ajaxUrl = '/articles/like',
+                icon = 'fa-thumbs-o-up',
+                iconActive = 'fa-thumbs-up',
+                msg = '点赞成功';
+        } else if(action == 'Collect'){
+            var ajaxUrl = '/articles/collect',
+                icon = 'fa-bookmark-o',
+                iconActive = 'fa-bookmark',
+                msg = '收藏成功';
+        }
+        $.ajax({
+            type: 'post',
+            url: ajaxUrl,
+            data: {
+                id: id,
+            },
+            dataType: 'json',
+            success: function(response){
+                if (response.status == 200) {
+                    if(response.action == 'up'){
+                        $icon.removeClass(icon).addClass(iconActive);
+                        $count.html(count+1);
+                        AlertMsg(msg);
+                    }
+                    else{
+                        $icon.removeClass(iconActive).addClass(icon);
+                        $count.html(count-1);
+                    }
+                    $that.attr('disabled', false);
+                };
+            },
+            error: function(data){
+                var status = data.status;
+                if(status == 401) AlertMsg('登录后才能进行此操作', 'Alert--Danger');
+            }
         });
     });
 
