@@ -20,6 +20,7 @@ class UserController extends Controller
     {
         $this->middleware('auth', ['only' => ['edit', 'update']]);
         $this->users = $users;
+        view()->share('currentUser', Auth::user());
     }
 
     public function index()

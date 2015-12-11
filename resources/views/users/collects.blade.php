@@ -10,9 +10,11 @@
         <li role="presentation"><a href="#">Messages</a></li>
     </ul>
     <div class="panel-body remove-pd-h">
-        <div class="alert alert-info  clearfix">
-            可以点击列表中的书签符号（<i class="fa fa-bookmark"></i>）可以取消收藏
-        </div>
+        @if($currentUser && $currentUser->id == $user->id)
+            <div class="alert alert-info  clearfix">
+                可以点击列表中的书签符号（<i class="fa fa-bookmark"></i>）可以取消收藏
+            </div>
+        @endif
         <ul class="list-group">
             @foreach($articles as $article)
                 <li class="list-group-item clearfix article todel" data-id="{{ $article->id }}">
@@ -20,7 +22,9 @@
                     <span class="user-articles-meta">
                         <span class="pull-right">
                             <i class="fa fa-calendar"></i> {{ $article->created_at->diffForHumans() }}
-                            <label class="js-action js-delete" data-action="Collect"><i class="fa fa-bookmark"></i> <span>{{ $article->collect_count }}</span></label>
+                            @if($currentUser && $currentUser->id == $user->id)
+                                <label class="js-action js-delete" data-action="Collect"><i class="fa fa-bookmark"></i> <span>{{ $article->collect_count }}</span></label>
+                            @endif
                         </span>
                     </span>
                 </li>

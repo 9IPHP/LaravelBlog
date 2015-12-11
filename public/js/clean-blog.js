@@ -79,10 +79,14 @@ $(function(){
             success: function(response){
                 if (response.status == 200) {
                     if ($that.hasClass('js-delete')){
-                        $that.parents('.todel').slideUp(function(){
-                            $(this).remove();
-                        })
-                        AlertMsg('删除成功', 'Alert--Danger');
+                        if(response.action == 'up'){
+                            AlertMsg('收藏成功');
+                        }else{
+                            $that.parents('.todel').slideUp(function(){
+                                $(this).remove();
+                            })
+                            AlertMsg('删除成功', 'Alert--Danger');
+                        }
                     } else if(response.action == 'up'){
                         $icon.removeClass(icon).addClass(iconActive);
                         $count.html(count+1);
