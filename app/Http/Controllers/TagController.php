@@ -30,7 +30,7 @@ class TagController extends Controller
     public function show($slug)
     {
         $tag = Tag::whereSlug($slug)->firstOrFail();
-        $articles = $tag->articles()->orderBy('created_at', 'desc')->simplePaginate(10);
+        $articles = $tag->articles()->actived()->orderBy('created_at', 'desc')->simplePaginate(10);
         return view('articles.tag', compact('tag', 'articles'));
     }
 }
