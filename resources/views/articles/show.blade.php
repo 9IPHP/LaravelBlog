@@ -38,6 +38,15 @@
             {!! $article->body !!}
         </div>
         @include('articles._footer_meta')
+
+        {!! Form::open(['url' => '/comment/'.$article->id.'/store']) !!}
+            <div class="form-group">
+                {!! Form::textarea('body', null, ['class' => 'form-control', 'placeholder' => '评论内容', 'rows' => 3]) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::submit('发布', ['class' => 'btn btn-primary form-control']) !!}
+            </div>
+        {!! Form::close() !!}
     </article>
 @stop
 
