@@ -6,17 +6,18 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-Use App\Article;
-Use App\Comment;
-Use App\User;
-Use Auth;
+use App\Article;
+use App\Comment;
+use App\User;
+use Auth;
 use Validator;
+use Markdown;
 
 class CommentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['getComments']]);
     }
 
     /*protected function validator(array $data)
@@ -26,19 +27,37 @@ class CommentController extends Controller
         ]);
     }*/
 
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-        $article = Article::findOrFail($id);
-        /*$rules = array(
+        $article = Article::find($request->article_id);
+        if (empty($article))
+            return response()->json(['status' => 404, 'msg' => '文章不存在']);
+
+        if (!$article->comment_status)
+            return response()->json(['status' => 403, 'msg' => '文章已禁用评论']);
+
+        $rules = array(
             'body' => 'required',
         );
-        $validation = Validator::make($request->all(), $rules);
-        if ($validation->fails()) {
-            redirect()->back()->withInput();
-        }*/
-        $data = ['article_id' => $id, 'user_id' => Auth::id(), 'body' => $request->body];
-        Comment::create($data);
-        redirect('/article/'.$id);
-        // dd($request->body);
+        $validation = Validator::make($data = $request->all(), $rules);
+        if ($validation->fails())
+            return response()->json(['status' => 0, 'msg' => '评论内容不能为空']);
+
+        $data['user_id'] = Auth::id();
+        $data['body'] = Markdown::parse($data['body']);
+        $comment = Comment::create($data);
+        $html = view('articles._comment', compact('comment'))->render();
+        $comment->article->increment('comment_count');
+        return response()->json(['status' => 200, 'msg' => '评论成功', 'html' => $html]);
+    }
+
+    public function getComments(Request $request)
+    {
+        $article = Article::find($request->article_id);
+        if (empty($article))
+            return response()->json(['status' => 404, 'msg' => '文章不存在']);
+        $comments = $article->comments()->recent()->simplePaginate(10);
+        $html = view('articles._comments', compact('comments'))->render();
+        return response()->json(['status' => 200, 'html' => $html]);
     }
 }

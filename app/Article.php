@@ -55,4 +55,9 @@ class Article extends Model
         return $this->belongsToMany(User::class, 'collects', 'article_id', 'user_id')->withTimestamps();
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }

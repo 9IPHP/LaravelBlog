@@ -13,12 +13,6 @@
 
                 <div class="form-group">
                     <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                        {!! Form::text('nickname', $user->nickname, ['class' => 'form-control', 'placeholder' => '昵称(仅显示用)']) !!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
                         <div class="input-group-addon"><i class="fa fa-globe"></i></div>
                         {!! Form::text('website', $user->website, ['class' => 'form-control', 'placeholder' => '网站']) !!}
                     </div>

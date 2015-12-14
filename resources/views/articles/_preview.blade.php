@@ -2,7 +2,7 @@
     @foreach($articles as $article)
         <div class="post-preview">
             <h2 class="post-title">
-                <img src="{{ getAvarar($article->user->email, 35) }}" class="avatar-35 avatar">
+                <img src="{{ getAvarar($article->user->email, 35) }}" class="avatar-35 avatar mt--4">
                 <a href="/article/{{ $article->id }}">
                     {{ $article->title }}
                 </a>

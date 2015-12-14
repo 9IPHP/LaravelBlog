@@ -6,7 +6,7 @@
 
 @section('site-heading')
     <div class="site-heading">
-        <h1>由 {{ $user->nickname }} 发布的文章</h1>
+        <h1>由 {{ $user->name }} 发布的文章</h1>
     </div>
 @stop
 

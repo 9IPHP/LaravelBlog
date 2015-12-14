@@ -3,7 +3,7 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
-
+$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
 $(function(){
     $('.article-body p>img').each(function(index, el) {
         // console.log($(el).parents('p').css('text-align'));

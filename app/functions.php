@@ -26,6 +26,12 @@ function filter_allowed_words($str){
     return trim($str);
 }
 
+function make_excerpt($value)
+{
+    $excerpt = trim(preg_replace('/\s\s+/', ' ', strip_tags($value)));
+    return str_limit($excerpt, 200);
+}
+
 function getAvarar($email, $size = 50)
 {
     return 'http://cn.gravatar.com/avatar/' . md5($email) . '?s=' . $size . '&amp;d=monsterid&amp;r=g';

@@ -1,6 +1,6 @@
 @extends('layouts.users')
 
-@section('title'){{$user->nickname}}收藏的全部文章 - @parent @stop
+@section('title'){{$user->name}}收藏的全部文章 - @parent @stop
 
 @section('container')
     <ul class="nav nav-tabs nav-justified">

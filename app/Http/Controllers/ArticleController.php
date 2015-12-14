@@ -58,7 +58,7 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request)
     {
         $requests = $request->all();
-        $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
+        $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : make_excerpt($requests['body']);
 
         $article = Auth::user()->articles()->create($requests);
         $this->articles->syncTags($article, $request->tag_list);
@@ -77,7 +77,8 @@ class ArticleController extends Controller
         if ($article->is_active == 0 && Auth::id() != $article->user_id)
             abort(404);
         $article->increment('view_count');
-        return view('articles.show', compact('article'));
+        $comments = $article->comments()->with('user')->recent()->simplePaginate(10);
+        return view('articles.show', compact('article', 'comments'));
     }
 
     /**

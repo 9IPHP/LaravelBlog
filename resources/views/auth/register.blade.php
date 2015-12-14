@@ -24,14 +24,7 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label">用户名</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="注册后不可修改">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">昵称</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="nickname" value="{{ old('nickname') }}">
+								<input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="字母数字下划线组成，注册后不可修改">
 							</div>
 						</div>
 

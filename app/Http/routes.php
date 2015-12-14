@@ -32,7 +32,8 @@ Route::controllers([
 Route::get('tags', 'TagController@index');
 Route::get('tag/{slug}', 'TagController@show');
 
-Route::post('comment/{id}/store', 'CommentController@store');
+Route::post('comment/store', 'CommentController@store');
+Route::get('comment/get', 'CommentController@getComments');
 
 Route::resource('user', 'UserController', ['only' => ['show', 'edit', 'update']]);
 Route::get('user/{id}/articles', 'UserController@articles');
