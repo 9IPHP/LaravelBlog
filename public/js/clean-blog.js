@@ -178,3 +178,24 @@ function AlertMsg (msg, newclass) {
         $(this).remove()
     })
 }
+
+function replyOne(e) {
+    replyContent = $("#commentBody"),
+    oldContent = replyContent.val(),
+    prefix = "@" + e + " ",
+    newContent = "",
+    oldContent.length > 0 ? oldContent != prefix && (newContent = oldContent + "\n" + prefix) : newContent = prefix,
+    replyContent.focus(),
+    replyContent.val(newContent),
+    moveEnd($("#commentBody"))
+    // $body.animate( { scrollTop: $('#commentsList').offset().top - 70}, 900);
+}
+
+function moveEnd (e) {
+    e.focus();
+    var t = void 0 === e.value ? 0 : e.value.length;
+    if (document.selection) {
+        var n = e.createTextRange();
+        n.moveStart("character", t), n.collapse(), n.select()
+    } else "number" == typeof e.selectionStart && "number" == typeof e.selectionEnd && (e.selectionStart = e.selectionEnd = t)
+};

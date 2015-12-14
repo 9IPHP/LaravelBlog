@@ -545,7 +545,7 @@ body {
 .article-footer-meta label{
     margin-right: 15px;
 }
-.js-action{
+.js-action, .pointer{
     cursor: pointer;
 }
 
@@ -635,6 +635,10 @@ img.zoom-img {
 .avatar-20{
     width: 20px;
     height: 20px;
+}
+.avatar-25{
+    width: 25px;
+    height: 25px;
 }
 .avatar-35{
     width: 35px;

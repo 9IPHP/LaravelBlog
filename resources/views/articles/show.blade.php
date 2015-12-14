@@ -170,5 +170,13 @@
                 hljs.highlightBlock(block);
             });
         });
+        $(document).on('propertychange', function(e){
+            var source = $(this).val();
+            var mark = marked(source);
+            $("#commentPreview").html(mark);
+            $('#commentPreview pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        })
     </script>
 @stop

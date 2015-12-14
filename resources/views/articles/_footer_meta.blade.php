@@ -3,6 +3,6 @@
     <label><i class="fa fa-comment-o"></i> <span class="commentNum">{{$article->comment_count}}</span></label>
     <div class="pull-right">
         <label class="js-action" data-action="Collect"><i class="fa fa-bookmark{{$currentUser && App\Collect::isCollect($currentUser, $article) ? '' : '-o'}}"></i> <span>{{$article->collect_count}}</span></label>
-        <img src="{{ getAvarar($article->user->email, 25) }}" class="avatar mt--4">
+        <img src="{{ getAvarar($article->user->email, 25) }}" class="avatar avatar-25 mt--4">
     </div>
 </div>
