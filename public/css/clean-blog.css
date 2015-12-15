@@ -49,6 +49,10 @@ img {
     height: auto;
 }
 
+textarea{
+    resize: vertical;
+}
+
 blockquote {
     color: #808080;
     font-style: italic;
@@ -644,6 +648,10 @@ img.zoom-img {
     width: 35px;
     height: 35px;
 }
+.avatar-60{
+    width: 60px;
+    height: 60px;
+}
 .avatar-area a, .avatar-area img{
     cursor: pointer !important;
 }
@@ -794,7 +802,7 @@ img.zoom-img {
     color: #868686;
 }
 .comments .comment-body, .comments .comment-body p, #commentPreview p{
-    margin: 0 0 10px;
+    margin: 5px 0;
     font-size: 14px;
 }
 .media-object {

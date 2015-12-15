@@ -44,7 +44,7 @@ class CommentController extends Controller
             return response()->json(['status' => 0, 'msg' => '评论内容不能为空']);
 
         $data['user_id'] = Auth::id();
-        // $data['body'] = Markdown::parse($data['body']);
+        $data['body'] = Markdown::parse(Comment::atParse($data['body']));
         $comment = Comment::create($data);
         $html = view('articles._comment', compact('comment'))->render();
         $comment->article->increment('comment_count');

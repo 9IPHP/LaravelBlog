@@ -4,6 +4,10 @@
     {{ $article->title }} - @parent
 @stop
 
+@section('keywords')@if($article->tags){!! implode(',', $article->tags->lists('name')->toArray()) !!} @else @parent @endif @stop
+
+@section('description'){{ $article->excerpt }} @stop
+
 @section('head')
     <link href="/css/monokai_sublime.css" rel="stylesheet">
 @stop
@@ -38,19 +42,21 @@
             {!! $article->body !!}
         </div>
         @include('articles._footer_meta')
-
+        <hr>
         @if($article->comment_status)
             @if($currentUser)
                 {!! Form::open(['url' => '/comment/store', 'id' => 'commentForm']) !!}
                     {!! Form::hidden('article_id', $article->id) !!}
                     <div class="form-group">
-                        {!! Form::textarea('body', null, ['id' => 'commentBody','class' => 'form-control', 'placeholder' => '评论内容，支持Markdown语法', 'rows' => 3]) !!}
+                        {!! Form::textarea('body', null, ['id' => 'commentBody','class' => 'form-control', 'placeholder' => '评论内容，支持Markdown语法', 'rows' => 3, 'data-autoresize']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::submit('发布', ['id' => 'commentBtn', 'class' => 'btn btn-primary form-control']) !!}
                     </div>
                 {!! Form::close() !!}
-                <div class="box markdown-reply" id="commentPreview"></div>
+                <div class="box markdown-reply" id="commentPreview">
+                    <p class="text-center">评论预览区</p>
+                </div>
             @else
                 <div class="commentNoLogin">
                     <a href="/auth/login">登录</a>后才能进行评论
@@ -64,7 +70,7 @@
         <div class="comments">
             <h2 class="commentsTitle">
             @if($article->comment_count)
-                本文共<span class="commentNum">{{ $article->comment_count }}</span>条回复
+                本文共<span class="commentNum">{{ $article->comment_count }}</span>条评论
             @else
                 暂无评论
             @endif
@@ -87,96 +93,6 @@
         $('pre code').each(function(i, block) {
             hljs.highlightBlock(block);
         });
-        $(document).on('submit', '#commentForm', function(event) {
-            event.preventDefault();
-            var article_id = $('#commentForm [name="article_id"]').val(),
-                body = $('#commentForm [name="body"]').val(),
-                $commentNum = $('.commentNum'),
-                commentNumber = parseInt($commentNum.eq(0).text()),
-                $submit = $('#commentBtn');
-            if(body == '') {
-                AlertMsg('评论内容不能为空', 'Alert--Danger');
-                return;
-            }
-            $submit.attr('disabled', true).fadeTo('slow', 0.5);
-            $.ajax({
-                url: '/comment/store',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    article_id: article_id,
-                    body: body
-                },
-                success: function(response){
-                    if (response.status == 200) {
-                        $('#commentForm [name="body"]').val('');
-                        $("#commentPreview").html('');
-                        $('#commentsList').prepend(marked(response.html))
-                        $commentNum.text(commentNumber + 1);
-                        $('#commentsList pre code').each(function(i, block) {
-                            hljs.highlightBlock(block);
-                        });
-                        $body.animate( { scrollTop: $('#commentsList').offset().top - 10}, 900);
-                        AlertMsg(response.msg);
-                    }else{
-                        AlertMsg(response.msg, 'Alert--Danger');
-                    }
-                    $submit.attr('disabled', false).fadeTo('slow', 1);
-                },
-                error: function(response){
-                    if (response.status == 401)
-                        AlertMsg('请先登录', 'Alert--Danger');
-                    $submit.attr('disabled', false).fadeTo('slow', 1);
-                }
-            });
-        });
-        $(document).on('click', '#commentsList .pager a', function(event) {
-            event.preventDefault();
-            var page = $(this).attr('href').split('page=')[1],
-                article_id = $('.article').data('id');
-            getArticleComment(article_id, page);
-        });
 
-        function getArticleComment (article_id, page) {
-            $.ajax({
-                url: '/comment/get',
-                type: 'GET',
-                dataType: 'json',
-                data: {
-                    article_id: article_id,
-                    page: page
-                },
-                success: function(response){
-                    if (response.status == 200) {
-                        $('#commentsList').html(response.html);
-                        $('#commentsList pre code').each(function(i, block) {
-                            hljs.highlightBlock(block);
-                        });
-                        $body.animate( { scrollTop: $('#commentsList').offset().top - 70}, 900);
-                    }else{
-                        AlertMsg(response.msg, 'Alert--Danger');
-                    }
-                },
-                error: function(response){
-                }
-            });
-        }
-
-        $("#commentBody").bind('blur keyup',  function(event) {
-            var source = $(this).val();
-            var mark = marked(source);
-            $("#commentPreview").html(mark);
-            $('#commentPreview pre code').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
-        });
-        $(document).on('propertychange', function(e){
-            var source = $(this).val();
-            var mark = marked(source);
-            $("#commentPreview").html(mark);
-            $('#commentPreview pre code').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
-        })
     </script>
 @stop

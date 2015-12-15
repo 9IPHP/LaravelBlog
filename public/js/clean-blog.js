@@ -149,6 +149,114 @@ jQuery(document).ready(function($) {
     }
 });
 
+$(document).on('submit', '#commentForm', function(event) {
+    event.preventDefault();
+    var article_id = $('#commentForm [name="article_id"]').val(),
+        body = $('#commentForm [name="body"]').val(),
+        $commentNum = $('.commentNum'),
+        commentNumber = parseInt($commentNum.eq(0).text()),
+        $submit = $('#commentBtn');
+    if(body == '') {
+        AlertMsg('评论内容不能为空', 'Alert--Danger');
+        return;
+    }
+    $submit.attr('disabled', true).fadeTo('slow', 0.5);
+    $.ajax({
+        url: '/comment/store',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            article_id: article_id,
+            body: body
+        },
+        success: function(response){
+            if (response.status == 200) {
+                $('#commentForm [name="body"]').val('');
+                $("#commentPreview").html('');
+                $('#commentsList').prepend(marked(response.html))
+                $commentNum.text(commentNumber + 1);
+                $('#commentsList pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });
+                $body.animate( { scrollTop: $('#commentsList').offset().top - 10}, 900);
+                AlertMsg(response.msg);
+            }else{
+                AlertMsg(response.msg, 'Alert--Danger');
+            }
+            $submit.attr('disabled', false).fadeTo('slow', 1);
+        },
+        error: function(response){
+            if (response.status == 401)
+                AlertMsg('请先登录', 'Alert--Danger');
+            $submit.attr('disabled', false).fadeTo('slow', 1);
+        }
+    });
+});
+$(document).on('click', '#commentsList .pager a', function(event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('page=')[1],
+        article_id = $('.article').data('id');
+    getArticleComment(article_id, page);
+});
+
+function getArticleComment (article_id, page) {
+    $.ajax({
+        url: '/comment/get',
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            article_id: article_id,
+            page: page
+        },
+        success: function(response){
+            if (response.status == 200) {
+                $('#commentsList').html(response.html);
+                $('#commentsList pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });
+                $body.animate( { scrollTop: $('#commentsList').offset().top - 70}, 900);
+            }else{
+                AlertMsg(response.msg, 'Alert--Danger');
+            }
+        },
+        error: function(response){
+        }
+    });
+}
+
+$("#commentBody").bind('blur keyup',  function(event) {
+    var source = $(this).val();
+    var mark = marked(source);
+    $("#commentPreview").html(mark);
+    $('#commentPreview pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+});
+$(document).on('propertychange', function(e){
+    var source = $(this).val();
+    var mark = marked(source);
+    $("#commentPreview").html(mark);
+    $('#commentPreview pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+})
+
+(function() {
+  $(function() {
+    return $('textarea[data-autoresize]').each(function(index, elem) {
+      var offset, resizeTextarea;
+      offset = elem.offsetHeight - elem.clientHeight;
+      resizeTextarea = function(el) {
+        return $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+      };
+      return $(elem).on('keyup input', function() {
+        return resizeTextarea(elem);
+      }).removeAttr('data-autoresize');
+    });
+  });
+
+}).call(this);
+
 function delArticle () {
     var modal = $("#delArticleUserCenter"),
         id = modal.find('input[name="id"]').val();

@@ -12,7 +12,8 @@
                 <i class="fa fa-reply pointer" onclick="replyOne('{{ $comment->user->name }}')"></i>
             </span>
         </div>
-        <div class="comment-body">{!! Markdown::parse($comment->body) !!}</div>
+        {{-- <div class="comment-body">{!! Markdown::parse(App\Comment::atParse($comment->body)) !!}</div> --}}
+        <div class="comment-body">{!! $comment->body !!}</div>
     </div>
 </div>
 <hr>
