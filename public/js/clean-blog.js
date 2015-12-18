@@ -241,8 +241,7 @@ $(document).on('propertychange', function(e){
     });
 })
 
-(function() {
-  $(function() {
+$(function() {
     return $('textarea[data-autoresize]').each(function(index, elem) {
       var offset, resizeTextarea;
       offset = elem.offsetHeight - elem.clientHeight;
@@ -253,9 +252,7 @@ $(document).on('propertychange', function(e){
         return resizeTextarea(elem);
       }).removeAttr('data-autoresize');
     });
-  });
-
-}).call(this);
+});
 
 function delArticle () {
     var modal = $("#delArticleUserCenter"),

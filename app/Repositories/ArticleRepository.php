@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\User;
 use App\Tag;
 use App\Article;
+use Auth;
 /*use Illuminate\Pagination\Paginator;
 use Cache;*/
 
@@ -45,7 +46,7 @@ class ArticleRepository{
                 if(in_array($slug, $existingSlug)){
                     if ($isNew) Tag::whereSlug($slug)->increment('count');
                     $updateTagIds[] = $existingTag[$slug]['id'];
-                } else{
+                } else if(Auth::user()->level() >= 3){
                     $firstLetter = getFirstLetter($name);
                     $newtag = Tag::create(array('name' => $name, 'slug' => $slug, 'letter' => $firstLetter));
                     $newId = $newtag->id;

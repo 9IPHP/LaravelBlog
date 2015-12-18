@@ -37,7 +37,8 @@ class UserController extends Controller
     public function articles($id)
     {
         $user = User::findOrFail($id);
-        if(Auth::id() == $user->id)
+        $currentUser = Auth::user();
+        if($currentUser && $currentUser->id == $id)
             $articles = $user->articles()->recent()->simplePaginate(10);
         else
             $articles = $user->articles()->actived()->recent()->simplePaginate(10);

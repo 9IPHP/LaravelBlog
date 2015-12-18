@@ -11,6 +11,8 @@
 |
 */
 Route::get('test', function(){
+    $user = Auth::loginUsingId(1);
+    echo $user->level();
     return view('welcome');
 });
 Route::get('/', 'ArticleController@index');

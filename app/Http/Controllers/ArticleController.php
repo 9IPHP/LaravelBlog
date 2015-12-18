@@ -23,6 +23,8 @@ class ArticleController extends Controller
     public function __construct(ArticleRepository $articles)
     {
         $this->middleware('auth', ['except' => ['index', 'show', 'forUser']]);
+        $this->middleware('level:2', ['except' => ['index', 'show', 'like', 'collect', 'forUser']]);
+        $this->middleware('level:3', ['only' => ['upload']]);
         $this->articles = $articles;
         view()->share('currentUser', Auth::user());
     }

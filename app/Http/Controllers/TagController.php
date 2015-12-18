@@ -10,6 +10,10 @@ use App\Http\Controllers\Controller;
 
 class TagController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('level:5');
+    }
     public function index(Request $request)
     {
         $tags = Tag::where('count', '>', 0)->get();
