@@ -7,6 +7,7 @@ use App\User;
 use App\Article;
 use App\Tag;
 use App\Collect;
+use App\Image;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -18,15 +19,15 @@ use App\Repositories\ArticleRepository;
 
 class ArticleController extends Controller
 {
-    protected $articles;
+    protected $articles, $currentUser;
 
     public function __construct(ArticleRepository $articles)
     {
         $this->middleware('auth', ['except' => ['index', 'show', 'forUser']]);
         $this->middleware('level:2', ['except' => ['index', 'show', 'like', 'collect', 'forUser']]);
-        $this->middleware('level:3', ['only' => ['upload']]);
         $this->articles = $articles;
-        view()->share('currentUser', Auth::user());
+        $this->currentUser = Auth::user();
+        view()->share('currentUser', $this->currentUser);
     }
     /**
      * Display a listing of the resource.
@@ -76,10 +77,10 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        if ($article->is_active == 0 && Auth::id() != $article->user_id)
+        if ($article->is_active == 0 && Auth::id() != $article->user_id && Auth::user()->level() < 5)
             abort(404);
-        $article->increment('view_count');
         $comments = $article->comments()->with('user')->recent()->simplePaginate(10);
+        $article->increment('view_count');
         return view('articles.show', compact('article', 'comments'));
     }
 
@@ -224,6 +225,11 @@ class ArticleController extends Controller
                     $success = true;
                     $message = 'Upload Success';
                     $file_path = '/'.$path.'/'.$newName;
+                    Image::create(
+                        ['user_id' => $this->currentUser->id,
+                        'name' => $newName,
+                        'url' => $file_path
+                    ]);
                 }else{
                     $message = 'The file is invalid';
                 }
