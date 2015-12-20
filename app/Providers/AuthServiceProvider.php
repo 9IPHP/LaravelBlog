@@ -29,9 +29,14 @@ class AuthServiceProvider extends ServiceProvider
         parent::registerPolicies($gate);
 
         $gate->before(function ($user, $ability) {
-            if ($user->level() == 10) {
-                return true;
-            }
+            if($user->level == 10) return true;
         });
+
+        $permissions = \App\Permission::with('roles')->get();
+        foreach ($permissions as $permission) {
+            $gate->define($permission->name, function($user, $post) use ($permission) {
+                return $user->hasPermission($permission) || $user->id === $post->user_id;
+            });
+        }
     }
 }

@@ -4,54 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fda55199886f49d913b92d57bbc29bbd",
-    "content-hash": "29070de7675f9a11a09adb9202013479",
+    "hash": "ad54cdf8953f78439806c45a4c82df6f",
+    "content-hash": "76a3ae9b2cb7f5a55405dd4544f66564",
     "packages": [
-        {
-            "name": "bican/roles",
-            "version": "2.1.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/romanbican/roles.git",
-                "reference": "582349795ef0af9ff1a64bb2c1b884bbd5ab7c98"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/romanbican/roles/582349795ef0af9ff1a64bb2c1b884bbd5ab7c98.zip",
-                "reference": "582349795ef0af9ff1a64bb2c1b884bbd5ab7c98",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0",
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Bican\\Roles": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roman Bičan",
-                    "email": "romanbican@seznam.cz"
-                }
-            ],
-            "description": "Powerful package for handling roles and permissions in Laravel 5.",
-            "keywords": [
-                "acl",
-                "auth",
-                "illuminate",
-                "laravel",
-                "permissions",
-                "roles"
-            ],
-            "time": "2015-07-30 10:00:12"
-        },
         {
             "name": "classpreloader/classpreloader",
             "version": "3.0.0",
@@ -537,16 +492,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.26",
+            "version": "v5.1.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "be7fbb60376bd61f07e9c637473e5b2cf7eebe5c"
+                "reference": "b16f80878fd3603022d3c84593397cedd9af0bcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/be7fbb60376bd61f07e9c637473e5b2cf7eebe5c",
-                "reference": "be7fbb60376bd61f07e9c637473e5b2cf7eebe5c",
+                "url": "http://packagist.phpcomposer.com/files/laravel/framework/b16f80878fd3603022d3c84593397cedd9af0bcf.zip",
+                "reference": "b16f80878fd3603022d3c84593397cedd9af0bcf",
                 "shasum": ""
             },
             "require": {
@@ -592,7 +547,6 @@
                 "illuminate/events": "self.version",
                 "illuminate/exception": "self.version",
                 "illuminate/filesystem": "self.version",
-                "illuminate/foundation": "self.version",
                 "illuminate/hashing": "self.version",
                 "illuminate/http": "self.version",
                 "illuminate/log": "self.version",
@@ -662,20 +616,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-12-02 21:59:57"
+            "time": "2015-12-17 20:35:38"
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.15",
+            "version": "1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4"
+                "reference": "183e1a610664baf6dcd6fceda415baf43cbdc031"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/thephpleague/flysystem/31525caf9e8772683672fefd8a1ca0c0736020f4.zip",
-                "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4",
+                "url": "http://packagist.phpcomposer.com/files/thephpleague/flysystem/183e1a610664baf6dcd6fceda415baf43cbdc031.zip",
+                "reference": "183e1a610664baf6dcd6fceda415baf43cbdc031",
                 "shasum": ""
             },
             "require": {
@@ -689,7 +643,7 @@
                 "mockery/mockery": "~0.9",
                 "phpspec/phpspec": "^2.2",
                 "phpspec/prophecy-phpunit": "~1.0",
-                "phpunit/phpunit": "~4.1"
+                "phpunit/phpunit": "~4.8"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -746,7 +700,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2015-09-30 22:26:59"
+            "time": "2015-12-19 20:16:43"
         },
         {
             "name": "maxhoffmann/parsedown-laravel",

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('website')->nullable();
             $table->string('github')->nullable();
             $table->text('description')->nullable();
+            $table->integer('level')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

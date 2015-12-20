@@ -139,7 +139,6 @@ return [
         Illuminate\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         MaxHoffmann\Parsedown\ParsedownServiceProvider::class,
-        Bican\Roles\RolesServiceProvider::class,
 
         /*
          * Application Service Providers...
