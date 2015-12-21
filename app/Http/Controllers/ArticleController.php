@@ -24,6 +24,7 @@ class ArticleController extends Controller
     public function __construct(ArticleRepository $articles)
     {
         $this->middleware('auth', ['except' => ['index', 'show', 'forUser']]);
+        $this->middleware('acl:article.create', ['only' => ['create', 'store', 'edit', 'update', 'active', 'destroy']]);
         $this->articles = $articles;
         $this->currentUser = Auth::user();
         view()->share('currentUser', $this->currentUser);

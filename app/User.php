@@ -28,7 +28,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'website', 'weibo', 'github', 'qq', 'description'];
+    protected $fillable = ['name', 'email', 'password', 'website', 'weibo', 'github', 'qq', 'description', 'role_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -51,25 +51,45 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsToMany(Role::class);
     }
+
     // 判断用户是否具有某个角色
     public function hasRole($role)
     {
-        if (is_string($role)) {
-            return $this->roles->contains('name', $role);
+        if (is_null($role)) {
+            return false;
         }
-
+        if (is_string($role)) {
+            return $this->roles->contains('slug', $role);
+        }
         return !! $role->intersect($this->roles)->count();
     }
+
+    public function userCan($permission = null)
+    {
+        return !is_null($permission) && $this->hasPermission($permission);
+    }
+
+
     // 判断用户是否具有某权限
     public function hasPermission($permission)
     {
+        if (is_null($permission)) {
+            return false;
+        }
+        if (is_string($permission)) {
+            $permission = Permission::whereSlug($permission)->firstOrFail();
+        }
         return $this->hasRole($permission->roles);
     }
+
     // 给用户分配角色
-    public function assignRole($role)
+    public function assignRole($role_id)
     {
-        return $this->roles()->save(
-            Role::whereName($role)->firstOrFail()
-        );
+        return $this->roles()->sync([$role_id]);
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
     }
 }

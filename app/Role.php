@@ -12,8 +12,8 @@ class Role extends Model
     }
 
     //给角色添加权限
-    public function givePermissionTo($permission)
+    public function assignPermission($permission_id)
     {
-        return $this->permissions()->save($permission);
+        return $this->permissions()->sync([$permission_id]);
     }
 }

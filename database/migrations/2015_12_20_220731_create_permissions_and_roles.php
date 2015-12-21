@@ -10,7 +10,7 @@ class CreatePermissionsAndRoles extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('label');
+            $table->string('slug');
             $table->string('description')->nullable();
             $table->timestamps();
         });
@@ -18,7 +18,7 @@ class CreatePermissionsAndRoles extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('label');
+            $table->string('slug');
             $table->string('description')->nullable();
             $table->timestamps();
         });

@@ -69,8 +69,12 @@
                 </div>
             </div>
         @else
-            <div class="alert alert-warning">
-                暂无文章
+            <div class="alert alert-warning text-center">
+                @can('article.create')
+                    暂无文章
+                @else
+                    该用户暂无权限发布文章
+                @endcan
             </div>
         @endif
     </div>

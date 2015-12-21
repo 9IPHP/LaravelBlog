@@ -32,9 +32,11 @@
                         <a href="/auth/register">Register</a>
                     </li>
                 @else
-                    <li>
-                        <a href="/articles/create">Add Article</a>
-                    </li>
+                    @can('article.create')
+                        <li>
+                            <a href="/articles/create">Add Article</a>
+                        </li>
+                    @endcan
                     <li>
                         <a href="/auth/logout">LogOut</a>
                     </li>
