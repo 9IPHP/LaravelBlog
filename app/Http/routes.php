@@ -11,11 +11,11 @@
 |
 */
 Route::get('test', function(){
-    $user = Auth::loginUsingId(1);
+    // $user = Auth::loginUsingId(2);
     // $role = \App\User::findOrFail(1);
     // dd($user->assignRole(5));
-    /*$permission = '';
-    dd($user->hasPermission('article.create'));*/
+    $permission = '';
+    dd(auth()->user()->hasPermission('article.create'));
     return view('welcome');
 });
 Route::get('/', 'ArticleController@index');

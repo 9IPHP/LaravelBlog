@@ -84,9 +84,9 @@ class RoleAndUserTableSeeder extends Seeder
             'password' => bcrypt(env('ADMIN_PASSWORD', 'password'))
         ]);
         if(! $admin->save()) {
-            $admin->assignRole($adminRole->id);
             Log::info('Unable to create admin '.$admin->username, (array)$admin->errors());
         } else {
+            $admin->assignRole($adminRole->id);
             Log::info('Created admin "'.$admin->username.'" <'.$admin->email.'>');
         }
     }
