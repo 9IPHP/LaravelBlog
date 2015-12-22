@@ -49,9 +49,9 @@ Route::get('user/{id}/articles', 'UserController@articles');
 Route::get('user/{id}/collects', 'UserController@collects');
 Route::get('users', 'UserController@index');
 
-Route::group(['middleware' => 'role:editor', 'namespace' => 'Admin'], function()
+Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' => 'Admin'], function()
 {
-    Route::get('/admin/index', 'IndexController@index');
+    Route::get('index', 'IndexController@index');
     // Route::resource('/admin/index', 'IndexController');
-    Route::resource('/admin/articles', 'ArticleController');
+    Route::resource('articles', 'ArticleController');
 });

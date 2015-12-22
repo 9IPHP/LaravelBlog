@@ -277,7 +277,7 @@
                                     <a href="/admin/articles">文章列表</a>
                                 </li>
                                 <li>
-                                    <a href="/admin/articles/">标签</a>
+                                    <a href="/admin/articles/trash">回收站</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
