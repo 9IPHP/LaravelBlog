@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\History;
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ use App\Repositories\UserRepository;
 
 class UserController extends Controller
 {
-    protected $user;
+    protected $users;
 
     public function __construct(UserRepository $users)
     {
@@ -31,14 +32,15 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('users.user', compact('user'));
+        $histories = $user->histories()->recent()->simplePaginate(10);
+        return view('users.user', compact('user', 'histories'));
     }
 
     public function articles($id)
     {
         $user = User::findOrFail($id);
         $currentUser = Auth::user();
-        if($currentUser && $currentUser->id == $id)
+        if($currentUser && $currentUser->id == $id || $currentUser->can('article.manage'))
             $articles = $user->articles()->recent()->simplePaginate(10);
         else
             $articles = $user->articles()->actived()->recent()->simplePaginate(10);
@@ -48,7 +50,7 @@ class UserController extends Controller
     public function collects($id)
     {
         $user = User::findOrFail($id);
-        $articles = $user->collects()->simplePaginate(10);
+        $articles = $user->collects()->recent()->simplePaginate(10);
         // dd($articles->pivot->created_at);
         return view('users.collects', compact('user', 'articles'));
     }

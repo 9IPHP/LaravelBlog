@@ -12,7 +12,7 @@
     <div class="panel-body remove-pd-h">
         @if(count($articles))
             @if($currentUser && $currentUser->id == $user->id)
-                <div class="alert alert-info  clearfix">
+                <div class="alert alert-info text-center clearfix">
                     可以点击“是否显示”更改文章是否显示在前台列表中
                 </div>
             @endif

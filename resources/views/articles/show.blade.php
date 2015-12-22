@@ -67,7 +67,7 @@
                 文章已禁用评论
             </div>
         @endif
-        <div class="comments">
+        <div class="comments" id="commentsLists">
             <h2 class="commentsTitle">
             @if($article->comment_count)
                 本文共<span class="commentNum">{{ $article->comment_count }}</span>条评论

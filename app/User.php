@@ -47,6 +47,11 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsToMany(Article::class, 'collects')->withTimestamps();
     }
 
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
+
     public function owns($related, $foreign_key = 'user_id')
     {
         return $this->id === $related->$foreign_key;

@@ -31,12 +31,13 @@ class AuthServiceProvider extends ServiceProvider
         $gate->before(function ($user, $ability) {
             if($user->isAdmin()) return true;
         });
-
-        /*$permissions = \App\Permission::with('roles')->get();
-        foreach ($permissions as $permission) {
-            $gate->define($permission->slug, function($user) use ($permission) {
-                return $user->hasPermission($permission);
-            });
-        }*/
+        if(\Schema::hasTable('permissions')){
+            $permissions = \App\Permission::with('roles')->get();
+            foreach ($permissions as $permission) {
+                $gate->define($permission->slug, function($user) use ($permission) {
+                    return $user->hasPermission($permission);
+                });
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Article;
 use App\Comment;
 use App\User;
+use App\History;
 use Auth;
 use Validator;
 use Markdown;
@@ -48,6 +49,10 @@ class CommentController extends Controller
         $comment = Comment::create($data);
         $html = view('articles._comment', compact('comment'))->render();
         $comment->article->increment('comment_count');
+        Auth::user()->histories()->create([
+            'type' => 'comment',
+            'content' => '评论文章《<a href="/article/'.$article->id.'#comment-'.$comment->id.'" target="_blank">'.$article->title.'</a>》'
+        ]);
         return response()->json(['status' => 200, 'msg' => '评论成功', 'html' => $html]);
     }
 

@@ -14,6 +14,8 @@ class Role extends Model
     //给角色添加权限
     public function assignPermission($permission_id)
     {
-        return $this->permissions()->sync([$permission_id]);
+        $existPermissionId = $this->permissions->fetch('id')->toArray();
+        if(!in_array($permission_id, $existPermissionId))
+            return $this->permissions()->attach([$permission_id]);
     }
 }

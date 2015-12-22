@@ -8,6 +8,7 @@ use App\Article;
 use App\Tag;
 use App\Collect;
 use App\Image;
+use App\History;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -65,6 +66,10 @@ class ArticleController extends Controller
 
         $article = Auth::user()->articles()->create($requests);
         $this->articles->syncTags($article, $request->tag_list);
+        Auth::user()->histories()->create([
+            'type' => 'article',
+            'content' => '发布文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
+        ]);
         flash()->message('文章发布成功！');
         return redirect('article/' . $article->id);
     }
@@ -77,7 +82,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        if ($article->is_active == 0 && Auth::id() != $article->user_id && Auth::user()->level() < 5)
+        if ($article->is_active == 0 && Auth::user()->owns($article) && !Auth::user()->can('article.manage'))
             abort(404);
         $comments = $article->comments()->with('user')->recent()->simplePaginate(10);
         $article->increment('view_count');
@@ -116,6 +121,10 @@ class ArticleController extends Controller
         $requests['comment_status'] = $request->comment_status ? $request->comment_status : 0;
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
         $article->update($requests);
+        Auth::user()->histories()->create([
+            'type' => 'article',
+            'content' => '修改文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
+        ]);
         flash()->message('文章修改成功！');
         return redirect('article/' . $article->id);
     }
@@ -134,6 +143,10 @@ class ArticleController extends Controller
         $this->articles->delTags($article);
         // TODO: delete comments
 
+        Auth::user()->histories()->create([
+            'type' => 'article',
+            'content' => '删除文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
+        ]);
         // delete article
         $article->delete();
         return response()->json(200);
@@ -158,7 +171,7 @@ class ArticleController extends Controller
 
     public function like(Request $request)
     {
-        $article = Article::find($request->id, ['id', 'user_id']);
+        $article = Article::find($request->id, ['id', 'user_id', 'title']);
         if (empty($article)) return response()->json(['status' => 404]);
 
         $user_id = Auth::id();
@@ -170,13 +183,17 @@ class ArticleController extends Controller
         }else{
             $like = $article->likes()->create(['user_id' => $user_id]);
             $article->increment('like_count');
+            Auth::user()->histories()->create([
+                'type' => 'like',
+                'content' => '赞了文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
+            ]);
             return response()->json(['status' => 200, 'action' => 'up']);
         }
     }
 
     public function collect(Request $request)
     {
-        $article = Article::find($request->id, ['id', 'user_id']);
+        $article = Article::find($request->id, ['id', 'user_id', 'title']);
 
         if (empty($article)) return response()->json(['status' => 404]);
 
@@ -188,6 +205,10 @@ class ArticleController extends Controller
         }else{
             $user->collects()->attach($article->id);
             $article->increment('collect_count');
+            Auth::user()->histories()->create([
+                'type' => 'collect',
+                'content' => '收藏文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
+            ]);
             return response()->json(['status' => 200, 'action' => 'up']);
         }
     }
@@ -198,6 +219,10 @@ class ArticleController extends Controller
         $file_path = $message = '';
         $success = false;
 
+        if (!$request->user()->can('image.upload')){
+            return response('您没有权限上传图片', 401);
+        }
+
         $rules = array(
             'file' => 'image|max:2000',
         );
@@ -205,9 +230,10 @@ class ArticleController extends Controller
         $validation = Validator::make($input, $rules);
 
         if ($validation->fails()) {
+            $message = '文件格式不正确';
             $data = array(
-                'status' => $success,
-                'message' => $message,
+                'success' => $success,
+                'msg' => $message,
                 'file_path'=> $file_path
             );
             return response()->json($data);
@@ -220,15 +246,17 @@ class ArticleController extends Controller
                 $pic = $request->file('file');
 
                 if($pic->isValid()){
-                    $newName = md5(rand(1,1000).$pic->getClientOriginalName()).".".$pic->getClientOriginalExtension();
+                    $newName = date('Ymd').'-'.md5(rand(1,1000).$pic->getClientOriginalName()).".".$pic->getClientOriginalExtension();
+                    $fileSize = $pic->getClientSize();
                     $request->file('file')->move($path, $newName);
                     $success = true;
                     $message = 'Upload Success';
                     $file_path = '/'.$path.'/'.$newName;
-                    Image::create(
-                        ['user_id' => $this->currentUser->id,
+                    Image::create([
+                        'user_id' => $this->currentUser->id,
                         'name' => $newName,
-                        'url' => $file_path
+                        'url' => $file_path,
+                        'size' => $fileSize
                     ]);
                 }else{
                     $message = 'The file is invalid';
@@ -241,8 +269,8 @@ class ArticleController extends Controller
         }
 
         $data = array(
-            'status' => $success,
-            'message' => $message,
+            'success' => $success,
+            'msg' => $message,
             'file_path'=> $file_path
         );
         return response()->json($data);

@@ -12,7 +12,7 @@
     <div class="panel-body remove-pd-h">
         @if(count($articles))
             @if($currentUser && $currentUser->id == $user->id)
-                <div class="alert alert-info  clearfix">
+                <div class="alert alert-info text-center clearfix">
                     可以点击列表中的书签符号（<i class="fa fa-bookmark"></i>）可以取消收藏
                 </div>
             @endif
@@ -33,7 +33,7 @@
                 {!! $articles->render() !!}
             </ul>
         @else
-            <div class="alert alert-warning">
+            <div class="alert alert-warning text-center">
                 暂无收藏
             </div>
         @endif

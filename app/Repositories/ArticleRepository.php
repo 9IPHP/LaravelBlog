@@ -46,7 +46,7 @@ class ArticleRepository{
                 if(in_array($slug, $existingSlug)){
                     if ($isNew) Tag::whereSlug($slug)->increment('count');
                     $updateTagIds[] = $existingTag[$slug]['id'];
-                } else if(Auth::user()->level() >= 3){
+                } else {
                     $firstLetter = getFirstLetter($name);
                     $newtag = Tag::create(array('name' => $name, 'slug' => $slug, 'letter' => $firstLetter));
                     $newId = $newtag->id;

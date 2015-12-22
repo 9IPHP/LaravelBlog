@@ -14,16 +14,21 @@ $(function(){
     if (mobilecheck()) {
         toolbar = mobileToolbar;
     }
+    if(webConfig.canUpload){
+        uploadSetting = {
+            url: '/articles/upload',
+            fileKey: 'file'
+        }
+    }else{
+        uploadSetting = false
+    }
     editor = new Simditor({
         textarea: $('#myEditor'),
         placeholder: '',
         toolbar: toolbar,
         pasteImage: false,
         defaultImage: '/img/image.png',
-        upload: {
-            url: '/articles/upload',
-            fileKey: 'file'
-        },
+        upload: uploadSetting,
         codeLanguages:[
             {
                 name: 'PHP',

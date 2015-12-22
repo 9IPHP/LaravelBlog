@@ -11,10 +11,14 @@
 |
 */
 Route::get('test', function(){
+
     // $user = Auth::loginUsingId(2);
-    // $role = \App\User::findOrFail(1);
+    $role = \App\Role::findOrFail(3);
+    $role->assignPermission(1);
+    // dd($role);
     // dd($user->assignRole(5));
-    $permission = '';
+    dd($role->permissions->fetch('id')->toArray());
+    dd($user->roles->toArray());
     dd(auth()->user()->hasPermission('article.create'));
     return view('welcome');
 });

@@ -2,6 +2,7 @@
     <script>
         var webConfig = {
             navScroll: false,
+            canUpload: @can('image.upload') true @else false @endcan ,
         }
     </script>
     @yield('head')

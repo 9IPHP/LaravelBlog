@@ -22,4 +22,9 @@ class Collect extends Model
                 ->where('article_id', $article->id)
                 ->first();
     }
+
+    public function scopeRecent($query)
+    {
+        return $query->Orderby('created_at', 'DESC');
+    }
 }

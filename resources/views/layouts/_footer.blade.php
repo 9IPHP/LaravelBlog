@@ -45,5 +45,7 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/clean-blog.js"></script>
-
+<script>
+window.alert = AlertMsg;
+</script>
 @yield('footer')
