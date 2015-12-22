@@ -48,17 +48,10 @@ Route::resource('user', 'UserController', ['only' => ['show', 'edit', 'update']]
 Route::get('user/{id}/articles', 'UserController@articles');
 Route::get('user/{id}/collects', 'UserController@collects');
 Route::get('users', 'UserController@index');
-/*Route::get('users', 'UserController@index');
-Route::get('user/{id}', 'UserController@show');
-Route::get('user/{id}/articles', 'UserController@articles');
-Route::get('user/{id}/edit', 'UserController@edit');
-Route::patch('user/{id}', 'UserController@update');*/
 
-/*// Authentication routes...
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
-
-// Registration routes...
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');*/
+Route::group(['middleware' => 'role:editor', 'namespace' => 'Admin'], function()
+{
+    Route::get('/admin/index', 'IndexController@index');
+    // Route::resource('/admin/index', 'IndexController');
+    Route::resource('/admin/articles', 'ArticleController');
+});

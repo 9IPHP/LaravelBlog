@@ -13,12 +13,12 @@
     <title>@section('title')Laravel博客@show</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/css/clean-blog.css" rel="stylesheet">
+    <link href="{{ asset('/css/clean-blog.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
+    <script src="{{ asset('/js/jquery.min.js') }}"></script>

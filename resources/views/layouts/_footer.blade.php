@@ -41,10 +41,10 @@
     </div>
 </script>
 <!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
+<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="/js/clean-blog.js"></script>
+<script src="{{ asset('/js/clean-blog.js') }}"></script>
 <script>
 window.alert = AlertMsg;
 </script>
