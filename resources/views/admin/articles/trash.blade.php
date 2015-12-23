@@ -1,21 +1,12 @@
 @extends('admin.layout')
 
 @section('page-header')
-Articles Lists
+回收站
 <span class="pull-right page-opt">
-    <form action="" method="get" class="pull-right">
-        <div class="form-inline">
-            <select name="orderby" class="form-control">
-                <option value="created_at" @if($orderby == 'created_at') selected @endif>创建时间</option>
-                <option value="view_count" @if($orderby == 'view_count') selected @endif>浏览量</option>
-                <option value="like_count" @if($orderby == 'like_count') selected @endif>赞</option>
-                <option value="comment_count" @if($orderby == 'comment_count') selected @endif>评论</option>
-                <option value="collect_count" @if($orderby == 'collect_count') selected @endif>收藏</option>
-            </select>
-            <input type="text" name="s" id="s" class="form-control" placeholder="用户ID/昵称/标签" value="">
-            <button class="btn btn-danger" type="submit"><i class="fa fa-search"></i></button>
-        </div>
-    </form>
+    <div class="btn-group" role="group">
+        <button class="btn btn-primary" type="button" onclick="delCheckedArticles(0)">删除所选</button>
+        <button class="btn btn-danger" type="button" onclick="delCheckedArticles(1)">清空回收站</button>
+    </div>
 </span>
 @stop
 
@@ -25,6 +16,7 @@ Articles Lists
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
+                    <th><span class="fa fa-check-square-o pointer" onclick="checkAll('delArticleId')"></span> / <span class="fa fa-square-o  pointer" onclick="unCheckAll('delArticleId')"></span></th>
                     <th>标题</th>
                     <th>作者</th>
                     <th>发布日期</th>
@@ -38,8 +30,9 @@ Articles Lists
             </thead>
             <tbody>
                 @foreach($articles as $article)
-                    <tr id="article-{{$article->id}}">
-                        <td><a href="/article/{{$article->id}}" target="_blank">{{ $article->title }}</a></td>
+                    <tr id="article-{{$article->id}}" class="article">
+                        <td><input type="checkbox" name="delArticleId[]" value="{{ $article->id }}"></td>
+                        <td><a href="/articles/view/{{$article->id}}" target="_blank">{{ $article->title }}</a></td>
                         <td><a href="/user/{{$article->user->id}}" target="_blank">{{ $article->user->name }}</a></td>
                         <td>{{ $article->created_at }}</td>
                         <td>{{ $article->view_count }}</td>
@@ -49,8 +42,7 @@ Articles Lists
                         <td>@if($article->is_active)是 @else 否 @endif</td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                <a href="/article/{{$article->id}}" target="_blank" class="btn btn-info" title="查看"><i class="fa fa-eye"></i></a>
-                                <a href="/article/{{$article->id}}/edit" target="_blank" class="btn btn-primary" title="编辑"><i class="fa fa-edit"></i></a>
+                                <a href="/articles/view/{{$article->id}}" target="_blank" class="btn btn-info" title="查看"><i class="fa fa-eye"></i></a>
                                 <button type="button" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#delArticleAdmin" data-title="{{ $article->title }}" data-id="{{ $article->id }}"><i class="fa fa-trash"></i></button>
                             </div>
                         </td>
@@ -58,7 +50,9 @@ Articles Lists
                 @endforeach
             </tbody>
         </table>
-        {!! $articles->render() !!}
+        <div class="pull-right">
+            {!! $articles->render() !!}
+        </div>
         <div class="modal fade" id="delArticleAdmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -69,10 +63,10 @@ Articles Lists
                     <div class="modal-body">
                         <input type="hidden" name="id" value="">
                         {{-- <p>若只想在前台列表不显示，可以在“是否显示”处点击取消勾选，非选中状态下的文章将不会出现在前台列表中</p> --}}
-                        <p class="text-danger text-center">确定要删除文章《<span class="deleteTitle"></span>》？</p>
+                        <p class="text-danger text-center">确认要彻底删除《<span class="deleteTitle"></span>》？</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="trashArticle()">Yes</button>
+                        <button type="button" class="btn btn-danger" onclick="delArticle()">Yes</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                     </div>
                 </div>

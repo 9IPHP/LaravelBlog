@@ -9,7 +9,7 @@
             <a href="/user/{{ $comment->user_id }}">{{ $comment->user->name }}</a>  • {{ $comment->created_at->diffForHumans() }}
             <span class="pull-right">
                 {{-- <i class="fa fa-thumbs-o-up js-action" data-action="LikeComment"></i> --}}
-                <i class="fa fa-reply pointer" onclick="replyOne('{{ $comment->user->name }}')"></i>
+                <i class="fa fa-reply pointer" onclick="replyTo('{{ $comment->user->name }}')"></i>
             </span>
         </div>
         {{-- <div class="comment-body">{!! Markdown::parse(App\Comment::atParse($comment->body)) !!}</div> --}}

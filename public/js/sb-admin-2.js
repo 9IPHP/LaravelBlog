@@ -1,13 +1,8 @@
 $(function() {
 
     $('#side-menu').metisMenu();
+    $('[data-toggle="tooltip"]').tooltip()
 
-});
-
-//Loads the correct sidebar on window load,
-//collapses the sidebar on window resize.
-// Sets the min-height of #page-wrapper to window size
-$(function() {
     $(window).bind("load resize", function() {
         topOffset = 50;
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
@@ -28,9 +23,110 @@ $(function() {
 
     var url = window.location;
     var element = $('ul.nav a').filter(function() {
-        return this.href == url || url.href.indexOf(this.href) == 0;
+        return this.href == url || url.href.indexOf(this.href) == 0
     }).addClass('active').parent().parent().addClass('in').parent();
     if (element.is('li')) {
         element.addClass('active');
     }
+
+    $('#delArticleAdmin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            title = button.data('title'),
+            id = button.data('id'),
+            modal = $(this);
+        modal.find('.modal-title').text('删除：' + title);
+        modal.find('.deleteTitle').text(title);
+        modal.find('.modal-body input[name="id"]').val(id);
+    })
 });
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+function trashArticle () {
+    var modal = $("#delArticleAdmin"),
+        id = modal.find('input[name="id"]').val();
+    $.post('/admin/articles/'+id, {
+        id: id,
+        _method: 'DELETE'
+    }, function(response) {
+        if (response == 200) {
+            $('tr#article-'+id).slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else if(response == 404){
+            AlertMsg('文章不存在');
+        }else{
+            AlertMsg('删除失败');
+        }
+        modal.modal('hide')
+
+    });
+}
+
+function delArticle () {
+    var modal = $("#delArticleAdmin"),
+        id = modal.find('input[name="id"]').val();
+    $.post('/admin/articles/delete/'+id, {
+        id: id,
+        _method: 'DELETE'
+    }, function(response) {
+        if (response == 200) {
+            $('tr#article-'+id).slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else if(response == 404){
+            AlertMsg('文章不存在');
+        }else{
+            AlertMsg('删除失败');
+        }
+        modal.modal('hide')
+
+    });
+}
+
+function AlertMsg (msg, newclass) {
+    var alertDom = $($("#flash-template").html());
+    $(".Alert").remove();
+    alertDom.addClass(newclass || '').find(".Alert__body").html(msg).end().appendTo("body").hide().fadeIn(300).delay(2800).animate({
+        marginRight: "-100%"
+    }, 300, "swing", function() {
+        $(this).remove()
+    })
+}
+
+function checkAll (name) {
+    $('input[type="checkbox"][name="'+name+'[]"]').prop('checked', true);
+}
+
+function unCheckAll (name) {
+    $('input[type="checkbox"][name="'+name+'[]"]').prop('checked', false);
+}
+
+function delCheckedArticles (all) {
+    var id = [];
+    if(!all){
+        $.each($('input[name="delArticleId[]"]:checked'), function(index, val) {
+            id.push($(val).val())
+        });
+    }
+    if (all || id.length) {
+        $.ajax({
+            url: '/admin/articles/deletes',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                id: id,
+                all: all
+            },
+            success: function(response){
+                console.warn(response)
+            }
+        });
+    };
+}

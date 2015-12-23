@@ -8,6 +8,10 @@ body {
     background-color: #f8f8f8;
 }
 
+.pointer{
+    cursor: pointer;
+}
+
 #wrapper {
     width: 100%;
 }
@@ -16,6 +20,10 @@ body {
     padding: 0 15px;
     min-height: 568px;
     background-color: #fff;
+}
+
+#page-wrapper table th,#page-wrapper table tr{
+    text-align: center !important;
 }
 
 @media(min-width:768px) {
@@ -535,3 +543,62 @@ table.dataTable thead .sorting:after {
     }
 }
 /** Time Line End */
+
+/*Flash Mag*/
+.Alert {
+    display: inline-block;
+    color: #fff;
+    background-color: #99c93d;
+    padding: 12px 30px;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 15px;
+}
+@media only screen and (max-width: 1050px) {
+    .Alert {
+        text-align: center;
+        right: 0;
+        left: 50%;
+        width: 300px;
+        margin-left: -150px
+    }
+}
+.Alert i {
+    margin-right: 8px
+}
+.Alert .Alert__body {
+    color: inherit
+}
+.Alert--Muted {
+    background: #eee;
+    color: #3a3a3a;
+    border: 1px solid #e2e2e2
+}
+.Alert--Muted-Dark {
+    background: #133259;
+    color: #e2e1e7
+}
+.Alert--Bright a,
+.Alert--Primary-Darker a {
+    color: #fff
+}
+.Alert--Danger {
+    background: #f76752;
+    color: #fff
+}
+.Alert--Primary {
+    background: #573e81
+}
+.Alert--Primary-Darker {
+    background: linear-gradient(to right, #133259 30%, #0d233e)
+}
+.Alert--Bright {
+    background: #00baf3
+}
+/** Flash Msg End */
+.page-header .page-opt{
+    font-size: 14px;
+    /*padding-top: 11px;*/
+}

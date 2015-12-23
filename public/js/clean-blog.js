@@ -284,7 +284,7 @@ function AlertMsg (msg, newclass) {
     })
 }
 
-function replyOne(e) {
+function replyTo(e) {
     replyContent = $("#commentBody"),
     oldContent = replyContent.val(),
     prefix = "@" + e + " ",

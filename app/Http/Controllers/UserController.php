@@ -40,7 +40,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $currentUser = Auth::user();
-        if($currentUser && $currentUser->id == $id || $currentUser->can('article.manage'))
+        if($currentUser && ($currentUser->id == $id || $currentUser->can('article.manage')))
             $articles = $user->articles()->recent()->simplePaginate(10);
         else
             $articles = $user->articles()->actived()->recent()->simplePaginate(10);

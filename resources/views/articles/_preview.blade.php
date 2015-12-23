@@ -14,6 +14,5 @@
         </div>
         <hr>
     @endforeach
+    {!! $articles->render() !!}
 @endif
-
-{!! $articles->render() !!}

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>@section('title')Admin - Laravel Blog @show</title>
 
@@ -274,7 +275,7 @@
                             <a href="javascript:;"><i class="fa fa-file-o fa-fw"></i> Articles<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/admin/articles">文章列表</a>
+                                    <a href="/admin/articles/index">文章列表</a>
                                 </li>
                                 <li>
                                     <a href="/admin/articles/trash">回收站</a>
@@ -378,6 +379,13 @@
 
     </div>
     <!-- /#wrapper -->
+
+    <script id="flash-template" type="text/template">
+        <div class="Alert">
+            <i class="fa fa-info-circle"></i>
+            <span class="Alert__body"></span>
+        </div>
+    </script>
 
     <!-- jQuery -->
     <script src="{{ asset('/js/jquery.min.js') }}"></script>

@@ -10,6 +10,30 @@ use Cache;*/
 
 class ArticleRepository{
 
+    public function allWithDelete()
+    {
+        $articles =  Article::withTrashed()->with('user')
+                    ->Orderby('created_at', 'DESC')
+                    ->paginate(10);
+        return $articles;
+    }
+
+    public function onlyDeleted()
+    {
+        $articles =  Article::onlyTrashed()->with('user')
+                    ->Orderby('deleted_at', 'DESC')
+                    ->paginate(10);
+        return $articles;
+    }
+
+    public function allWithNotActived($orderby = 'created_at')
+    {
+        $articles =  Article::with('user')
+                    ->Orderby($orderby, 'DESC')
+                    ->simplePaginate(10);
+        return $articles;
+    }
+
     public function all()
     {
         /*$currentPage = Paginator::resolveCurrentPage('page');

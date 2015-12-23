@@ -26,6 +26,7 @@ Route::get('/', 'ArticleController@index');
 
 Route::resource('article', 'ArticleController', ['except' => ['index', 'create']]);
 Route::get('articles/create', 'ArticleController@create');
+Route::get('articles/view/{id}', 'ArticleController@view');
 Route::post('articles/active', 'ArticleController@active');
 Route::post('articles/like', 'ArticleController@like');
 Route::post('articles/collect', 'ArticleController@collect');
@@ -53,5 +54,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' =>
 {
     Route::get('index', 'IndexController@index');
     // Route::resource('/admin/index', 'IndexController');
-    Route::resource('articles', 'ArticleController');
+    Route::resource('articles', 'ArticleController', ['only' => ['index', 'destroy']]);
+    Route::get('articles/index', 'ArticleController@index');
+    // Route::delete('articles/index', 'ArticleController@destroy');
+    Route::get('articles/trash', 'ArticleController@trash');
+    Route::delete('articles/delete/{id}', 'ArticleController@forceDestroy');
+    Route::post('articles/deletes', 'ArticleController@forceDestroyAll');
+
 });

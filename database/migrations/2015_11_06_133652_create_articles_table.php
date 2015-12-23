@@ -19,8 +19,8 @@ class CreateArticlesTable extends Migration
             $table->string('thumb')->nullable();
             $table->text('excerpt');
             $table->text('body');
-            $table->boolean('is_active')->default(false);
-            $table->tinyInteger('comment_status')->default(false);
+            $table->boolean('is_active')->default(0);
+            $table->boolean('comment_status')->default(0);
             $table->integer('comment_count')->unsigned()->default(0);
             $table->integer('view_count')->unsigned()->default(0);
             $table->integer('like_count')->unsigned()->default(0);

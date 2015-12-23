@@ -9,6 +9,7 @@ use App\Tag;
 use App\Collect;
 use App\Image;
 use App\History;
+use App\Comment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -26,6 +27,7 @@ class ArticleController extends Controller
     {
         $this->middleware('auth', ['except' => ['index', 'show', 'forUser']]);
         $this->middleware('acl:article.create', ['only' => ['create', 'store', 'edit', 'update', 'active', 'destroy']]);
+        $this->middleware('role:editor', ['only' => ['view']]);
         $this->articles = $articles;
         $this->currentUser = Auth::user();
         view()->share('currentUser', $this->currentUser);
@@ -82,11 +84,19 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        if ($article->is_active == 0 && Auth::user()->owns($article) && !Auth::user()->can('article.manage'))
+        if ($article->is_active == 0 && (!Auth::user() || (!Auth::user()->owns($article) && !Auth::user()->can('article.manage'))))
             abort(404);
         $comments = $article->comments()->with('user')->recent()->simplePaginate(10);
         $article->increment('view_count');
         return view('articles.show', compact('article', 'comments'));
+    }
+
+    public function view($id)
+    {
+        $article = Article::withTrashed()->with('user')->findOrFail($id);
+        $comments = $article->comments()->with('user')->recent()->simplePaginate(10);
+        $article->increment('view_count');
+        return view('articles.view', compact('article', 'comments'));
     }
 
     /**
@@ -142,6 +152,7 @@ class ArticleController extends Controller
         // delete tags
         $this->articles->delTags($article);
         // TODO: delete comments
+        // Comment::where('article_id', $article->id)->delete();
 
         Auth::user()->histories()->create([
             'type' => 'article',
