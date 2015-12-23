@@ -82,7 +82,17 @@ class ArticleController extends BaseController
 
     public function forceDestroyAll(Request $request)
     {
-        return response()->json($request->all());
-        dd($request);
+        $delAll = $request->all;
+        $idArr = $request->id;
+        if (empty($delAll) && empty($idArr)) {
+            return response()->json(403);
+        }
+
+        if ($delAll) {
+            Article::onlyTrashed()->forceDelete();
+        }else{
+            Article::onlyTrashed()->whereIn('id', $idArr)->forceDelete();
+        }
+        return response()->json(200);
     }
 }

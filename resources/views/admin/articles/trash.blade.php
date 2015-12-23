@@ -11,7 +11,7 @@
 @stop
 
 @section('content')
-    <div class="col-lg-12">
+    <div class="col-lg-12" id="trashArticles">
     @if(count($articles))
         <table class="table table-bordered table-hover">
             <thead>
@@ -50,7 +50,7 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="pull-right">
+        <div class="pull-right" id="page">
             {!! $articles->render() !!}
         </div>
         <div class="modal fade" id="delArticleAdmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

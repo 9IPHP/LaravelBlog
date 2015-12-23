@@ -125,6 +125,24 @@ function delCheckedArticles (all) {
                 all: all
             },
             success: function(response){
+                if (response) {
+                    if (all) {
+                        $("#trashArticles tr.article").slideUp(function(){
+                            $(this).remove();
+                        })
+                        $("#page").remove();
+                    }else{
+                        $.each(id, function(index, val) {
+                            console.log(val);
+                            $('#article-'+val).slideUp(function(){
+                                $(this).remove();
+                            })
+                        });
+                    }
+                    AlertMsg('删除成功');
+                }else{
+                    AlertMsg('删除失败');
+                }
                 console.warn(response)
             }
         });
