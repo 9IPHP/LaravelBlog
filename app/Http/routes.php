@@ -61,4 +61,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' =>
     Route::delete('articles/delete/{id}', 'ArticleController@forceDestroy');
     Route::post('articles/deletes', 'ArticleController@forceDestroyAll');
 
+    Route::get('users/index', 'UserController@index');
 });

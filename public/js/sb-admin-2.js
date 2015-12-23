@@ -38,6 +38,15 @@ $(function() {
         modal.find('.deleteTitle').text(title);
         modal.find('.modal-body input[name="id"]').val(id);
     })
+
+    $('#delAllArticle').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            msg = button.data('msg'),
+            all = button.data('all'),
+            modal = $(this);
+        modal.find('.delMsg').text(msg);
+        modal.find('.modal-body input[name="all"]').val(all);
+    })
 });
 
 $.ajaxSetup({
@@ -71,6 +80,7 @@ function trashArticle () {
 function delArticle () {
     var modal = $("#delArticleAdmin"),
         id = modal.find('input[name="id"]').val();
+    modal.modal('hide')
     $.post('/admin/articles/delete/'+id, {
         id: id,
         _method: 'DELETE'
@@ -85,8 +95,6 @@ function delArticle () {
         }else{
             AlertMsg('删除失败');
         }
-        modal.modal('hide')
-
     });
 }
 
@@ -108,14 +116,17 @@ function unCheckAll (name) {
     $('input[type="checkbox"][name="'+name+'[]"]').prop('checked', false);
 }
 
-function delCheckedArticles (all) {
-    var id = [];
+function delCheckedArticles () {
+    var modal = $("#delAllArticle"),
+        id = [],
+        all = modal.find('input[name="all"]').val();
+    modal.modal('hide')
     if(!all){
         $.each($('input[name="delArticleId[]"]:checked'), function(index, val) {
             id.push($(val).val())
         });
     }
-    if (all || id.length) {
+    if (all == 1 || id.length) {
         $.ajax({
             url: '/admin/articles/deletes',
             type: 'post',
@@ -143,8 +154,9 @@ function delCheckedArticles (all) {
                 }else{
                     AlertMsg('删除失败');
                 }
-                console.warn(response)
             }
         });
-    };
+    }else{
+        AlertMsg('请选择要删除的文章');
+    }
 }

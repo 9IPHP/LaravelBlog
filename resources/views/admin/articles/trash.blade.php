@@ -4,8 +4,8 @@
 回收站
 <span class="pull-right page-opt">
     <div class="btn-group" role="group">
-        <button class="btn btn-primary" type="button" onclick="delCheckedArticles(0)">删除所选</button>
-        <button class="btn btn-danger" type="button" onclick="delCheckedArticles(1)">清空回收站</button>
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#delAllArticle" data-all="0" data-msg="确定要删除所选文章？">删除所选</button>
+        <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delAllArticle" data-all="1" data-msg="确定要清空回收站中所有文章？">清空回收站</button>
     </div>
 </span>
 @stop
@@ -43,7 +43,7 @@
                         <td>
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                 <a href="/articles/view/{{$article->id}}" target="_blank" class="btn btn-info" title="查看"><i class="fa fa-eye"></i></a>
-                                <button type="button" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#delArticleAdmin" data-title="{{ $article->title }}" data-id="{{ $article->id }}"><i class="fa fa-trash"></i></button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delArticleAdmin" data-title="{{ $article->title }}" data-id="{{ $article->id }}"><i class="fa fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -67,6 +67,24 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" onclick="delArticle()">Yes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="delAllArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">删除文章</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="all" value="0">
+                        <p class="text-danger text-center delMsg">确认要彻底删除？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" onclick="delCheckedArticles()">Yes</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                     </div>
                 </div>
