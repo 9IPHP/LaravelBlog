@@ -32,11 +32,13 @@ class UserController extends Controller
     {
         $user_id = $request->user_id;
         $role_id = $request->role_id;
-        $user = User::find($user_id, ['id']);
+        $user = User::with('roles')->find($user_id, ['id']);
         $role = Role::find($role_id, ['id']);
         if (empty($user) || empty($role)) {
             return response()->json(404);
         }
+        $roles = Role::orderBy('id', 'DESC')->get();
+        // View::make()
         $user->assignRole($role->id);
         return response()->json(200);
         return response()->json($request->all());
