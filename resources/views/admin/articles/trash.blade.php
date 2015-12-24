@@ -66,7 +66,7 @@
                         <p class="text-danger text-center">确认要彻底删除《<span class="deleteTitle"></span>》？</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="delArticle()">Yes</button>
+                        <button type="button" class="btn btn-danger" onclick="delArticle()" data-dismiss="modal">Yes</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                         <p class="text-danger text-center delMsg">确认要彻底删除？</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="delCheckedArticles()">Yes</button>
+                        <button type="button" class="btn btn-danger" onclick="delCheckedArticles()" data-dismiss="modal">Yes</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                     </div>
                 </div>

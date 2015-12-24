@@ -74,7 +74,7 @@ Articles Lists
                         <p class="text-danger text-center">确定要删除文章《<span class="deleteTitle"></span>》？</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="trashArticle()">Yes</button>
+                        <button type="button" class="btn btn-danger" onclick="trashArticle()" data-dismiss="modal">Yes</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                     </div>
                 </div>

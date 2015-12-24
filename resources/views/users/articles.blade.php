@@ -62,7 +62,7 @@
                             <p class="text-danger text-center">删除后不可恢复，确认删除？</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="delArticle()">Yes</button>
+                            <button type="button" class="btn btn-danger" onclick="delArticle()" data-dismiss="modal">Yes</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                         </div>
                     </div>

@@ -42,18 +42,26 @@ Users Lists
                         <td>{{ $user->website }}</td>
                         <td>{{ $user->github }}</td>
                         <td class="role">
-                            <select class="userRole" data-id="{{ $user->roles[0]->id }}" name="userRole" class="form-control">
-                                @foreach($roles as $role)
-                                    <option id="role-{{ $role->id }}" value="{{ $role->id }}" @if($user->roles[0]->id == $role->id) selected @endif>{{ $role->name }}</option>
-                                @endforeach
-                            </select>
+                            @if($user->id == 1)
+                                {{ $user->roles[0]->name }}
+                            @else
+                                <form>
+                                    <select class="userRole" data-id="{{ $user->roles[0]->id }}" name="userRole" class="form-control">
+                                        @foreach($roles as $role)
+                                            <option id="role-{{ $role->id }}" value="{{ $role->id }}" @if($user->roles[0]->id == $role->id) selected @endif>{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="reset" class="hidden">
+                                    <i class="fa fa-spin fa-refresh hidden"></i>
+                                </form>
+                            @endif
                         </td>
                         <td>{{ $user->created_at }}</td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group">
                                 <a href="/user/{{$user->id}}" target="_blank" class="btn btn-info" title="查看"><i class="fa fa-eye"></i></a>
                                 <a href="/user/{{$user->id}}/edit" target="_blank" class="btn btn-primary" title="编辑"><i class="fa fa-edit"></i></a>
-                                <button type="button" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#deluserAdmin" data-title="{{ $user->title }}" data-id="{{ $user->id }}"><i class="fa fa-trash"></i></button>
+                                <button type="button" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#delUserAdmin" data-title="{{ $user->title }}" data-id="{{ $user->id }}" data-name="{{ $user->name }}"><i class="fa fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -73,10 +81,28 @@ Users Lists
                     <div class="modal-body">
                         <input type="hidden" name="user_id" value="">
                         <input type="hidden" name="role_id" value="">
-                        <p class="text-danger text-center">确定要把用户“<span class="name"></span>”的角色修改为<span class="role"></span>？</p>
+                        <p class="text-danger text-center">确定要把用户“<strong class="name"></strong>”的角色修改为【<span class="role"></span>】？</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="trashuser()">Yes</button>
+                        <button type="button" class="btn btn-danger" onclick="updateRole()" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="delUserAdmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">删除用户</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" value="">
+                        <p class="text-danger text-center">确定要删除用户”<strong class="deleteUser"></strong>“？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" onclick="delUser()" data-dismiss="modal">Yes</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                     </div>
                 </div>

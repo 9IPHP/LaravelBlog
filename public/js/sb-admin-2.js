@@ -48,6 +48,16 @@ $(function() {
         modal.find('.modal-body input[name="all"]').val(all);
     })
 
+    $('#delUserAdmin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            name = button.data('name'),
+            id = button.data('id'),
+            modal = $(this);
+        modal.find('.modal-title').text('删除用户：' + name);
+        modal.find('.deleteUser').text(name);
+        modal.find('.modal-body input[name="id"]').val(id);
+    })
+
     $(".userRole").change(function(event) {
         event.preventDefault();
         var oldRoleId = $(this).data('id'),
@@ -55,26 +65,26 @@ $(function() {
             userId = $(this).parents('tr').data('id'),
             oldHtml = $(this).parent().html(),
             newRole = $(this).find("option:selected").text(),
-            name = $(this).parents('tr').find('.name').text();
-        $(this).parents('td').html('<i class="fa fa-spin fa-refresh"></i>');
-        $.ajax({
-            url: '/admin/users/update',
-            type: 'post',
-            dataType: 'json',
-            data: {
-                role_id: newRoleId,
-                user_id: userId
-            },
-            success: function(response){
-                if (response) {
+            name = $(this).parents('tr').find('.name').text(),
+            modal = $('#updateRole');
+        $(this).parents('td').find('i.fa').removeClass('hidden');
+        $(this).parents('td').find('select').addClass('hidden');
 
-                }else{
-
-                }
-            }
-        });
+        modal.find('input[name="user_id"]').val(userId);
+        modal.find('input[name="role_id"]').val(newRoleId);
+        modal.find('.name').text(name);
+        modal.find('.role').text(newRole);
+        modal.modal('show')
 
     });
+
+    $('#updateRole').on('hide.bs.modal', function (event) {
+        var userId = $(this).find('input[name="user_id"]').val(),
+            roleId = $(this).find('input[name="role_id"]').val();
+        $('#user-'+userId+' .role input[type="reset"]').click();
+        $('#user-'+userId+' .role select').removeClass('hidden');
+        $('#user-'+userId+' .role i.fa').addClass('hidden');
+    })
 });
 
 $.ajaxSetup({
@@ -86,6 +96,7 @@ $.ajaxSetup({
 function trashArticle () {
     var modal = $("#delArticleAdmin"),
         id = modal.find('input[name="id"]').val();
+
     $.post('/admin/articles/'+id, {
         id: id,
         _method: 'DELETE'
@@ -100,7 +111,6 @@ function trashArticle () {
         }else{
             AlertMsg('删除失败');
         }
-        modal.modal('hide')
 
     });
 }
@@ -108,7 +118,7 @@ function trashArticle () {
 function delArticle () {
     var modal = $("#delArticleAdmin"),
         id = modal.find('input[name="id"]').val();
-    modal.modal('hide')
+
     $.post('/admin/articles/delete/'+id, {
         id: id,
         _method: 'DELETE'
@@ -187,4 +197,30 @@ function delCheckedArticles () {
     }else{
         AlertMsg('请选择要删除的文章');
     }
+}
+
+function updateRole () {
+    var modal = $('#updateRole'),
+        user_id = modal.find('input[name="user_id"]').val(),
+        role_id = modal.find('input[name="role_id"]').val();
+    $.ajax({
+        url: '/admin/users/update',
+        type: 'post',
+        dataType: 'json',
+        data: {
+            role_id: role_id,
+            user_id: user_id
+        },
+        success: function(response){
+            if (response.status == 200) {
+                $('#user-'+user_id+' .userRole').html(response.html);
+            }else{
+                AlertMsg(response.msg);
+            }
+        }
+    });
+}
+
+function delUser () {
+
 }

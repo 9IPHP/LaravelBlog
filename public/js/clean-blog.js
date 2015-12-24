@@ -269,8 +269,6 @@ function delArticle () {
         }else{
             AlertMsg('删除失败');
         }
-        modal.modal('hide')
-
     });
 }
 
