@@ -61,5 +61,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' =>
     Route::delete('articles/delete/{id}', 'ArticleController@forceDestroy');
     Route::post('articles/deletes', 'ArticleController@forceDestroyAll');
 
+    // Route::resource('users', 'UserController', ['only' => ['index', 'edit', 'update']]);
     Route::get('users/index', 'UserController@index');
+    Route::post('users/update', 'UserController@update');
+    Route::get('users/roles', 'UserController@roles');
+    Route::get('users/roles/{id}/edit', 'UserController@editRole');
+    Route::put('users/roles/{id}/edit', 'UserController@updateRole');
+    Route::patch('users/roles/{id}/edit', 'UserController@updateRole');
 });

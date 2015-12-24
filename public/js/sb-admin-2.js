@@ -47,6 +47,34 @@ $(function() {
         modal.find('.delMsg').text(msg);
         modal.find('.modal-body input[name="all"]').val(all);
     })
+
+    $(".userRole").change(function(event) {
+        event.preventDefault();
+        var oldRoleId = $(this).data('id'),
+            newRoleId = $(this).val(),
+            userId = $(this).parents('tr').data('id'),
+            oldHtml = $(this).parent().html(),
+            newRole = $(this).find("option:selected").text(),
+            name = $(this).parents('tr').find('.name').text();
+        $(this).parents('td').html('<i class="fa fa-spin fa-refresh"></i>');
+        $.ajax({
+            url: '/admin/users/update',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                role_id: newRoleId,
+                user_id: userId
+            },
+            success: function(response){
+                if (response) {
+
+                }else{
+
+                }
+            }
+        });
+
+    });
 });
 
 $.ajaxSetup({

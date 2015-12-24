@@ -48,7 +48,7 @@ Articles Lists
                         <td>{{ $article->collect_count }}</td>
                         <td>@if($article->is_active)是 @else 否 @endif</td>
                         <td>
-                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                            <div class="btn-group btn-group-xs" role="group">
                                 <a href="/article/{{$article->id}}" target="_blank" class="btn btn-info" title="查看"><i class="fa fa-eye"></i></a>
                                 <a href="/article/{{$article->id}}/edit" target="_blank" class="btn btn-primary" title="编辑"><i class="fa fa-edit"></i></a>
                                 <button type="button" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#delArticleAdmin" data-title="{{ $article->title }}" data-id="{{ $article->id }}"><i class="fa fa-trash"></i></button>
@@ -58,7 +58,9 @@ Articles Lists
                 @endforeach
             </tbody>
         </table>
-        {!! $articles->render() !!}
+        <div class="pull-right" id="page">
+            {!! $articles->render() !!}
+        </div>
         <div class="modal fade" id="delArticleAdmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

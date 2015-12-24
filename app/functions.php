@@ -34,7 +34,7 @@ function make_excerpt($value)
 
 function getAvarar($email, $size = 50)
 {
-    return 'http://cn.gravatar.com/avatar/' . md5($email) . '?s=' . $size . '&amp;d=monsterid&amp;r=g';
+    return 'http://gravatar.duoshuo.com/avatar/' . md5($email) . '?s=' . $size . '&amp;d=monsterid&amp;r=g';
     // http://cn.gravatar.com/
     // or http://gravatar.duoshuo.com/
     // or http://secure.gravatar.com/

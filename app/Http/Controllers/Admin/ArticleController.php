@@ -30,8 +30,8 @@ class ArticleController extends BaseController
 
 
         $articles =  Article::with('user')
-                    ->Orderby($orderby, 'DESC')
-                    ->simplePaginate(10);
+                        ->Orderby($orderby, 'DESC')
+                        ->simplePaginate(10);
         // $articles = $this->articles->allWithNotActived();
         return view('admin.articles.index', compact('articles', 'orderby'));
     }
