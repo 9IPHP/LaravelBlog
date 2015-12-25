@@ -3,12 +3,7 @@
 @section('title'){{$user->name}}的最新动态 - @parent @stop
 
 @section('container')
-    <ul class="nav nav-tabs nav-justified">
-        <li role="presentation" class="active"><a href="/user/{{ $user->id }}">Home</a></li>
-        <li role="presentation"><a href="/user/{{ $user->id }}/articles">文章</a></li>
-        <li role="presentation"><a href="/user/{{ $user->id }}/collects">收藏</a></li>
-        <li role="presentation"><a href="#">Messages</a></li>
-    </ul>
+    @include('users._rightnav')
     <div class="panel-body remove-pd-h">
         @if(count($histories))
             <div class="alert alert-info text-center clearfix">

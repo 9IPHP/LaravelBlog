@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $users)
     {
-        $this->middleware('auth', ['only' => ['edit', 'update']]);
+        $this->middleware('auth', ['only' => ['edit', 'update', 'trash']]);
         $this->users = $users;
         view()->share('currentUser', Auth::user());
     }
@@ -45,6 +45,14 @@ class UserController extends Controller
         else
             $articles = $user->articles()->actived()->recent()->simplePaginate(10);
         return view('users.articles', compact('user', 'articles'));
+    }
+
+    public function trash()
+    {
+        $user = Auth::user();
+        $articles = $user->articles()->onlyTrashed()->recent()->simplePaginate(10);
+        return view('users.trash', compact('user', 'articles'));
+        dd($articles);
     }
 
     public function collects($id)

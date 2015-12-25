@@ -29,6 +29,7 @@ Route::get('articles/create', 'ArticleController@create');
 Route::get('articles/view/{id}', 'ArticleController@view');
 Route::post('articles/active', 'ArticleController@active');
 Route::post('articles/like', 'ArticleController@like');
+Route::post('articles/opt', 'ArticleController@restoreOrDelete');
 Route::post('articles/collect', 'ArticleController@collect');
 Route::post('articles/upload', 'ArticleController@upload');
 Route::get('articles/user/{user_id}', 'ArticleController@forUser');
@@ -48,10 +49,12 @@ Route::get('comment/get', 'CommentController@getComments');
 Route::resource('user', 'UserController', ['only' => ['show', 'edit', 'update']]);
 Route::get('user/{id}/articles', 'UserController@articles');
 Route::get('user/{id}/collects', 'UserController@collects');
+Route::get('user/{id}/trash', 'UserController@trash');
 Route::get('users', 'UserController@index');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' => 'Admin'], function()
 {
+    Route::get('/', 'IndexController@index');
     Route::get('index', 'IndexController@index');
     // Route::resource('/admin/index', 'IndexController');
     Route::resource('articles', 'ArticleController', ['only' => ['index', 'destroy']]);

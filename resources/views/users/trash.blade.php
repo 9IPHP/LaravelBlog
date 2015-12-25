@@ -1,6 +1,6 @@
 @extends('layouts.users')
 
-@section('title'){{$user->name}}的全部文章 - @parent @stop
+@section('title'){{$user->name}}的回收站 - @parent @stop
 
 @section('container')
     @include('users._rightnav')
@@ -23,20 +23,12 @@
                         <a href="/article/{{ $article->id }}">{{ $article->title }}</a>
                         <span class="user-articles-meta">
                             <span class="pull-right">
-                                <i class="fa fa-calendar"></i> {{ $article->created_at->diffForHumans() }}
-                                <i class="fa fa-eye"></i> {{ $article->view_count }}
-                                <i class="fa fa-comments"></i> {{ $article->comment_count }}
-                                <i class="fa fa-bookmark"></i> {{ $article->collect_count }}
-                                <i class="fa fa-heart"></i> {{ $article->like_count }}
-                                @can('active', $article)
-                                    <label class="opt article-opt publish"><i class="fa fa-{{$isActive}}"></i> 显示</label>
-                                    <label class="opt article-opt comment"><i class="fa fa-{{$commentStatus}}"></i> 评论</label>
-                                @endcan
-                                @can('update', $article)
-                                    <i class="fa fa-edit"></i> <a href="/article/{{ $article->id }}/edit" target="_blank">Edit</a>
+                                <i class="fa fa-calendar"></i> {{ $article->deleted_at->diffForHumans() }}
+                                @can('destroy', $article)
+                                    <label class="opt" data-toggle="modal" data-target="#trashArticleUserCenter" data-title="{{ $article->title }}" data-id="{{ $article->id }}" data-action="restore"><i class="fa fa-recycle"></i> 恢复</label>
                                 @endcan
                                 @can('destroy', $article)
-                                    <label class="opt article-del" data-toggle="modal" data-target="#delArticleUserCenter" data-title="{{ $article->title }}" data-id="{{ $article->id }}"><i class="fa fa-trash-o"></i> Delete</label>
+                                    <label class="opt text-danger" data-toggle="modal" data-target="#trashArticleUserCenter" data-title="{{ $article->title }}" data-id="{{ $article->id }}" data-action="forceDelete"><i class="fa fa-trash-o"></i> 彻底删除</label>
                                 @endcan
                             </span>
                         </span>
@@ -44,19 +36,20 @@
                 @endforeach
                 {!! $articles->render() !!}
             </ul>
-            <div class="modal fade" id="delArticleUserCenter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal fade" id="trashArticleUserCenter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">删除文章</h4>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="id" value="">
-                            <p class="text-danger text-center">确认删除文章《<strong class="title"></strong>》？</p>
+                            <input type="hidden" name="action" value="">
+                            <p class="text-danger text-center noticeMsg"></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="delArticle()" data-dismiss="modal">Yes</button>
+                            <button type="button" class="btn btn-danger articleOptBtn" onclick="articleRestoreOrDelete()" data-dismiss="modal">Yes</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                         </div>
                     </div>

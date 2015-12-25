@@ -106,13 +106,34 @@ $(function(){
         });
     });
 
+    // 用户中心删除文章
     $('#delArticleUserCenter').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget),
             title = button.data('title'),
             id = button.data('id'),
             modal = $(this);
-        modal.find('.modal-title').text('删除：' + title)
-        modal.find('.modal-body input[name="id"]').val(id)
+        modal.find('.title').text(title);
+        modal.find('.modal-body input[name="id"]').val(id);
+    })
+
+    // 用户中心回收站清空或恢复文章
+    $('#trashArticleUserCenter').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            title = button.data('title'),
+            id = button.data('id'),
+            action = button.data('action'),
+            modal = $(this);
+        if(action == 'restore') {
+            noticeTile = '恢复文章：'+title;
+            noticeMsg = '确认要恢复文章《'+title+"》？";
+        } else {
+            noticeTile = '彻底删除：'+title;
+            noticeMsg = '确认要彻底删除文章《'+title+"》？";
+        }
+        modal.find('.modal-title').text(noticeTile);
+        modal.find('.noticeMsg').text(noticeMsg);
+        modal.find('.modal-body input[name="id"]').val(id);
+        modal.find('.modal-body input[name="action"]').val(action);
     })
 
     $('[data-toggle="tooltip"]').tooltip()
@@ -260,6 +281,25 @@ function delArticle () {
     $.post('/article/'+id, {
         id: id,
         _method: 'DELETE'
+    }, function(response) {
+        if (response == 200) {
+            $('.article[data-id='+id+']').slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else{
+            AlertMsg('删除失败');
+        }
+    });
+}
+
+function articleRestoreOrDelete () {
+    var modal = $("#trashArticleUserCenter"),
+        id = modal.find('input[name="id"]').val(),
+        action = modal.find('input[name="action"]').val();
+    $.post('/articles/opt', {
+        id: id,
+        action: action
     }, function(response) {
         if (response == 200) {
             $('.article[data-id='+id+']').slideUp(function(){

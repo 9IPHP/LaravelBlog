@@ -293,4 +293,9 @@ class ArticleController extends Controller
         return view('articles.user', compact('articles', 'user'));
     }
 
+    public function restoreOrDelete(Request $request)
+    {
+        return response()->json($request->all());
+    }
+
 }
