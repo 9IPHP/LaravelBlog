@@ -13,14 +13,8 @@
             @endif
             <ul class="list-group">
                 @foreach($articles as $article)
-                    @if($article->is_active) {{-- */$isActive='check-square-o';/* --}}
-                    @else {{-- */$isActive='square-o';/* --}}
-                    @endif
-                    @if($article->comment_status) {{-- */$commentStatus='check-square-o';/* --}}
-                    @else {{-- */$commentStatus='square-o';/* --}}
-                    @endif
                     <li class="list-group-item clearfix article" data-id="{{ $article->id }}">
-                        <a href="/article/{{ $article->id }}">{{ $article->title }}</a>
+                        <a href="javascript:;">{{ $article->title }}</a>
                         <span class="user-articles-meta">
                             <span class="pull-right">
                                 <i class="fa fa-calendar"></i> {{ $article->deleted_at->diffForHumans() }}
