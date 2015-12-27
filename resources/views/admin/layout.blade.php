@@ -56,7 +56,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="/auth/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -90,6 +90,20 @@
                                 </li>
                                 <li>
                                     <a href="/admin/articles/trash">回收站</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/articles/tags">标签</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/articles/comments">评论</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><i class="fa fa-image fa-fw"></i> Images<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/images/index">图片列表</a>
                                 </li>
                             </ul>
                         </li>
@@ -151,6 +165,8 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('/js/sb-admin-2.js') }}"></script>
+
+    @yield('footer')
 
 </body>
 

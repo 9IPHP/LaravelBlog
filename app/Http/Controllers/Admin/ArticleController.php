@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Article;
 use App\Comment;
+use App\Tag;
 use App\Repositories\ArticleRepository;
 
 class ArticleController extends BaseController
@@ -19,11 +20,7 @@ class ArticleController extends BaseController
     {
         $this->articles = $articles;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         $orderby = $request->orderby ? $request->orderby : 'created_at';
@@ -36,12 +33,6 @@ class ArticleController extends BaseController
         return view('admin.articles.index', compact('articles', 'orderby'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $article = Article::find($id, ['id' ,'user_id']);
@@ -50,8 +41,6 @@ class ArticleController extends BaseController
         }
         // delete tags
         $this->articles->delTags($article);
-        // TODO: delete comments
-        // Comment::where('article_id', $article->id)->delete();
         // TODO: Notice User of Article Delete
 
         // delete article
@@ -59,6 +48,7 @@ class ArticleController extends BaseController
         return response()->json(200);
     }
 
+    // 回收站
     public function trash()
     {
         $articles = $this->articles->onlyDeleted();
@@ -67,13 +57,10 @@ class ArticleController extends BaseController
 
     public function forceDestroy($id)
     {
-        $article = Article::onlyTrashed()->find($id, ['id' ,'user_id']);
-        // return response()->json($article);
+        $article = Article::onlyTrashed()->with('comments')->find($id, ['id' ,'user_id']);
         if (empty($article)) {
             return response()->json(404);
         }
-        // delete comments
-        Comment::where('article_id', $article->id)->delete();
 
         // delete article
         $article->forceDelete();
@@ -89,10 +76,64 @@ class ArticleController extends BaseController
         }
 
         if ($delAll) {
-            Article::onlyTrashed()->forceDelete();
+            Article::onlyTrashed()->with('comments')->forceDelete();
         }else{
-            Article::onlyTrashed()->whereIn('id', $idArr)->forceDelete();
+            Article::onlyTrashed()->whereIn('id', $idArr)->with('comments')->forceDelete();
         }
         return response()->json(200);
+    }
+
+    public function restoreDeleted($id)
+    {
+        $article = Article::onlyTrashed()->find($id, ['id']);
+        if(empty($article)) {
+            return response()->json(404);
+        }
+        $this->articles->restoreTags($article);
+        $article->restore();
+        return response()->json(200);
+    }
+
+    public function comments()
+    {
+        $comments = Comment::with('article')->with('user')->orderBy('created_at', 'DESC')->paginate(10);
+        return view('admin.articles.comments', compact('comments'));
+    }
+
+    public function tags(Request $request)
+    {
+        $orderby = $request->orderby ? $request->orderby : 'created_at';
+        $tags = Tag::orderBy($orderby, 'DESC')->paginate(10);
+        // dd($tags);
+        return view('admin.articles.tags', compact('tags', 'orderby'));
+    }
+
+    public function deltag(Request $request)
+    {
+        $id = (array) $request->id;
+        if(Tag::whereIn('id', $id)->delete()){
+            return response()->json(200);
+        }else{
+            return response()->json(404);
+        }
+    }
+
+    public function delcomment(Request $request)
+    {
+        $id = (array) $request->id;
+        $comments = Comment::whereIn('id', $id)->get(['article_id']);
+
+        if($comments){
+            $articleIds = $comments->fetch('article_id');
+            Comment::whereIn('id', $id)->delete();
+            foreach ($articleIds as $article_id) {
+                 Article::withTrashed()->whereId($article_id)->decrement('comment_count');
+            }
+            return response()->json(200);
+        }else{
+            return response()->json(404);
+        }
+
+        return response()->json($articleIds);
     }
 }

@@ -29,7 +29,6 @@ class ArticleRequest extends Request
             'title' => 'required|min:3',
             // 'excerpt' => 'required',
             'body' => 'required',
-            'is_active' => 'boolean',
             'comment_status' => 'boolean',
             'tag_list' => 'array',
         ];

@@ -8,14 +8,11 @@
         @if(count($articles))
             @if($currentUser && $currentUser->id == $user->id)
                 <div class="alert alert-info text-center clearfix">
-                    可以点击“是否显示”更改文章是否显示在前台列表中
+                    可以点击“评论”修改文章是否允许评论
                 </div>
             @endif
             <ul class="list-group">
                 @foreach($articles as $article)
-                    @if($article->is_active) {{-- */$isActive='check-square-o';/* --}}
-                    @else {{-- */$isActive='square-o';/* --}}
-                    @endif
                     @if($article->comment_status) {{-- */$commentStatus='check-square-o';/* --}}
                     @else {{-- */$commentStatus='square-o';/* --}}
                     @endif
@@ -29,7 +26,6 @@
                                 <i class="fa fa-bookmark"></i> {{ $article->collect_count }}
                                 <i class="fa fa-heart"></i> {{ $article->like_count }}
                                 @can('active', $article)
-                                    <label class="opt article-opt publish"><i class="fa fa-{{$isActive}}"></i> 显示</label>
                                     <label class="opt article-opt comment"><i class="fa fa-{{$commentStatus}}"></i> 评论</label>
                                 @endcan
                                 @can('update', $article)

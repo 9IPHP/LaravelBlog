@@ -32,22 +32,13 @@ class ArticleController extends Controller
         $this->currentUser = Auth::user();
         view()->share('currentUser', $this->currentUser);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         $articles = $this->articles->all();
         return view('articles.index', compact('articles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $tags = Tag::orderBy('count', 'desc')->lists('name', 'slug')->toArray();
@@ -55,12 +46,6 @@ class ArticleController extends Controller
         return view('articles.create', compact('tags'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(ArticleRequest $request)
     {
         $requests = $request->all();
@@ -76,16 +61,8 @@ class ArticleController extends Controller
         return redirect('article/' . $article->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Article $article)
     {
-        if ($article->is_active == 0 && (!Auth::user() || (!Auth::user()->owns($article) && !Auth::user()->can('article.manage'))))
-            abort(404);
         $comments = $article->comments()->with('user')->recent()->simplePaginate(10);
         $article->increment('view_count');
         return view('articles.show', compact('article', 'comments'));
@@ -99,12 +76,6 @@ class ArticleController extends Controller
         return view('articles.view', compact('article', 'comments'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Article $article)
     {
         $this->authorize('update', $article);
@@ -112,13 +83,6 @@ class ArticleController extends Controller
         return view('articles.edit', compact('article', 'tags'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Article $article, ArticleRequest $request)
     {
         $this->authorize('update', $article);
@@ -127,7 +91,6 @@ class ArticleController extends Controller
 
         $this->articles->syncTags($article, $request->tag_list);
 
-        $requests['is_active'] = $request->is_active ? $request->is_active : 0;
         $requests['comment_status'] = $request->comment_status ? $request->comment_status : 0;
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
         $article->update($requests);
@@ -139,20 +102,12 @@ class ArticleController extends Controller
         return redirect('article/' . $article->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Article $article)
     {
         if (Gate::denies('destroy', $article))
             return response()->json(403);
         // delete tags
         $this->articles->delTags($article);
-        // TODO: delete comments
-        // Comment::where('article_id', $article->id)->delete();
 
         Auth::user()->histories()->create([
             'type' => 'article',
@@ -172,7 +127,7 @@ class ArticleController extends Controller
             return response()->json(403);
 
         $requests = $request->all();
-        if (!in_array($request->type, array('is_active', 'comment_status')))
+        if (!in_array($request->type, array('comment_status')))
             return response()->json(403);
 
         $data[$request->type] = $request->newStatus;
@@ -257,7 +212,7 @@ class ArticleController extends Controller
                 $pic = $request->file('file');
 
                 if($pic->isValid()){
-                    $newName = date('Ymd').'-'.md5(rand(1,1000).$pic->getClientOriginalName()).".".$pic->getClientOriginalExtension();
+                    $newName = date('d').'-'.md5(rand(1,1000).$pic->getClientOriginalName()).".".$pic->getClientOriginalExtension();
                     $fileSize = $pic->getClientSize();
                     $request->file('file')->move($path, $newName);
                     $success = true;
@@ -295,7 +250,32 @@ class ArticleController extends Controller
 
     public function restoreOrDelete(Request $request)
     {
-        return response()->json($request->all());
+        $id = $request->id;
+        $action = $request->action;
+        $article = Article::onlyTrashed()->find($id);
+        if (empty($article)) {
+            return response()->json(['status' => 404, 'msg' => '文章不存在']);
+        }
+        if (Gate::denies('owns', $article)) {
+            return response()->json(['status' => 403, 'msg' => '无权操作非自己的文章']);
+        }
+        if (!in_array($action, ['restore', 'forceDelete'])) {
+            return response()->json(['status' => 403, 'msg' => '非法操作']);
+        }
+        if ($action == 'restore') {
+            $article->restore();
+            $this->articles->restoreTags($article);
+            return response()->json(['status' => 200, 'msg' => '恢复成功']);
+        }else{
+            $article->likes()->delete();
+            Comment::where('article_id', $article->id)->delete();
+            Auth::user()->histories()->create([
+                'type' => 'article',
+                'content' => '清除文章《<a href="javascript:;">'.$article->title.'</a>》'
+            ]);
+            $article->forceDelete();
+            return response()->json(['status' => 200, 'msg' => '删除成功']);
+        }
     }
 
 }

@@ -15,8 +15,7 @@ $(function(){
         var $that = $(this),
             $child = $that.children('i'),
             id = $that.parents('li.article').data('id');
-        if ($that.hasClass('publish')) type = 'is_active';
-        else if($that.hasClass('comment')) type = 'comment_status';
+        if($that.hasClass('comment')) type = 'comment_status';
         else return;
         if($child.hasClass('fa-square-o')) {
             $child.removeClass('fa-square-o').addClass('fa-spinner fa-spin');
@@ -85,7 +84,7 @@ $(function(){
                             $that.parents('.todel').slideUp(function(){
                                 $(this).remove();
                             })
-                            AlertMsg('删除成功', 'Alert--Danger');
+                            AlertMsg('删除成功');
                         }
                     } else if(response.action == 'up'){
                         $icon.removeClass(icon).addClass(iconActive);
@@ -97,7 +96,9 @@ $(function(){
                         $count.html(count-1);
                     }
                     $that.attr('disabled', false);
-                };
+                }else if(response.status == 404){
+                    AlertMsg('文章不存在', 'Alert--Danger');
+                }
             },
             error: function(data){
                 var status = data.status;
@@ -301,13 +302,13 @@ function articleRestoreOrDelete () {
         id: id,
         action: action
     }, function(response) {
-        if (response == 200) {
+        if (response.status == 200) {
             $('.article[data-id='+id+']').slideUp(function(){
                 $(this).remove();
             })
-            AlertMsg('删除成功');
+            AlertMsg(response.msg);
         }else{
-            AlertMsg('删除失败');
+            AlertMsg(response.msg, 'Alert--Danger');
         }
     });
 }

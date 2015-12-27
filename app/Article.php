@@ -14,17 +14,12 @@ class Article extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'title', 'thumb', 'excerpt', 'body', 'is_active', 'comment_status',
+        'title', 'thumb', 'excerpt', 'body', 'comment_status',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function scopeActived($query)
-    {
-        return $query->where('is_active', 1);
     }
 
     public function scopeWhose($query, $user_id)

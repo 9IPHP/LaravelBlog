@@ -12,7 +12,7 @@ Articles Lists
                 <option value="comment_count" @if($orderby == 'comment_count') selected @endif>评论</option>
                 <option value="collect_count" @if($orderby == 'collect_count') selected @endif>收藏</option>
             </select>
-            <input type="text" name="s" id="s" class="form-control" placeholder="用户ID/昵称/标签" value="">
+            <input type="text" name="s" id="s" class="form-control" placeholder="标题" value="">
             <button class="btn btn-danger" type="submit"><i class="fa fa-search"></i></button>
         </div>
     </form>
@@ -32,7 +32,6 @@ Articles Lists
                     <th>赞数</th>
                     <th>评论数</th>
                     <th>收藏数</th>
-                    <th>是否显示</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -46,7 +45,6 @@ Articles Lists
                         <td>{{ $article->like_count }}</td>
                         <td>{{ $article->comment_count }}</td>
                         <td>{{ $article->collect_count }}</td>
-                        <td>@if($article->is_active)是 @else 否 @endif</td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group">
                                 <a href="/article/{{$article->id}}" target="_blank" class="btn btn-info" title="查看"><i class="fa fa-eye"></i></a>

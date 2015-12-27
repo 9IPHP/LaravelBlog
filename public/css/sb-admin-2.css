@@ -602,3 +602,7 @@ table.dataTable thead .sorting:after {
     font-size: 14px;
     /*padding-top: 11px;*/
 }
+
+.mr10{
+    margin-right: 10px;
+}

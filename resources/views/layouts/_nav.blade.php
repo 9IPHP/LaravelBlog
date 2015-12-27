@@ -37,6 +37,11 @@
                             <a href="/articles/create">Add Article</a>
                         </li>
                     @endcan
+                    @if(Auth::user()->hasRole('editor') || Auth::user()->isAdmin())
+                        <li>
+                            <a href="/admin/index">Admin</a>
+                        </li>
+                    @endif
                     <li>
                         <a href="/auth/logout">LogOut</a>
                     </li>

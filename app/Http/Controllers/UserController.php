@@ -43,23 +43,25 @@ class UserController extends Controller
         if($currentUser && ($currentUser->id == $id || $currentUser->can('article.manage')))
             $articles = $user->articles()->recent()->simplePaginate(10);
         else
-            $articles = $user->articles()->actived()->recent()->simplePaginate(10);
+            $articles = $user->articles()->recent()->simplePaginate(10);
         return view('users.articles', compact('user', 'articles'));
     }
 
-    public function trash()
+    public function trash($id)
     {
-        $user = Auth::user();
+        $user = User::findOrFail($id);
+        $currentUser = Auth::user();
+        if ($user->id != $currentUser->id) {
+            return redirect('/');
+        }
         $articles = $user->articles()->onlyTrashed()->recent()->simplePaginate(10);
         return view('users.trash', compact('user', 'articles'));
-        dd($articles);
     }
 
     public function collects($id)
     {
         $user = User::findOrFail($id);
         $articles = $user->collects()->recent()->simplePaginate(10);
-        // dd($articles->pivot->created_at);
         return view('users.collects', compact('user', 'articles'));
     }
 

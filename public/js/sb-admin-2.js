@@ -29,16 +29,17 @@ $(function() {
         element.addClass('active');
     }
 
+    // 彻底删除文章（单个）
     $('#delArticleAdmin').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget),
             title = button.data('title'),
             id = button.data('id'),
             modal = $(this);
-        modal.find('.modal-title').text('删除：' + title);
         modal.find('.deleteTitle').text(title);
         modal.find('.modal-body input[name="id"]').val(id);
     })
 
+    // 彻底删除文章（多个）
     $('#delAllArticle').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget),
             msg = button.data('msg'),
@@ -46,6 +47,16 @@ $(function() {
             modal = $(this);
         modal.find('.delMsg').text(msg);
         modal.find('.modal-body input[name="all"]').val(all);
+    })
+
+    // 恢复文章
+    $('#restoreArticle').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            title = button.data('title'),
+            id = button.data('id'),
+            modal = $(this);
+        modal.find('.deleteTitle').text(title);
+        modal.find('.modal-body input[name="id"]').val(id);
     })
 
     $('#delUserAdmin').on('show.bs.modal', function (event) {
@@ -84,7 +95,27 @@ $(function() {
         $('#user-'+userId+' .role input[type="reset"]').click();
         $('#user-'+userId+' .role select').removeClass('hidden');
         $('#user-'+userId+' .role i.fa').addClass('hidden');
-    })
+    });
+
+    // 删除标签
+    $('#delTagAdmin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            name = button.data('name'),
+            id = button.data('id'),
+            modal = $(this);
+        modal.find('.name').text(name);
+        modal.find('.modal-body input[name="id"]').val(id);
+    });
+
+    // 删除评论
+    $('#delCommentAdmin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            body = button.data('body'),
+            id = button.data('id'),
+            modal = $(this);
+        modal.find('.body').text(body);
+        modal.find('.modal-body input[name="id"]').val(id);
+    });
 });
 
 $.ajaxSetup({
@@ -136,6 +167,124 @@ function delArticle () {
     });
 }
 
+function restoreArticle () {
+    var modal = $("#restoreArticle"),
+        id = modal.find('input[name="id"]').val();
+
+    $.post('/admin/articles/restore/'+id, function(response) {
+        if (response == 200) {
+            $('tr#article-'+id).slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('恢复成功');
+        }else if(response == 404){
+            AlertMsg('文章不存在');
+        }else{
+            AlertMsg('恢复失败');
+        }
+    });
+}
+
+function delComment () {
+    var modal = $("#delCommentAdmin"),
+        id = modal.find('input[name="id"]').val();
+
+    $.post('/admin/articles/delcomment', {
+        id: [id]
+    }, function(response) {
+        if (response == 200) {
+            $('tr#comment-'+id).slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else if(response == 404){
+            AlertMsg('评论不存在');
+        }else{
+            AlertMsg('删除失败');
+        }
+    });
+}
+
+function delCheckedComments () {
+    var modal = $("#delAllComments"),
+        id = [],
+        all = modal.find('input[name="all"]').val();
+
+    $.each($('input[name="delCommentId[]"]:checked'), function(index, val) {
+        id.push($(val).val())
+    });
+    if (id.length) {
+        $.post('/admin/articles/delcomment', {
+            id: id
+        }, function(response) {
+            if (response == 200) {
+                $.each(id, function(index, val) {
+                    $('#comment-'+val).slideUp(function(){
+                        $(this).remove();
+                    })
+                });
+                AlertMsg('删除成功');
+            }else if(response == 404){
+                AlertMsg('评论不存在');
+            }else{
+                AlertMsg('删除失败');
+            }
+        });
+    }else{
+        AlertMsg('请选择要删除的评论');
+    }
+}
+
+function delTag () {
+    var modal = $("#delTagAdmin"),
+        id = modal.find('input[name="id"]').val();
+
+    $.post('/admin/articles/deltag', {
+        id: [id]
+    }, function(response) {
+        if (response == 200) {
+            $('tr#tag-'+id).slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else if(response == 404){
+            AlertMsg('标签不存在');
+        }else{
+            AlertMsg('删除失败');
+        }
+    });
+}
+
+function delCheckedTags () {
+    var modal = $("#delAllTags"),
+        id = [],
+        all = modal.find('input[name="all"]').val();
+
+    $.each($('input[name="delTagId[]"]:checked'), function(index, val) {
+        id.push($(val).val())
+    });
+    if (id.length) {
+        $.post('/admin/articles/deltag', {
+            id: id
+        }, function(response) {
+            if (response == 200) {
+                $.each(id, function(index, val) {
+                    $('#tag-'+val).slideUp(function(){
+                        $(this).remove();
+                    })
+                });
+                AlertMsg('删除成功');
+            }else if(response == 404){
+                AlertMsg('标签不存在');
+            }else{
+                AlertMsg('删除失败');
+            }
+        });
+    }else{
+        AlertMsg('请选择要删除的标签');
+    }
+}
+
 function AlertMsg (msg, newclass) {
     var alertDom = $($("#flash-template").html());
     $(".Alert").remove();
@@ -158,8 +307,7 @@ function delCheckedArticles () {
     var modal = $("#delAllArticle"),
         id = [],
         all = modal.find('input[name="all"]').val();
-    modal.modal('hide')
-    if(!all){
+    if(all == 0){
         $.each($('input[name="delArticleId[]"]:checked'), function(index, val) {
             id.push($(val).val())
         });
@@ -175,14 +323,13 @@ function delCheckedArticles () {
             },
             success: function(response){
                 if (response) {
-                    if (all) {
+                    if (all == 1) {
                         $("#trashArticles tr.article").slideUp(function(){
                             $(this).remove();
                         })
                         $("#page").remove();
                     }else{
                         $.each(id, function(index, val) {
-                            console.log(val);
                             $('#article-'+val).slideUp(function(){
                                 $(this).remove();
                             })

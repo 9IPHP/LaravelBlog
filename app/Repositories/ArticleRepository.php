@@ -41,7 +41,7 @@ class ArticleRepository{
         if($articles =  Cache::get('articles-page-' . $currentPage))
             return $articles;*/
 
-        $articles =  Article::with('user')->actived()
+        $articles =  Article::with('user')
                     ->Orderby('created_at', 'DESC')
                     ->simplePaginate(10);
         // Cache::put('articles-page-' . $currentPage, $articles, 10);
@@ -50,7 +50,7 @@ class ArticleRepository{
 
     public function forUser($user_id)
     {
-        return Article::with('user')->where('user_id', $user_id)->actived()
+        return Article::with('user')->where('user_id', $user_id)
                     ->Orderby('created_at', 'DESC')
                     ->simplePaginate(10);
     }
@@ -105,5 +105,11 @@ class ArticleRepository{
     {
         $tagIds = $article->tags->lists('id');
         Tag::whereIn('id', $tagIds)->decrement('count');
+    }
+
+    public function restoreTags(Article $article)
+    {
+        $tagIds = $article->tags->lists('id');
+        Tag::whereIn('id', $tagIds)->increment('count');
     }
 }

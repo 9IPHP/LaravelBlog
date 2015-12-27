@@ -4,9 +4,6 @@
 {!! Form::hidden('thumb') !!}
 <div class="form-group">
     <label class="checkbox-inline">
-        <input type="checkbox" name="is_active" value="1" checked="checked"> 是否显示
-    </label>
-    <label class="checkbox-inline">
         <input type="checkbox" name="comment_status" value="1" checked="checked"> 启用评论
     </label>
 </div>

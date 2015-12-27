@@ -48,17 +48,9 @@ class RoleAndUserTableSeeder extends Seeder
             'name' => '文章管理',
             'slug' => 'article.manage',
         ]);
-        $manageCommentPermission = Permission::create([
-            'name' => '评论管理',
-            'slug' => 'comment.manage',
-        ]);
         $manageImagePermission = Permission::create([
             'name' => '图片管理',
             'slug' => 'image.manage',
-        ]);
-        $manageTagPermission = Permission::create([
-            'name' => '标签管理',
-            'slug' => 'tag.manage',
         ]);
         $manageUserPermission = Permission::create([
             'name' => '用户管理',
@@ -73,9 +65,7 @@ class RoleAndUserTableSeeder extends Seeder
         $editorRole->assignPermission($createArticlePermission->id);
         $editorRole->assignPermission($uploadImagePermission->id);
         $editorRole->assignPermission($manageArticlePermission->id);
-        $editorRole->assignPermission($manageCommentPermission->id);
         $editorRole->assignPermission($manageImagePermission->id);
-        $editorRole->assignPermission($manageTagPermission->id);
 
         // Create User
         $admin = User::create([

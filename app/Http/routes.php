@@ -63,6 +63,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' =>
     Route::get('articles/trash', 'ArticleController@trash');
     Route::delete('articles/delete/{id}', 'ArticleController@forceDestroy');
     Route::post('articles/deletes', 'ArticleController@forceDestroyAll');
+    Route::post('articles/restore/{id}', 'ArticleController@restoreDeleted');
+    Route::get('articles/comments', 'ArticleController@comments');
+    Route::get('articles/tags', 'ArticleController@tags');
+    Route::post('articles/deltag', 'ArticleController@deltag');
+    Route::post('articles/delcomment', 'ArticleController@delcomment');
 
     // Route::resource('users', 'UserController', ['only' => ['index', 'edit', 'update']]);
     Route::get('users/index', 'UserController@index');
@@ -71,4 +76,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' =>
     Route::get('users/roles/{id}/edit', 'UserController@editRole');
     Route::put('users/roles/{id}/edit', 'UserController@updateRole');
     Route::patch('users/roles/{id}/edit', 'UserController@updateRole');
+
+    Route::get('images/index', 'ImageController@index');
+    Route::resource('images', 'ImageController');
 });
