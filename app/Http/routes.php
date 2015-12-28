@@ -11,15 +11,6 @@
 |
 */
 Route::get('test', function(){
-
-    // $user = Auth::loginUsingId(2);
-    $role = \App\Role::findOrFail(3);
-    $role->assignPermission(1);
-    // dd($role);
-    // dd($user->assignRole(5));
-    dd($role->permissions->fetch('id')->toArray());
-    dd($user->roles->toArray());
-    dd(auth()->user()->hasPermission('article.create'));
     return view('welcome');
 });
 Route::get('/', 'ArticleController@index');
@@ -79,4 +70,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' =>
 
     Route::get('images/index', 'ImageController@index');
     Route::resource('images', 'ImageController');
+    Route::post('images/delimage', 'ImageController@delimage');
 });

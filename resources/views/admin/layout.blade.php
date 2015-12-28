@@ -40,7 +40,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+                <a class="navbar-brand" href="/admin/index">Laravel Admin</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -82,6 +82,7 @@
                         <li>
                             <a href="/admin/index"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
+                        @can('article.manage')
                         <li>
                             <a href="javascript:;"><i class="fa fa-file-o fa-fw"></i> Articles<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -99,6 +100,8 @@
                                 </li>
                             </ul>
                         </li>
+                        @endcan
+                        @can('image.manage')
                         <li>
                             <a href="javascript:;"><i class="fa fa-image fa-fw"></i> Images<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -107,6 +110,8 @@
                                 </li>
                             </ul>
                         </li>
+                        @endcan
+                        @can('user.manage')
                         <li>
                             <a href="javascript:;"><i class="fa fa-users fa-fw"></i> Users<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -118,6 +123,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endcan
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

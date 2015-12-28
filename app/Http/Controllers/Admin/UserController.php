@@ -13,6 +13,12 @@ use App\Permission;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('acl:user.manage');
+    }
+
     public function index()
     {
 

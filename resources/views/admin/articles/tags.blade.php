@@ -85,7 +85,7 @@ Tags Lists
                         <h4 class="modal-title" id="delAllTagsLabel">删除标签</h4>
                     </div>
                     <div class="modal-body">
-                        <p class="text-danger text-center delMsg">确认要所选标签删除？</p>
+                        <p class="text-danger text-center delMsg">确认要删除所选标签？</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" onclick="delCheckedTags()" data-dismiss="modal">Yes</button>

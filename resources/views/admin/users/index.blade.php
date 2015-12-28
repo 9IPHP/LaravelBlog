@@ -99,7 +99,7 @@ Users Lists
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" value="">
-                        <p class="text-danger text-center">确定要删除用户”<strong class="deleteUser"></strong>“？</p>
+                        <p class="text-danger text-center">确定要删除用户“<strong class="deleteUser"></strong>”？</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" onclick="delUser()" data-dismiss="modal">Yes</button>

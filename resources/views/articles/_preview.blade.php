@@ -7,6 +7,9 @@
                     {{ $article->title }}
                 </a>
             </h2>
+            @if($article->thumb)
+                <img class="post-thumb" src="{{ getThumb($article->thumb, 'big') }}">
+            @endif
             <p class="post-excerpt">
                 {{ $article->excerpt }}
             </p>

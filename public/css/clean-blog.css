@@ -45,8 +45,8 @@ a img:focus {
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    height: auto !important;
 }
 
 textarea{
@@ -293,6 +293,17 @@ hr.middle{
     margin: 0;
     font-weight: 300;
     margin-bottom: 10px;
+}
+
+.post-preview .post-thumb{
+    display: block;
+    width: 800px;
+    height: 240px;
+    margin-top: 20px;
+}
+
+.post-preview .post-excerpt{
+    margin: 20px 0;
 }
 
 .post-preview > .post-meta {
@@ -634,7 +645,7 @@ img.zoom-img {
 }
 .avatar{
     border-radius: 50%;
-    /*margin-top: -4px;*/
+    background: #DFDFDF;
 }
 .avatar-20{
     width: 20px;

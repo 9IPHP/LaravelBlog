@@ -4,20 +4,21 @@ Dashboard
 @stop
 
 @section('content')
+    @can('user.manage')
     <div class="col-lg-3 col-md-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-comments fa-5x"></i>
+                        <i class="fa fa-users fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">26</div>
-                        <div>New Comments!</div>
+                        <div class="huge">{{ $userCount }}</div>
+                        <div>Users!</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="/admin/users/index">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -26,20 +27,21 @@ Dashboard
             </a>
         </div>
     </div>
+    @endcan
     <div class="col-lg-3 col-md-6">
         <div class="panel panel-green">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-tasks fa-5x"></i>
+                        <i class="fa fa-file-o fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">12</div>
-                        <div>New Tasks!</div>
+                        <div class="huge">{{ $articleCount }}</div>
+                        <div>Articles!</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="/admin/articles/index">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -53,15 +55,15 @@ Dashboard
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-shopping-cart fa-5x"></i>
+                        <i class="fa fa-image fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">124</div>
-                        <div>New Orders!</div>
+                        <div class="huge">{{ $imageCount }}</div>
+                        <div>Images!</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="/admin/images/index">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -75,15 +77,15 @@ Dashboard
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-support fa-5x"></i>
+                        <i class="fa fa-tags fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">13</div>
-                        <div>Support Tickets!</div>
+                        <div class="huge">{{ $tagCount }}</div>
+                        <div>Tags!</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="/admin/articles/tags">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

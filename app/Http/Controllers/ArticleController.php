@@ -204,7 +204,7 @@ class ArticleController extends Controller
             );
             return response()->json($data);
         }
-        $path = 'uploads/' . Auth::user()->id . '/' . date('Ym');
+        $path = 'uploads/' . $request->user()->id . '/' . date('Ym');
 
         try{
             // File Upload
@@ -212,15 +212,22 @@ class ArticleController extends Controller
                 $pic = $request->file('file');
 
                 if($pic->isValid()){
-                    $newName = date('d').'-'.md5(rand(1,1000).$pic->getClientOriginalName()).".".$pic->getClientOriginalExtension();
+                    $originalName = $pic->getClientOriginalName();
+                    $newName = date('d').'-'.md5(rand(1,1000).$originalName).".".$pic->getClientOriginalExtension();
                     $fileSize = $pic->getClientSize();
                     $request->file('file')->move($path, $newName);
                     $success = true;
                     $message = 'Upload Success';
                     $file_path = '/'.$path.'/'.$newName;
+                    imagecropper(public_path().$file_path, 64, 36, 'xs');
+                    if ($request->crop == 1) {
+                        imagecropper(public_path().$file_path, 240, 135, 'small');
+                        imagecropper(public_path().$file_path, 800, 240, 'big');
+                    }
                     Image::create([
                         'user_id' => $this->currentUser->id,
                         'name' => $newName,
+                        'alt' => $originalName,
                         'url' => $file_path,
                         'size' => $fileSize
                     ]);

@@ -116,6 +116,24 @@ $(function() {
         modal.find('.body').text(body);
         modal.find('.modal-body input[name="id"]').val(id);
     });
+
+    $('#delImageAdmin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            name = button.data('name'),
+            url = button.data('url'),
+            id = button.data('id'),
+            modal = $(this);
+        modal.find('.image').text(name);
+        modal.find('#url').attr('src', url);
+        modal.find('.modal-body input[name="id"]').val(id);
+    });
+
+    $('#showImageAdmin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            url = button.data('url')
+            modal = $(this);
+        modal.find('.modal-body img').attr('src', url);
+    })
 });
 
 $.ajaxSetup({
@@ -282,6 +300,56 @@ function delCheckedTags () {
         });
     }else{
         AlertMsg('请选择要删除的标签');
+    }
+}
+
+function delImage () {
+    var modal = $("#delImageAdmin"),
+        id = modal.find('input[name="id"]').val();
+
+    $.post('/admin/images/delimage', {
+        id: [id]
+    }, function(response) {
+        if (response == 200) {
+            $('tr#image-'+id).slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else if(response == 404){
+            AlertMsg('图片不存在');
+        }else{
+            AlertMsg('删除失败');
+        }
+    });
+}
+
+function delCheckedImages () {
+    var modal = $("#delAllImages"),
+        id = [],
+        all = modal.find('input[name="all"]').val();
+
+    $.each($('input[name="delImageId[]"]:checked'), function(index, val) {
+        id.push($(val).val())
+    });
+    if (id.length) {
+        $.post('/admin/images/delimage', {
+            id: id
+        }, function(response) {
+            if (response == 200) {
+                $.each(id, function(index, val) {
+                    $('#image-'+val).slideUp(function(){
+                        $(this).remove();
+                    })
+                });
+                AlertMsg('删除成功');
+            }else if(response == 404){
+                AlertMsg('图片不存在');
+            }else{
+                AlertMsg('删除失败');
+            }
+        });
+    }else{
+        AlertMsg('请选择要删除的图片');
     }
 }
 

@@ -19,6 +19,7 @@ class ArticleController extends BaseController
     public function __construct(ArticleRepository $articles)
     {
         $this->articles = $articles;
+        $this->middleware('acl:article.manage');
     }
 
     public function index(Request $request)
