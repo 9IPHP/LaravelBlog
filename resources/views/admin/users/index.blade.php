@@ -32,7 +32,6 @@ Users Lists
             </thead>
             <tbody>
                 @foreach($users as $user)
-                {{-- {{ dd($user->id) }} --}}
                     <tr id="user-{{ $user->id }}" data-id="{{ $user->id }}">
                         <td>{{ $user->id }}</td>
                         <td class="name"><a href="/user/{{$user->id}}" target="_blank">{{ $user->name }}</a></td>
@@ -61,7 +60,9 @@ Users Lists
                             <div class="btn-group btn-group-xs" role="group">
                                 <a href="/user/{{$user->id}}" target="_blank" class="btn btn-info" title="查看"><i class="fa fa-eye"></i></a>
                                 <a href="/user/{{$user->id}}/edit" target="_blank" class="btn btn-primary" title="编辑"><i class="fa fa-edit"></i></a>
-                                <button type="button" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#delUserAdmin" data-title="{{ $user->title }}" data-id="{{ $user->id }}" data-name="{{ $user->name }}"><i class="fa fa-trash"></i></button>
+                                @if($user->id != 1)
+                                    <button type="button" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#delUserAdmin" data-title="{{ $user->title }}" data-id="{{ $user->id }}" data-name="{{ $user->name }}"><i class="fa fa-trash"></i></button>
+                                @endif
                             </div>
                         </td>
                     </tr>

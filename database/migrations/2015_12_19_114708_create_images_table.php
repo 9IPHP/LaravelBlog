@@ -20,6 +20,11 @@ class CreateImagesTable extends Migration
             $table->string('url');
             $table->integer('size');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

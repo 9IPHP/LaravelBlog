@@ -25,6 +25,7 @@ Articles Lists
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>标题</th>
                     <th>作者</th>
                     <th>发布日期</th>
@@ -38,6 +39,7 @@ Articles Lists
             <tbody>
                 @foreach($articles as $article)
                     <tr id="article-{{$article->id}}">
+                        <td>{{ $article->id }}</td>
                         <td><a href="/article/{{$article->id}}" target="_blank">{{ $article->title }}</a></td>
                         <td><a href="/user/{{$article->user->id}}" target="_blank">{{ $article->user->name }}</a></td>
                         <td>{{ $article->created_at }}</td>

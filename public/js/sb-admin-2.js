@@ -156,9 +156,9 @@ function trashArticle () {
             })
             AlertMsg('删除成功');
         }else if(response == 404){
-            AlertMsg('文章不存在');
+            AlertMsg('文章不存在', 'Alert--Danger');
         }else{
-            AlertMsg('删除失败');
+            AlertMsg('删除失败', 'Alert--Danger');
         }
 
     });
@@ -178,9 +178,9 @@ function delArticle () {
             })
             AlertMsg('删除成功');
         }else if(response == 404){
-            AlertMsg('文章不存在');
+            AlertMsg('文章不存在', 'Alert--Danger');
         }else{
-            AlertMsg('删除失败');
+            AlertMsg('删除失败', 'Alert--Danger');
         }
     });
 }
@@ -196,9 +196,9 @@ function restoreArticle () {
             })
             AlertMsg('恢复成功');
         }else if(response == 404){
-            AlertMsg('文章不存在');
+            AlertMsg('文章不存在', 'Alert--Danger');
         }else{
-            AlertMsg('恢复失败');
+            AlertMsg('恢复失败', 'Alert--Danger');
         }
     });
 }
@@ -216,9 +216,9 @@ function delComment () {
             })
             AlertMsg('删除成功');
         }else if(response == 404){
-            AlertMsg('评论不存在');
+            AlertMsg('评论不存在', 'Alert--Danger');
         }else{
-            AlertMsg('删除失败');
+            AlertMsg('删除失败', 'Alert--Danger');
         }
     });
 }
@@ -243,13 +243,13 @@ function delCheckedComments () {
                 });
                 AlertMsg('删除成功');
             }else if(response == 404){
-                AlertMsg('评论不存在');
+                AlertMsg('评论不存在', 'Alert--Danger');
             }else{
-                AlertMsg('删除失败');
+                AlertMsg('删除失败', 'Alert--Danger');
             }
         });
     }else{
-        AlertMsg('请选择要删除的评论');
+        AlertMsg('请选择要删除的评论', 'Alert--Danger');
     }
 }
 
@@ -266,9 +266,9 @@ function delTag () {
             })
             AlertMsg('删除成功');
         }else if(response == 404){
-            AlertMsg('标签不存在');
+            AlertMsg('标签不存在', 'Alert--Danger');
         }else{
-            AlertMsg('删除失败');
+            AlertMsg('删除失败', 'Alert--Danger');
         }
     });
 }
@@ -293,13 +293,13 @@ function delCheckedTags () {
                 });
                 AlertMsg('删除成功');
             }else if(response == 404){
-                AlertMsg('标签不存在');
+                AlertMsg('标签不存在', 'Alert--Danger');
             }else{
-                AlertMsg('删除失败');
+                AlertMsg('删除失败', 'Alert--Danger');
             }
         });
     }else{
-        AlertMsg('请选择要删除的标签');
+        AlertMsg('请选择要删除的标签', 'Alert--Danger');
     }
 }
 
@@ -316,9 +316,9 @@ function delImage () {
             })
             AlertMsg('删除成功');
         }else if(response == 404){
-            AlertMsg('图片不存在');
+            AlertMsg('图片不存在', 'Alert--Danger');
         }else{
-            AlertMsg('删除失败');
+            AlertMsg('删除失败', 'Alert--Danger');
         }
     });
 }
@@ -343,13 +343,13 @@ function delCheckedImages () {
                 });
                 AlertMsg('删除成功');
             }else if(response == 404){
-                AlertMsg('图片不存在');
+                AlertMsg('图片不存在', 'Alert--Danger');
             }else{
-                AlertMsg('删除失败');
+                AlertMsg('删除失败', 'Alert--Danger');
             }
         });
     }else{
-        AlertMsg('请选择要删除的图片');
+        AlertMsg('请选择要删除的图片', 'Alert--Danger');
     }
 }
 
@@ -405,12 +405,12 @@ function delCheckedArticles () {
                     }
                     AlertMsg('删除成功');
                 }else{
-                    AlertMsg('删除失败');
+                    AlertMsg('删除失败', 'Alert--Danger');
                 }
             }
         });
     }else{
-        AlertMsg('请选择要删除的文章');
+        AlertMsg('请选择要删除的文章', 'Alert--Danger');
     }
 }
 
@@ -419,7 +419,7 @@ function updateRole () {
         user_id = modal.find('input[name="user_id"]').val(),
         role_id = modal.find('input[name="role_id"]').val();
     $.ajax({
-        url: '/admin/users/update',
+        url: '/admin/users/changerole',
         type: 'post',
         dataType: 'json',
         data: {
@@ -430,12 +430,27 @@ function updateRole () {
             if (response.status == 200) {
                 $('#user-'+user_id+' .userRole').html(response.html);
             }else{
-                AlertMsg(response.msg);
+                AlertMsg(response.msg, 'Alert--Danger');
             }
         }
     });
 }
 
 function delUser () {
+    var modal = $("#delUserAdmin"),
+        id = modal.find('input[name="id"]').val();
 
+    $.post('/admin/users/' + id, {
+        id: id,
+        _method: 'DELETE'
+    }, function(response) {
+        if (response.status == 200) {
+            $('tr#user-'+id).slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else {
+            AlertMsg(response.msg, 'Alert--Danger');
+        }
+    });
 }

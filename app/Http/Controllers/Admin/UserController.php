@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
 use App\Permission;
+use App\Article;
 
 class UserController extends Controller
 {
@@ -29,12 +30,24 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'roles'));
     }
 
-    public function edit($id)
+    public function destroy($id)
     {
-
+        if($id == 1){
+            return response()->json(['status' => 401, 'msg' => '不能删除超级管理员']);
+        }
+        $user = User::find($id);
+        if (empty($user)) {
+            return response()->json(['status' => 404, 'msg' => '用户不存在']);
+        }
+        $articles = Article::whereUserId($id)->count();
+        if($articles > 0){
+            return response()->json(['status' => 403, 'msg' => '请先删除该用户的文章']);
+        }
+        $user->delete();
+        return response()->json(['status' => 200, 'msg' => '删除成功']);
     }
 
-    public function update(Request $request)
+    public function changeRole(Request $request)
     {
         $user_id = $request->user_id;
         $role_id = $request->role_id;
