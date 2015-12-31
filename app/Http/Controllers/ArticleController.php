@@ -78,14 +78,14 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        $this->authorize('update', $article);
+        $this->authorize('owns', $article);
         $tags = Tag::orderBy('count', 'desc')->lists('name', 'slug')->toArray();
         return view('articles.edit', compact('article', 'tags'));
     }
 
     public function update(Article $article, ArticleRequest $request)
     {
-        $this->authorize('update', $article);
+        $this->authorize('owns', $article);
 
         $requests = $request->all();
 
@@ -104,7 +104,7 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        if (Gate::denies('destroy', $article))
+        if (Gate::denies('owns', $article))
             return response()->json(403);
         // delete tags
         $this->articles->delTags($article);
@@ -123,7 +123,7 @@ class ArticleController extends Controller
         $article = Article::find($request->id, ['id' ,'user_id']);
         if (empty($article)) return response()->json(404);
 
-        if (Gate::denies('active', $article))
+        if (Gate::denies('owns', $article))
             return response()->json(403);
 
         $requests = $request->all();

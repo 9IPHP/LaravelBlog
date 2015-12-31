@@ -24,19 +24,4 @@ class ArticlePolicy
     {
         return $user->id === $article->user_id;
     }
-
-    public function update(User $user, Article $article)
-    {
-        return $user->id === $article->user_id;
-    }
-
-    public function destroy(User $user, Article $article)
-    {
-        return $user->id === $article->user_id;
-    }
-
-    public function active(User $user, Article $article)
-    {
-        return $user->id === $article->user_id;
-    }
 }
