@@ -25,13 +25,13 @@ class ArticleController extends BaseController
     public function index(Request $request)
     {
         $orderby = $request->orderby ? $request->orderby : 'created_at';
-
+        $title = $request->title ? $request->title : '';
 
         $articles =  Article::with('user')
+                        ->whereTitle($title)
                         ->Orderby($orderby, 'DESC')
                         ->simplePaginate(10);
-        // $articles = $this->articles->allWithNotActived();
-        return view('admin.articles.index', compact('articles', 'orderby'));
+        return view('admin.articles.index', compact('articles', 'orderby', 'title'));
     }
 
     public function destroy($id)
@@ -95,18 +95,25 @@ class ArticleController extends BaseController
         return response()->json(200);
     }
 
-    public function comments()
+    public function comments(Request $request)
     {
-        $comments = Comment::with('article')->with('user')->orderBy('created_at', 'DESC')->paginate(10);
-        return view('admin.articles.comments', compact('comments'));
+        $body = $request->body ? $request->body : '';
+
+        $comments = Comment::with('article')
+                    ->with('user')
+                    ->whereBody($body)
+                    ->latest()
+                    ->paginate(10);
+        return view('admin.articles.comments', compact('comments', 'body'));
     }
 
     public function tags(Request $request)
     {
         $orderby = $request->orderby ? $request->orderby : 'created_at';
-        $tags = Tag::orderBy($orderby, 'DESC')->paginate(10);
+        $name = $request->name ? $request->name : '';
+        $tags = Tag::orderBy($orderby, 'DESC')->whereName($name)->paginate(10);
         // dd($tags);
-        return view('admin.articles.tags', compact('tags', 'orderby'));
+        return view('admin.articles.tags', compact('tags', 'orderby', 'name'));
     }
 
     public function deltag(Request $request)

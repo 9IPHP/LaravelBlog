@@ -61,7 +61,7 @@ class CommentController extends Controller
         $article = Article::find($request->article_id);
         if (empty($article))
             return response()->json(['status' => 404, 'msg' => '文章不存在']);
-        $comments = $article->comments()->recent()->simplePaginate(10);
+        $comments = $article->comments()->latest()->simplePaginate(10);
         $html = view('articles._comments', compact('comments'))->render();
         return response()->json(['status' => 200, 'html' => $html]);
     }

@@ -9,7 +9,7 @@ Tags Lists
                 <option value="created_at" @if($orderby == 'created_at') selected @endif>创建时间</option>
                 <option value="count" @if($orderby == 'count') selected @endif>文章个数</option>
             </select>
-            <input type="text" name="s" id="s" class="form-control" placeholder="标签" value="">
+            <input type="text" name="name" id="name" class="form-control" placeholder="标签" value="{{ $name }}">
             <button class="btn btn-danger" type="submit"><i class="fa fa-search"></i></button>
         </div>
     </form>
@@ -93,6 +93,10 @@ Tags Lists
                     </div>
                 </div>
             </div>
+        </div>
+    @else
+        <div class="alert alert-danger text-center">
+            暂无标签
         </div>
     @endif
     </div>

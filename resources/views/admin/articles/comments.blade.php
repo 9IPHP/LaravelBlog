@@ -3,7 +3,14 @@
 @section('page-header')
 Comments Lists
 <span class="pull-right page-opt">
-    <div class="btn-group" role="group">
+    <form action="" method="get" class="pull-right">
+        <div class="form-inline">
+            <input type="text" name="body" id="body" class="form-control" placeholder="标签" value="{{ $body }}">
+            <button class="btn btn-danger" type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+
+    <div class="btn-group mr10" role="group">
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#delAllComments">删除所选</button>
     </div>
 </span>
@@ -81,6 +88,10 @@ Comments Lists
                     </div>
                 </div>
             </div>
+        </div>
+    @else
+        <div class="alert alert-danger text-center">
+            暂无评论
         </div>
     @endif
     </div>

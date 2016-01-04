@@ -22,8 +22,11 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopeRecent($query)
+    public function scopeWhereBody($query, $body)
     {
-        return $query->Orderby('created_at', 'DESC');
+        if($body){
+            return $query->where('body', 'like', '%'.$body.'%');
+        }
+        return $query;
     }
 }

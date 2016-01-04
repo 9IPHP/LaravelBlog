@@ -19,8 +19,7 @@ class ImageController extends Controller
 
     public function index()
     {
-        $images = Image::with('user')->orderBy('created_at', 'DESC')->paginate(10);
-        // dd($images);
+        $images = Image::with('user')->latest()->paginate(10);
         return view('admin.images.index', compact('images'));
     }
 

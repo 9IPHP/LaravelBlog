@@ -27,9 +27,12 @@ class Article extends Model
         return $query->where('user_id', $user_id);
     }
 
-    public function scopeRecent($query)
+    public function scopeWhereTitle($query, $title)
     {
-        return $query->Orderby('created_at', 'DESC');
+        if ($title) {
+            return $query->where('title', 'like', '%'.$title.'%');
+        }
+        return $query;
     }
 
     public function tags(){

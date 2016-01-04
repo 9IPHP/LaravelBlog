@@ -102,4 +102,18 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasRole('admin');
     }
+
+    public function scopeWhereUser($query, $s)
+    {
+        if($s) {
+            if (preg_match('/\d+/', $s)) {
+                return $query->whereId($s);
+            }
+
+            return $query->where('name', 'like', '%'.$s.'%')
+                        ->orWhere('email', 'like', '%'.$s.'%')
+                        ->orWhere('description', 'like', '%'.$s.'%');
+        }
+        return $query;
+    }
 }

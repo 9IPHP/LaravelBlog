@@ -12,7 +12,7 @@ Articles Lists
                 <option value="comment_count" @if($orderby == 'comment_count') selected @endif>评论</option>
                 <option value="collect_count" @if($orderby == 'collect_count') selected @endif>收藏</option>
             </select>
-            <input type="text" name="s" id="s" class="form-control" placeholder="标题" value="">
+            <input type="text" name="title" id="title" class="form-control" placeholder="标题" value="{{ $title }}">
             <button class="btn btn-danger" type="submit"><i class="fa fa-search"></i></button>
         </div>
     </form>
@@ -79,6 +79,10 @@ Articles Lists
                     </div>
                 </div>
             </div>
+        </div>
+    @else
+        <div class="alert alert-danger text-center">
+            暂无文章
         </div>
     @endif
     </div>

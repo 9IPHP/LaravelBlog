@@ -63,7 +63,7 @@ class ArticleController extends Controller
 
     public function show(Article $article)
     {
-        $comments = $article->comments()->with('user')->recent()->simplePaginate(10);
+        $comments = $article->comments()->with('user')->latest()->simplePaginate(10);
         $article->increment('view_count');
         return view('articles.show', compact('article', 'comments'));
     }
@@ -71,7 +71,7 @@ class ArticleController extends Controller
     public function view($id)
     {
         $article = Article::withTrashed()->with('user')->findOrFail($id);
-        $comments = $article->comments()->with('user')->recent()->simplePaginate(10);
+        $comments = $article->comments()->with('user')->latest()->simplePaginate(10);
         $article->increment('view_count');
         return view('articles.view', compact('article', 'comments'));
     }

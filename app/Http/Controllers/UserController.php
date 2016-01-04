@@ -26,13 +26,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('created_at', 'DESC')->get();
+        $users = User::latest()->get();
         return view('users.index', compact('users'));
     }
 
     public function show(User $user)
     {
-        $histories = $user->histories()->recent()->simplePaginate(10);
+        $histories = $user->histories()->latest()->simplePaginate(10);
         return view('users.user', compact('user', 'histories'));
     }
 
@@ -41,9 +41,9 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $currentUser = Auth::user();
         if($currentUser && ($currentUser->id == $id || $currentUser->can('article.manage')))
-            $articles = $user->articles()->recent()->simplePaginate(10);
+            $articles = $user->articles()->latest()->simplePaginate(10);
         else
-            $articles = $user->articles()->recent()->simplePaginate(10);
+            $articles = $user->articles()->latest()->simplePaginate(10);
         return view('users.articles', compact('user', 'articles'));
     }
 
@@ -54,14 +54,14 @@ class UserController extends Controller
         if ($user->id != $currentUser->id) {
             return redirect('/');
         }
-        $articles = $user->articles()->onlyTrashed()->recent()->simplePaginate(10);
+        $articles = $user->articles()->onlyTrashed()->latest()->simplePaginate(10);
         return view('users.trash', compact('user', 'articles'));
     }
 
     public function collects($id)
     {
         $user = User::findOrFail($id);
-        $articles = $user->collects()->recent()->simplePaginate(10);
+        $articles = $user->collects()->latest()->simplePaginate(10);
         return view('users.collects', compact('user', 'articles'));
     }
 

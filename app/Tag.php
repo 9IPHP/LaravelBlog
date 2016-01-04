@@ -17,4 +17,12 @@ class Tag extends Model
     {
         return $this->belongsToMany(Article::class);
     }
+
+    public function scopeWhereName($query, $name)
+    {
+        if($name){
+            return $query->where('name', 'like', '%'.$name.'%');
+        }
+        return $query;
+    }
 }

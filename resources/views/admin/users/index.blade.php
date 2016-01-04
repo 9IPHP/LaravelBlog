@@ -5,7 +5,7 @@ Users Lists
 <span class="pull-right page-opt">
     <form action="" method="get" class="pull-right">
         <div class="form-inline">
-            <input type="text" name="s" id="s" class="form-control" placeholder="用户ID/昵称/标签" value="">
+            <input type="text" name="s" id="s" class="form-control" placeholder="用户ID/昵称/邮箱/介绍" value="{{ $s }}">
             <button class="btn btn-danger" type="submit"><i class="fa fa-search"></i></button>
         </div>
     </form>
@@ -108,6 +108,10 @@ Users Lists
                     </div>
                 </div>
             </div>
+        </div>
+    @else
+        <div class="alert alert-danger text-center">
+            暂无用户
         </div>
     @endif
     </div>

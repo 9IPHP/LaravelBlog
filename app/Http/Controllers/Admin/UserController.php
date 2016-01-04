@@ -20,14 +20,16 @@ class UserController extends Controller
         $this->middleware('acl:user.manage');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $s = $request->s ? $request->s : '';
 
         $users = User::with('roles')
-                    ->Orderby('created_at', 'DESC')
+                    ->whereUser($s)
+                    ->latest()
                     ->paginate(10);
         $roles = Role::orderBy('id', 'DESC')->get(['id', 'name']);
-        return view('admin.users.index', compact('users', 'roles'));
+        return view('admin.users.index', compact('users', 'roles', 's'));
     }
 
     public function destroy($id)

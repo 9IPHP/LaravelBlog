@@ -95,6 +95,10 @@ Images Lists
                 </div>
             </div>
         </div>
+    @else
+        <div class="alert alert-danger text-center">
+            暂无图片
+        </div>
     @endif
     </div>
 @stop

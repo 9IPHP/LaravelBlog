@@ -13,7 +13,7 @@ class ArticleRepository{
     public function allWithDelete()
     {
         $articles =  Article::withTrashed()->with('user')
-                    ->Orderby('created_at', 'DESC')
+                    ->latest()
                     ->paginate(10);
         return $articles;
     }
