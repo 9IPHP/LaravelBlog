@@ -21,7 +21,7 @@ class ArticleRepository{
     public function onlyDeleted()
     {
         $articles =  Article::onlyTrashed()->with('user')
-                    ->Orderby('deleted_at', 'DESC')
+                    ->latest('deleted_at')
                     ->paginate(10);
         return $articles;
     }
@@ -29,7 +29,7 @@ class ArticleRepository{
     public function allWithNotActived($orderby = 'created_at')
     {
         $articles =  Article::with('user')
-                    ->Orderby($orderby, 'DESC')
+                    ->latest($orderby)
                     ->simplePaginate(10);
         return $articles;
     }
@@ -42,7 +42,7 @@ class ArticleRepository{
             return $articles;*/
 
         $articles =  Article::with('user')
-                    ->Orderby('created_at', 'DESC')
+                    ->latest()
                     ->simplePaginate(10);
         // Cache::put('articles-page-' . $currentPage, $articles, 10);
         return $articles;
@@ -51,7 +51,7 @@ class ArticleRepository{
     public function forUser($user_id)
     {
         return Article::with('user')->where('user_id', $user_id)
-                    ->Orderby('created_at', 'DESC')
+                    ->latest()
                     ->simplePaginate(10);
     }
 
