@@ -10,7 +10,7 @@
     <meta name="author" content="Specs">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <title>@section('title')Laravel博客@show</title>
+    <title>@section('title'){{ get_option('sitename') }}@show</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">

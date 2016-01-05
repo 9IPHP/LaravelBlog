@@ -14,6 +14,11 @@ class RoleAndUserTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('roles')->delete();
+        DB::table('permissions')->delete();
+        DB::table('users')->delete();
+        DB::table('permission_role')->delete();
+        DB::table('role_user')->delete();
         // Create Roles
         $subscriberRole = Role::create([
             'name' => '订阅者',

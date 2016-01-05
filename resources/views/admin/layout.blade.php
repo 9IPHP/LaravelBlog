@@ -51,9 +51,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="/user/{{auth()->id()}}/edit"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/user/{{auth()->id()}}/resetpwd"><i class="fa fa-gear fa-fw"></i> 修改密码</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/auth/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -120,6 +120,19 @@
                                 </li>
                                 <li>
                                     <a href="/admin/users/roles">用户组</a>
+                                </li>
+                            </ul>
+                        </li>
+                        @endcan
+                        @can('system.manage')
+                        <li>
+                            <a href="javascript:;"><i class="fa fa-gear fa-fw"></i> Settings<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/settings/index">系统设置</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/settings/roles">用户组</a>
                                 </li>
                             </ul>
                         </li>

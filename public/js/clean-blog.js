@@ -50,13 +50,14 @@ $(function(){
 
     // 文章详情页操作
     $('.js-action').click(function() {
+        if ($(this).hasClass('doing')) {return;}
+        $(this).addClass('doing').fadeTo('slow', 0.5);
         var id = $(this).parents('.article').data('id'),
             $that = $(this),
             $icon = $that.children('i'),
             $count = $that.children('span'),
             action = $that.data('action'),
             count = parseInt($count.html());
-        $that.attr('disabled', true);
         if(action == 'Like'){
             var ajaxUrl = '/articles/like',
                 icon = 'fa-thumbs-o-up',
@@ -90,15 +91,16 @@ $(function(){
                         $icon.removeClass(icon).addClass(iconActive);
                         $count.html(count+1);
                         AlertMsg(msg);
-                    }
-                    else{
+                    } else{
                         $icon.removeClass(iconActive).addClass(icon);
                         $count.html(count-1);
                     }
-                    $that.attr('disabled', false);
                 }else if(response.status == 404){
                     AlertMsg('文章不存在', 'Alert--Danger');
                 }
+                setTimeout(function() {$that.fadeTo('slow', 1, function(){
+                    $that.removeClass('doing');
+                });}, 3000);
             },
             error: function(data){
                 var status = data.status;
@@ -137,7 +139,7 @@ $(function(){
         modal.find('.modal-body input[name="action"]').val(action);
     })
 
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 })
 
 

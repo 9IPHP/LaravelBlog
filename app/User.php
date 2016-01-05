@@ -37,6 +37,11 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
+    /*public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }*/
+
     public function articles()
     {
         return $this->hasMany(Article::class);

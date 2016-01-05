@@ -7,7 +7,7 @@
         <div class="panel-body ">
             @include('flash::message')
             @include('errors.errlist')
-            <div class="alert alert-warning">本站头像使用 <a href="http://en.gravatar.com/" target="_blank">Gravatar 头像</a></div>
+            <div class="alert alert-warning text-center">本站头像使用 <a href="http://en.gravatar.com/" target="_blank">Gravatar 头像</a></div>
 
             {!! Form::model($user, ['method' => 'PATCH', 'action' => ['UserController@update', $user->id]]) !!}
 

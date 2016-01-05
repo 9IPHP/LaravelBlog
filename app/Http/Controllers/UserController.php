@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\History;
-use Auth;
+use Auth, Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $users)
     {
-        $this->middleware('auth', ['only' => ['edit', 'update', 'trash']]);
+        $this->middleware('auth', ['only' => ['edit', 'update', 'trash', 'resetpwd']]);
         $this->users = $users;
         view()->share('currentUser', Auth::user());
     }
@@ -78,5 +78,33 @@ class UserController extends Controller
         $user->update($data);
         flash()->message('修改成功！');
         return redirect('user/' . $user->id . '/edit');
+    }
+
+    public function resetpwd($id)
+    {
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
+        return view('users.resetpwd', compact('user'));
+    }
+
+    public function updatepwd($id, UserRequest $request)
+    {
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
+
+        $validation = Validator::make($request->all(), [
+            'password' => 'required|min:6',
+            'password_new' => 'required|confirmed|min:6',
+        ]);
+        if ($validation->fails()){
+            return redirect()->back()->withErrors($validation);
+        }
+        if (! \Hash::check($request->password, $user->password)) {
+            return redirect()->back()->withErrors(['notmatch' => '初始密码不正确']);
+        }
+        $user->password = bcrypt($request->password_new);
+        $user->save();
+        flash()->message('修改成功！');
+        return redirect()->back();
     }
 }

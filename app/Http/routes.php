@@ -11,6 +11,7 @@
 |
 */
 Route::get('test', function(){
+    dd(App\Option::get_option('sitename'));
     return view('welcome');
 });
 Route::get('/', 'ArticleController@index');
@@ -38,6 +39,8 @@ Route::post('comment/store', 'CommentController@store');
 Route::get('comment/get', 'CommentController@getComments');
 
 Route::resource('user', 'UserController', ['only' => ['show', 'edit', 'update']]);
+Route::get('user/{id}/resetpwd', 'UserController@resetpwd');
+Route::patch('user/{id}/updatepwd', 'UserController@updatepwd');
 Route::get('user/{id}/articles', 'UserController@articles');
 Route::get('user/{id}/collects', 'UserController@collects');
 Route::get('user/{id}/trash', 'UserController@trash');
