@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Laravel博客</a>
+            <a class="navbar-brand" href="/">{{ get_option('sitename') }}</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,6 +37,9 @@
                             <a href="/articles/create">Add Article</a>
                         </li>
                     @endcan
+                    <li>
+                        <a href="/user/{{ Auth::id() }}">User Center</a>
+                    </li>
                     @if(Auth::user()->hasRole('editor') || Auth::user()->isAdmin())
                         <li>
                             <a href="/admin/index">Admin</a>

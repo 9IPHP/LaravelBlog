@@ -663,6 +663,10 @@ img.zoom-img {
     width: 60px;
     height: 60px;
 }
+.avatar-100{
+    width: 100px;
+    height: 100px;
+}
 .avatar-area a, .avatar-area img{
     cursor: pointer !important;
 }
@@ -683,8 +687,8 @@ img.zoom-img {
     font-size: 14px;
 }
 .ucard .body .avatar-area img{
-    width: 100px;
-    height: 100px;
+    width: 100px !important;
+    height: 100px !important;
     margin-top: -70px;
     margin-bottom: 5px;
     border: 3px solid #fff;

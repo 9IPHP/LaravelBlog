@@ -3,7 +3,7 @@
 function get_option($name)
 {
     $option = App\Option::whereName($name)->get(['value']);
-    return $option[0]->value;
+    return htmlspecialchars_decode($option[0]->value);
 }
 function set_active($path, $active = 'active') {
     return call_user_func_array('Request::is', (array)$path) ? $active : '';

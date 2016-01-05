@@ -61,6 +61,10 @@ class RoleAndUserTableSeeder extends Seeder
             'name' => '用户管理',
             'slug' => 'user.manage',
         ]);
+        $manageSystemPermission = Permission::create([
+            'name' => '系统设置',
+            'slug' => 'system.manage',
+        ]);
 
         $contributorRole->assignPermission($createArticlePermission->id);
 

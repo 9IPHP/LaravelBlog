@@ -40,11 +40,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/admin/index">Laravel Admin</a>
+                <a class="navbar-brand" href="/admin/index">{{ get_option('sitename') }} Admin</a>
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
+                <li><a href="/">HOME</a></li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -53,6 +54,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/user/{{auth()->id()}}/edit"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
+                        <li class="divider"></li>
                         <li><a href="/user/{{auth()->id()}}/resetpwd"><i class="fa fa-gear fa-fw"></i> 修改密码</a>
                         </li>
                         <li class="divider"></li>
@@ -126,14 +128,14 @@
                         @endcan
                         @can('system.manage')
                         <li>
-                            <a href="javascript:;"><i class="fa fa-gear fa-fw"></i> Settings<span class="fa arrow"></span></a>
+                            <a href="javascript:;"><i class="fa fa-gear fa-fw"></i> Options<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/admin/settings/index">系统设置</a>
+                                    <a href="/admin/options/index">系统设置</a>
                                 </li>
-                                <li>
-                                    <a href="/admin/settings/roles">用户组</a>
-                                </li>
+                                {{-- <li>
+                                    <a href="/admin/options/create">添加系统变量</a>
+                                </li> --}}
                             </ul>
                         </li>
                         @endcan

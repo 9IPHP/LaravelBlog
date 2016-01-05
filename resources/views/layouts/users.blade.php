@@ -25,7 +25,7 @@
                 <div class="ucard">
                     <div class="bg" style="background-image: url(http://img.t.sinajs.cn/t6/skin/skinvip037/images/body_bg.jpg);"></div>
                     <div class="body">
-                        <p class="avatar-area"><a href="/user/{{ $user->id }}"><img src="{{ getAvarar($user->email, 100) }}"></a></p>
+                        <p class="avatar-area"><a href="/user/{{ $user->id }}"><img src="{{ getAvarar($user->email, 100) }}" class="avatar-100"></a></p>
                         <h4><a href="/user/{{ $user->id }}">{{ $user->name }}</a></h4>
                         @if($user->description)<p class="des">{{ $user->description }}</p>@endif
                         <hr>
@@ -36,7 +36,8 @@
                             @if($user->qq)<p><i class="fa fa-qq"></i> {{ $user->qq }}</p>@endif
                         </div>
                         @can('update', $user)
-                        <a href="/user/{{ $user->id }}/edit" class="btn btn-primary btn-block btn-sm" data-original-title="" title=""><span class="fa fa-edit"></span> 编辑个人资料</a>
+                            <a href="/user/{{ $user->id }}/edit" class="btn btn-primary btn-sm" data-original-title="" title=""><span class="fa fa-edit"></span> 编辑个人资料</a>
+                            <a href="/user/{{ $user->id }}/resetpwd" class="btn btn-warning btn-sm" data-original-title="" title=""><span class="fa fa-edit"></span> 修改密码</a>
                         @endcan
                     </div>
                 </div>

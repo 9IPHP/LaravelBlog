@@ -17,6 +17,7 @@ class CreateOptionsTable extends Migration
             $table->string('label');
             $table->string('name')->unique();
             $table->text('value');
+            $table->string('type')->default('text');
             $table->timestamps();
         });
     }

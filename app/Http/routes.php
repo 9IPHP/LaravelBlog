@@ -75,4 +75,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' =>
     Route::get('images/index', 'ImageController@index');
     Route::resource('images', 'ImageController');
     Route::post('images/delimage', 'ImageController@delimage');
+
+    Route::resource('options', 'OptionController', ['except' => ['show', 'edit', 'destroy']]);
+    Route::get('options/index', 'OptionController@index');
 });

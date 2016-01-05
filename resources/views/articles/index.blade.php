@@ -6,9 +6,9 @@
 
 @section('site-heading')
     <div class="site-heading">
-        <h1>Laravel博客</h1>
+        <h1>{{ get_option('sitename') }}</h1>
         <hr class="small">
-        <span class="subheading">A Blog Created with Laravel</span>
+        <span class="subheading">{{ get_option('sitedesc') }}</span>
     </div>
 @stop
 

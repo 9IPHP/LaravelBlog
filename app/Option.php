@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Option extends Model
 {
-    protected $fillable = ['name', 'value'];
+    protected $fillable = ['label', 'name', 'value', 'type'];
 
     static public function get_option($name)
     {

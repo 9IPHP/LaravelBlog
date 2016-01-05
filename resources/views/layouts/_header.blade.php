@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="@section('keywords')Laravel,博客@show">
-    <meta name="description" content="@section('description')一个基于Laravel开发的博客@show">
+    <meta name="keywords" content="@section('keywords'){{ get_option('keywords') }}@show">
+    <meta name="description" content="@section('description'){{ get_option('description') }}@show">
     <meta name="author" content="Specs">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
