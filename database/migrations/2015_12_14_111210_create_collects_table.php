@@ -26,8 +26,9 @@ class CreateCollectsTable extends Migration
                   ->on('users')
                   ->onDelete('cascade');
 
-
             $table->timestamps();
+
+            $table->primary(array('article_id', 'user_id'));
         });
     }
 

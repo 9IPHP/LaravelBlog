@@ -8,7 +8,9 @@
                 </a>
             </h2>
             @if($article->thumb)
-                <img class="post-thumb" src="{{ getThumb($article->thumb, 'big') }}">
+                <a href="/article/{{ $article->id }}">
+                    <img class="post-thumb" src="{{ getThumb($article->thumb, 'big') }}">
+                </a>
             @endif
             <p class="post-excerpt">
                 {{ $article->excerpt }}

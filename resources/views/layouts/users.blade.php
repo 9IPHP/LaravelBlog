@@ -16,7 +16,19 @@
 
 <body>
 
-    @include('layouts._nav', ['navClass' => 'is-fixed is-visible'])
+    @include('layouts._nav', ['navClass' => 'navbar-cunstom'])
+
+    <header class="intro-header" style="background-image: url(/img/about-bg.jpg @show)">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>User Center</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <!-- Main Content -->
     <div class="container mg-75">

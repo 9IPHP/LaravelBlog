@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('website')->nullable();
             $table->string('github')->nullable();
             $table->text('description')->nullable();
+            $table->integer('follows_count')->default(0);
+            $table->integer('fans_count')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

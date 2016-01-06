@@ -45,8 +45,7 @@
                         </li>
                     @endif
                 </ul>
-                <p class=""></p>
-                <p class="copyright text-muted">Copyright &copy; {{ get_option('sitename') }} since 2016 | {!! get_option('site_analytics') !!}</p>
+                <p class="copyright text-muted">Copyright &copy; {{ get_option('sitename') }} since 2016  {!! get_option('site_analytics') !!}</p>
             </div>
         </div>
     </div>

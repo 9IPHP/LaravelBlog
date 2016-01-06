@@ -11,7 +11,10 @@
 |
 */
 Route::get('test', function(){
-    dd(App\Option::get_option('sitename'));
+    $user2 = App\User::find(2);
+    $user4 = App\User::find(4);
+    $user2->follows()->save($user4);
+    dd($user2->follows->toArray());
     return view('welcome');
 });
 Route::get('/', 'ArticleController@index');

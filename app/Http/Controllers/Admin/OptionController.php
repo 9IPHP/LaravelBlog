@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Validator;
+use Validator, Cache;
 use App\Option;
 
 class OptionController extends Controller
@@ -93,15 +93,17 @@ class OptionController extends Controller
      */
     public function update(Request $request)
     {
+        Cache::forget('system-options');
         $requests = $request->except(['_token', '_method']);
         $options = Option::latest()->get();
-        // dd($requests);
         foreach ($options as $option) {
             if($requests[$option->name] != $option->value){
                 $option->value = htmlspecialchars($requests[$option->name]);
                 $option->save();
             }
+            $data[$option->name] = $option->value;
         }
+        Cache::forever('system-options', $data);
         flash()->message('修改成功！');
         return redirect()->back();
     }

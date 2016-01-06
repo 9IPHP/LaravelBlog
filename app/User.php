@@ -121,4 +121,14 @@ class User extends Model implements AuthenticatableContract,
         }
         return $query;
     }
+
+    public function follows()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follow_id')->withTimestamps();;
+    }
+
+    public function fans()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follow_id', 'user_id')->withTimestamps();;
+    }
 }

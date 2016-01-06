@@ -2,8 +2,17 @@
 // 获取options表中数据
 function get_option($name)
 {
-    $option = App\Option::whereName($name)->get(['value']);
-    return htmlspecialchars_decode($option[0]->value);
+    
+    $cache = Cache::get('system-options');
+    if (empty($cache)) {
+        $options = App\Option::get(['name', 'value']);
+        foreach ($options as $option) {
+            $data[$option->name] = $option->value;
+        }
+        Cache::forever('system-options', $data);
+        $cache = Cache::get('system-options');
+    }
+    return htmlspecialchars_decode($cache[$name]);
 }
 function set_active($path, $active = 'active') {
     return call_user_func_array('Request::is', (array)$path) ? $active : '';
