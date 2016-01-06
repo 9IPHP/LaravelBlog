@@ -131,4 +131,11 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsToMany(User::class, 'followers', 'follow_id', 'user_id')->withTimestamps();;
     }
+
+    static public function isFollowing($user, $u)
+    {
+        return !! Follower::where('user_id', $user->id)
+                        ->where('follow_id', $u->id)
+                        ->count();
+    }
 }

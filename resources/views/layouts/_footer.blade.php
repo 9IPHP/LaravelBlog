@@ -61,7 +61,4 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="{{ asset('/js/clean-blog.js') }}"></script>
-<script>
-window.alert = AlertMsg;
-</script>
 @yield('footer')

@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $users)
     {
-        $this->middleware('auth', ['only' => ['edit', 'update', 'trash', 'resetpwd']]);
+        $this->middleware('auth', ['only' => ['edit', 'update', 'trash', 'resetpwd', 'updatepwd', 'follow', 'unfollow']]);
         $this->users = $users;
         view()->share('currentUser', Auth::user());
     }
@@ -106,5 +106,15 @@ class UserController extends Controller
         $user->save();
         flash()->message('修改成功！');
         return redirect()->back();
+    }
+
+    public function follow(Request $request)
+    {
+        $user = User::find($request->id);
+        if(empty($user)){
+            return response()->json(404);
+        }
+
+        return response()->json($this->users->follow($user));
     }
 }

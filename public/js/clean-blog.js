@@ -5,6 +5,8 @@ $.ajaxSetup({
 });
 $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
 $(function(){
+    window.alert = AlertMsg;
+
     $('.article-body p>img').each(function(index, el) {
         // console.log($(el).parents('p').css('text-align'));
         $(el).attr('data-action', 'zoom');
@@ -100,7 +102,7 @@ $(function(){
                 }
                 setTimeout(function() {$that.fadeTo('slow', 1, function(){
                     $that.removeClass('doing');
-                });}, 3000);
+                });}, 2000);
             },
             error: function(data){
                 var status = data.status;
@@ -345,3 +347,31 @@ function moveEnd (e) {
         n.moveStart("character", t), n.collapse(), n.select()
     } else "number" == typeof e.selectionStart && "number" == typeof e.selectionEnd && (e.selectionStart = e.selectionEnd = t)
 };
+
+function follow (that, id) {
+    if($(that).hasClass('doing')){
+        return;
+    }
+    $(that).addClass('doing').fadeTo('slow', 0.5);
+    $.post('/users/follow', {
+        id: id
+    }, function(data, textStatus, xhr) {
+        if(data == 1){
+            $(that).removeClass('label-success')
+                .addClass('label-warning')
+                .html('取消关注');
+            AlertMsg('关注成功');
+        }else if(data == -1){
+            $(that).removeClass('label-warning')
+                .addClass('label-success')
+                .html('关注');
+        }else if(data == 404){
+            AlertMsg('用户不存在', 'Alert--Danger');
+        }else if(data == 401){
+            AlertMsg('不能关注自己', 'Alert--Danger');
+        }
+        setTimeout(function() {$(that).fadeTo('slow', 1, function(){
+            $(that).removeClass('doing');
+        });}, 2000);
+    });
+}

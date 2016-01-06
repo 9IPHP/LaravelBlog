@@ -164,7 +164,7 @@ class ArticleController extends Controller
         if (empty($article)) return response()->json(['status' => 404]);
 
         $user = Auth::user();
-        if($collect = Collect::isCollect(Auth::user(), $article)){
+        if($collect = Collect::isCollect($user, $article)){
             $user->collects()->detach($article->id);
             $article->decrement('collect_count');
             return response()->json(['status' => 200, 'action' => 'down']);

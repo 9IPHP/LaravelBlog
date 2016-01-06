@@ -40,8 +40,22 @@
                         <p class="avatar-area"><a href="/user/{{ $user->id }}"><img src="{{ getAvarar($user->email, 100) }}" class="avatar-100"></a></p>
                         <h4><a href="/user/{{ $user->id }}">{{ $user->name }}</a></h4>
                         @if($user->description)<p class="des">{{ $user->description }}</p>@endif
+                        @if($currentUser && $currentUser->id != $user->id)
+                            <div class="">
+                                @if(App\User::isFollowing($currentUser, $user))
+                                    <span class="label label-warning pointer" onclick="follow(this, {{$user->id}})">取消关注</span>
+                                @else
+                                    <span class="label label-success pointer" onclick="follow(this, {{$user->id}})">关注</span>
+                                @endif
+                            </div>
+                        @endif
+                        <hr>
+                        <div class="text-muted">
+                            <a href="/user/{{ $user->id }}/follows">{{ $user->follows_count }} 关注</a> / <a href="/user/{{ $user->id }}/fans">{{ $user->fans_count }} 粉丝</a>
+                        </div>
                         <hr>
                         <div class="user-meta">
+
                             @if($user->website)<p><i class="fa fa-globe"></i> <a href="{{ $user->website }}" target="_blank">{{ $user->website }}</a></p>@endif
                             @if($user->weibo)<p><i class="fa fa-weibo"></i> <a href="{{ $user->weibo }}" target="_blank">{{ $user->weibo }}</a></p>@endif
                             @if($user->github)<p><i class="fa fa-github-alt"></i> <a href="{{ $user->github }}" target="_blank">{{ $user->github }}</a></p>@endif
