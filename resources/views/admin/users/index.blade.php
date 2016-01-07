@@ -45,9 +45,9 @@ Users Lists
                                 {{ $user->roles[0]->name }}
                             @else
                                 <form>
-                                    <select class="userRole" data-id="{{ $user->roles[0]->id }}" name="userRole" class="form-control">
+                                    <select class="userRole" data-id="@if(isset($user->roles[0])) $user->roles[0]->id @endif" name="userRole" class="form-control">
                                         @foreach($roles as $role)
-                                            <option id="role-{{ $role->id }}" value="{{ $role->id }}" @if($user->roles[0]->id == $role->id) selected @endif>{{ $role->name }}</option>
+                                            <option id="role-{{ $role->id }}" value="{{ $role->id }}" @if(isset($user->roles[0]) && $user->roles[0]->id == $role->id) selected @endif>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                     <input type="reset" class="hidden">

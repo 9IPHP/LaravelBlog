@@ -328,7 +328,10 @@ function AlertMsg (msg, newclass) {
 }
 
 function replyTo(e) {
-    replyContent = $("#commentBody"),
+    replyContent = $("#commentBody");
+    if (!replyContent.length) {
+        AlertMsg('请先登录！', 'Alert--Danger');
+    }
     oldContent = replyContent.val(),
     prefix = "@" + e + " ",
     newContent = "",

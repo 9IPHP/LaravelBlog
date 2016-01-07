@@ -36,7 +36,6 @@ function classActiveSegment($segment, $value)
 
 function imagecropper($source_path, $target_width = 240, $target_height = 135, $thumb = 'small'){
     $source_info = getimagesize($source_path);
-    // return $source_info;
     $source_width = $source_info[0];
     $source_height = $source_info[1];
     $source_mime = $source_info['mime'];

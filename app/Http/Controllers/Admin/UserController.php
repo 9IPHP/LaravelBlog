@@ -28,7 +28,7 @@ class UserController extends Controller
                     ->whereUser($s)
                     ->latest()
                     ->paginate(10);
-        $roles = Role::orderBy('id', 'DESC')->get(['id', 'name']);
+        $roles = Role::orderBy('id', 'ASC')->get(['id', 'name']);
         return view('admin.users.index', compact('users', 'roles', 's'));
     }
 

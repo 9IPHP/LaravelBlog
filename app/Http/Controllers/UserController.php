@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $users)
     {
-        $this->middleware('auth', ['only' => ['edit', 'update', 'trash', 'resetpwd', 'updatepwd', 'follow', 'unfollow']]);
+        $this->middleware('auth', ['only' => ['edit', 'update', 'trash', 'resetpwd', 'updatepwd', 'follow']]);
         $this->users = $users;
         view()->share('currentUser', Auth::user());
     }
@@ -63,6 +63,20 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $articles = $user->collects()->latest()->simplePaginate(10);
         return view('users.collects', compact('user', 'articles'));
+    }
+
+    public function follows($id)
+    {
+        $user = User::findOrFail($id);
+        $follows = $user->follows()->latest()->simplePaginate(24);
+        return view('users.follows', compact('user', 'follows'));
+    }
+
+    public function fans($id)
+    {
+        $user = User::findOrFail($id);
+        $fans = $user->fans()->latest()->simplePaginate(24);
+        return view('users.fans', compact('user', 'fans'));
     }
 
     public function edit(User $user)

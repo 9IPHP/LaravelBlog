@@ -46,6 +46,8 @@ Route::get('user/{id}/resetpwd', 'UserController@resetpwd');
 Route::patch('user/{id}/updatepwd', 'UserController@updatepwd');
 Route::get('user/{id}/articles', 'UserController@articles');
 Route::get('user/{id}/collects', 'UserController@collects');
+Route::get('user/{id}/follows', 'UserController@follows');
+Route::get('user/{id}/fans', 'UserController@fans');
 Route::get('user/{id}/trash', 'UserController@trash');
 Route::post('users/follow', 'UserController@follow');
 Route::get('users', 'UserController@index');

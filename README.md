@@ -2,6 +2,7 @@
 
 A Simple Blog created using Laravel.
 
+[DEMO](http://laravelblog.coding.io/ "Demo")
 
 ## Install
 
