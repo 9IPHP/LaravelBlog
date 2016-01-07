@@ -36,7 +36,7 @@ Comments Lists
                     <tr id="comment-{{$comment->id}}">
                         <td><input type="checkbox" name="delCommentId[]" value="{{ $comment->id }}"></td>
                         <td>{{ $comment->id }}</td>
-                        <td class="body text-left">{!! $comment->body !!}</td>
+                        <td class="comment-body text-left">{!! $comment->body !!}</td>
                         <td>@if($comment->article)<a href="/article/{{$comment->article_id}}" target="_blank">{{ $comment->article->title }}</a> @else <a href="/articles/view/{{$comment->article_id}}" target="_blank">文章已被删除</a> @endif</td>
                         <td><a href="/user/{{$comment->user->id}}" target="_blank">{{ $comment->user->name }}</a></td>
                         <td>{{ $comment->created_at }}</td>

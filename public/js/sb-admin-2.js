@@ -134,6 +134,32 @@ $(function() {
             modal = $(this);
         modal.find('.modal-body img').attr('src', url);
     })
+
+    // ParseEmoji
+    $.fn.ParseEmoji = function() {
+        emotionsMap = {};
+        for (var i = 1; i <= 20; i++) {
+            emotionsMap[':e'+i+':'] = '/img/emojis/'+i+'.png';
+        };
+        $(this).each(function() {
+            var $this = $(this);
+            if($this.hasClass('parsed')) return;
+            var html = $this.html();
+            html = html.replace(/:[^\:]*?:/g, function($1) {
+                var url = emotionsMap[$1];
+                if (url) {
+                    return '<img class="emoji" src="' + url + '" alt="' + $1 + '" />';
+                }
+                return $1;
+            });
+            $this.addClass('parsed');
+            $this.html(html);
+        });
+
+        return this;
+    };
+
+    $(".comment-body").ParseEmoji();
 });
 
 $.ajaxSetup({

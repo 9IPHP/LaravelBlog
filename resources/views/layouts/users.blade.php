@@ -1,7 +1,7 @@
 @include('layouts._header')
     <script>
         var webConfig = {
-            navScroll: false,
+            navScroll: true,
             canUpload: @can('image.upload') true @else false @endcan ,
         }
     </script>
