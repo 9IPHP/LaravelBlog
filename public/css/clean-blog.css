@@ -37,6 +37,7 @@ a {
 a:hover,
 a:focus {
     color: #0085a1;
+    outline: none;
 }
 
 a img:hover,
@@ -643,10 +644,16 @@ img.zoom-img {
     border-bottom: 1px solid #efefef;
     margin-bottom: 15px;
 }
-.mgt-75{
+.pd-5{
+    padding: 5px;
+}
+.ml-5{
+    margin-left: 5px;
+}
+.mt-75{
     margin-top: 75px;
 }
-.mgb-15{
+.mb-15{
     margin-bottom: 15px;
 }
 .mt--4{
@@ -873,4 +880,16 @@ img.zoom-img {
     overflow: hidden;
     line-height: 1.6;
     word-wrap: break-word;
+}
+
+#emojiLists{
+    list-style: none;
+    width: 148px;
+}
+#emojiLists li{
+    cursor: pointer;
+    overflow: hidden;
+    width: 16px;
+    height: 16px;
+    margin: 5px 5px;
 }

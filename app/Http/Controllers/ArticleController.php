@@ -33,7 +33,7 @@ class ArticleController extends Controller
         view()->share('currentUser', $this->currentUser);
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $articles = $this->articles->all();
         return view('articles.index', compact('articles'));

@@ -31,7 +31,7 @@
     </header>
 
     <!-- Main Content -->
-    <div class="container mgt-75">
+    <div class="container mt-75">
         <div class="row">
             <div class="col-md-3">
                 <div class="ucard">

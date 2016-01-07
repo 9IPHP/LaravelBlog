@@ -21,13 +21,6 @@ class CommentController extends Controller
         $this->middleware('auth', ['except' => ['getComments']]);
     }
 
-    /*protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'body' => 'required',
-        ]);
-    }*/
-
     public function store(Request $request)
     {
         $article = Article::find($request->article_id);

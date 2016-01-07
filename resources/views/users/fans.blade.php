@@ -8,7 +8,7 @@
         @if(count($fans))
             @if($currentUser && $currentUser->id == $user->id)
                 <div class="alert alert-info text-center clearfix">
-                    TA的关注
+                    TA的粉丝
                 </div>
             @endif
             <div class="fan-list">

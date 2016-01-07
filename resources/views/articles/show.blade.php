@@ -51,7 +51,8 @@
                         {!! Form::textarea('body', null, ['id' => 'commentBody','class' => 'form-control', 'placeholder' => '评论内容，支持Markdown语法', 'rows' => 3, 'data-autoresize']) !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::submit('发布', ['id' => 'commentBtn', 'class' => 'btn btn-primary form-control']) !!}
+                        {!! Form::submit('发布', ['id' => 'commentBtn', 'class' => 'btn btn-primary ']) !!}
+                        <a href="javascript:;" class="showEmoji" tabindex="0" role="button"><i class="fa fa-smile-o pointer ml-5 pd-5"></i></a>
                     </div>
                 {!! Form::close() !!}
                 <div class="box markdown-reply" id="commentPreview">
@@ -86,6 +87,7 @@
 @stop
 
 @section('footer')
+    @include('layouts.emoji')
     <script src="/js/zoom.js"></script>
     <script src="/js/highlight.pack.js"></script>
     <script src="/js/marked.js"></script>

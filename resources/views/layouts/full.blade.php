@@ -18,7 +18,7 @@
     @include('layouts._nav', ['navClass' => 'is-fixed is-visible'])
 
     <!-- Main Content -->
-    <div class="container mgt-75">
+    <div class="container mt-75">
         111
     </div>
 

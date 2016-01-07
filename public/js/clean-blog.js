@@ -140,8 +140,53 @@ $(function(){
         modal.find('.modal-body input[name="id"]').val(id);
         modal.find('.modal-body input[name="action"]').val(action);
     })
+    $('.showEmoji').popover({
+        html: true,
+        content: $("#emoji-template").html(),
+        trigger: "focus",
+        // placement: 'top',
+    })
 
     $('[data-toggle="tooltip"]').tooltip();
+
+    // Textarea自动缩放
+    $('textarea[data-autoresize]').each(function(index, elem) {
+      var offset, resizeTextarea;
+      offset = elem.offsetHeight - elem.clientHeight;
+      resizeTextarea = function(el) {
+        return $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+      };
+      return $(elem).on('keyup input', function() {
+        return resizeTextarea(elem);
+      }).removeAttr('data-autoresize');
+    });
+
+    // ParseEmoji
+    $.fn.ParseEmoji = function() {
+        emotionsMap = {};
+        for (var i = 1; i <= 20; i++) {
+            emotionsMap[':e'+i+':'] = '/img/emojis/'+i+'.png';
+        };
+        $(this).each(function() {
+            var $this = $(this);
+            if($this.hasClass('parsed')) return;
+            var html = $this.html();
+            html = html.replace(/:[^\:]*?:/g, function($1) {
+                var url = emotionsMap[$1];
+                if (url) {
+                    return '<img class="emoji" src="' + url + '" alt="' + $1 + '" />';
+                }
+                return $1;
+            });
+            $this.addClass('parsed');
+            $this.html(html);
+        });
+
+        return this;
+    };
+
+
+    $(".comment-body").ParseEmoji();
 })
 
 
@@ -200,6 +245,7 @@ $(document).on('submit', '#commentForm', function(event) {
                 $('#commentForm [name="body"]').val('');
                 $("#commentPreview").html('');
                 $('#commentsList').prepend(marked(response.html))
+                $(".comment-body").ParseEmoji();
                 $commentNum.text(commentNumber + 1);
                 $('#commentsList pre code').each(function(i, block) {
                     hljs.highlightBlock(block);
@@ -237,6 +283,7 @@ function getArticleComment (article_id, page) {
         success: function(response){
             if (response.status == 200) {
                 $('#commentsList').html(response.html);
+                $(".comment-body").ParseEmoji();
                 $('#commentsList pre code').each(function(i, block) {
                     hljs.highlightBlock(block);
                 });
@@ -254,11 +301,13 @@ $("#commentBody").bind('blur keyup',  function(event) {
     var source = $(this).val();
     var mark = marked(source);
     $("#commentPreview").html(mark);
+    $("#commentPreview").removeClass('parsed').ParseEmoji();
     $('#commentPreview pre code').each(function(i, block) {
         hljs.highlightBlock(block);
     });
 });
-$(document).on('propertychange', function(e){
+
+$(document).on('propertychange', '#commentBody', function(e){
     var source = $(this).val();
     var mark = marked(source);
     $("#commentPreview").html(mark);
@@ -266,19 +315,6 @@ $(document).on('propertychange', function(e){
         hljs.highlightBlock(block);
     });
 })
-
-$(function() {
-    return $('textarea[data-autoresize]').each(function(index, elem) {
-      var offset, resizeTextarea;
-      offset = elem.offsetHeight - elem.clientHeight;
-      resizeTextarea = function(el) {
-        return $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-      };
-      return $(elem).on('keyup input', function() {
-        return resizeTextarea(elem);
-      }).removeAttr('data-autoresize');
-    });
-});
 
 function delArticle () {
     var modal = $("#delArticleUserCenter"),
@@ -327,19 +363,73 @@ function AlertMsg (msg, newclass) {
     })
 }
 
-function replyTo(e) {
-    replyContent = $("#commentBody");
+function replyTo(a) {
+    /*replyContent = $("#commentBody");
     if (!replyContent.length) {
         AlertMsg('请先登录！', 'Alert--Danger');
     }
-    oldContent = replyContent.val(),
-    prefix = "@" + e + " ",
-    newContent = "",
-    oldContent.length > 0 ? oldContent != prefix && (newContent = oldContent + "\n" + prefix) : newContent = prefix,
-    replyContent.focus(),
-    replyContent.val(newContent),
-    moveEnd($("#commentBody"))
+    oldContent = replyContent.val();
+    prefix = "@" + e + " ";
+    newContent = "";
+    oldContent.length > 0 ? oldContent != prefix && (newContent = oldContent + "\n" + prefix) : newContent = prefix;
+    replyContent.focus();
+    replyContent.val(newContent);
+    moveEnd($("#commentBody"));*/
+
+    var b;
+    a = " @" + a + " ";
+    if (document.getElementById("commentBody") && document.getElementById("commentBody").type == "textarea") {
+        b = document.getElementById("commentBody")
+    } else {
+        return false
+    }
+    if (document.selection) {
+        b.focus();
+        sel = document.selection.createRange();
+        sel.text = a;
+        b.focus()
+    } else if (b.selectionStart || b.selectionStart == "0") {
+        var c = b.selectionStart;
+        var d = b.selectionEnd;
+        var e = d;
+        b.value = b.value.substring(0, c) + a + b.value.substring(d, b.value.length);
+        e += a.length;
+        b.focus();
+        b.selectionStart = e;
+        b.selectionEnd = e
+    } else {
+        b.value += a;
+        b.focus()
+    }
     // $body.animate( { scrollTop: $('#commentsList').offset().top - 70}, 900);
+}
+
+function insertEmoji(a) {
+    var b;
+    a = " :" + a + ": ";
+    if (document.getElementById("commentBody") && document.getElementById("commentBody").type == "textarea") {
+        b = document.getElementById("commentBody")
+    } else {
+        return false
+    }
+    if (document.selection) {
+        b.focus();
+        sel = document.selection.createRange();
+        sel.text = a;
+        b.focus()
+    } else if (b.selectionStart || b.selectionStart == "0") {
+        var c = b.selectionStart;
+        var d = b.selectionEnd;
+        var e = d;
+        b.value = b.value.substring(0, c) + a + b.value.substring(d, b.value.length);
+        e += a.length;
+        b.focus();
+        b.selectionStart = e;
+        b.selectionEnd = e
+    } else {
+        b.value += a;
+        b.focus()
+    }
 }
 
 function moveEnd (e) {
