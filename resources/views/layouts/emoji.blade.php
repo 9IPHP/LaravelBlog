@@ -1,4 +1,4 @@
-<div id="emoji-template" class="hidden">
+<script type="text/x-template" id="emoji-template" class="hidden">
     <ul id="emojiLists" class="list-inline">
         <li onclick="insertEmoji('e1')" style="background: url(/img/emojis/1.png)"></li>
         <li onclick="insertEmoji('e2')" style="background: url(/img/emojis/2.png)"></li>
@@ -21,4 +21,4 @@
         <li onclick="insertEmoji('e19')" style="background: url(/img/emojis/19.png)"></li>
         <li onclick="insertEmoji('e20')" style="background: url(/img/emojis/20.png)"></li>
     </ul>
-</div>
+</script>

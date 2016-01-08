@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $users)
     {
-        $this->middleware('auth', ['only' => ['edit', 'update', 'trash', 'resetpwd', 'updatepwd', 'follow']]);
+        $this->middleware('auth', ['only' => ['edit', 'update', 'trash', 'resetpwd', 'updatepwd', 'follow', 'notifications']]);
         $this->users = $users;
         view()->share('currentUser', Auth::user());
     }
@@ -77,6 +77,22 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $fans = $user->fans()->latest()->simplePaginate(24);
         return view('users.fans', compact('user', 'fans'));
+    }
+
+    public function notifications($id)
+    {
+        $user = User::findOrFail($id);
+        $currentUser = Auth::user();
+        if ($user->id != $currentUser->id) {
+            return redirect('/');
+        }
+        $notifications = $user->notifications()->latest()->simplePaginate(10);
+        $notice_count = $user->notice_count;
+        flash('notice_count', $notice_count);
+        $user->decrement('notice_count', $notice_count);
+        $count = $notice_count - ($notifications->currentPage() - 1) * $notifications->perPage();
+        $count = $count > 0 ? $count : 0;
+        return view('users.notifications', compact('user', 'notifications', 'count'));
     }
 
     public function edit(User $user)

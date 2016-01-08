@@ -37,16 +37,36 @@
                             <a href="/articles/create">Add Article</a>
                         </li>
                     @endcan
-                    <li>
-                        <a href="/user/{{ Auth::id() }}">User Center</a>
-                    </li>
                     @if(Auth::user()->hasRole('editor') || Auth::user()->isAdmin())
                         <li>
                             <a href="/admin/index">Admin</a>
                         </li>
                     @endif
-                    <li>
-                        <a href="/auth/logout">LogOut</a>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i>  {{ Auth::user()->name }} <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="/user/{{auth()->id()}}"><i class="fa fa-user fa-fw"></i> User Center</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/user/{{auth()->id()}}/notifications"><i class="fa fa-bell-o fa-fw"></i> 通知 <span class="badge @if(App\User::noticeCount())grow bg-danger @endif">{{ App\User::noticeCount() }}</span></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/user/{{auth()->id()}}/edit"><i class="fa fa-edit fa-fw"></i> 编辑资料</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/user/{{auth()->id()}}/resetpwd"><i class="fa fa-gear fa-fw"></i> 修改密码</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/auth/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
             </ul>

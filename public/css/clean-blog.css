@@ -88,7 +88,7 @@ hr.middle{
     font-weight: 800;
 }
 
-.navbar-custom .nav li a {
+.navbar-custom .nav > li > a {
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 800;
@@ -108,12 +108,12 @@ hr.middle{
     .navbar-custom .navbar-brand:focus {
         color: rgba(255, 255, 255, 0.8);
     }
-    .navbar-custom .nav li a {
+    .navbar-custom .nav > li > a {
         color: white;
         padding: 20px;
     }
-    .navbar-custom .nav li a:hover,
-    .navbar-custom .nav li a:focus {
+    .navbar-custom .nav > li > a:hover,
+    .navbar-custom .nav > li > a:focus {
         color: rgba(255, 255, 255, 0.8);
     }
 }
@@ -755,6 +755,9 @@ img.zoom-img {
 .panel-user-info .user-info{
     margin: 20px auto;
 }
+.panel-user-info .list-group-item a{
+    color: #0085a1;
+}
 .user-articles-meta{
     color: #888;
     font-size: 12px;
@@ -892,4 +895,38 @@ img.zoom-img {
     width: 16px;
     height: 16px;
     margin: 5px 5px;
+}
+
+@-webkit-keyframes hvr-pulse-grow {
+  to {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+@keyframes hvr-pulse-grow {
+  to {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+}
+.grow {
+  -webkit-animation-name: hvr-pulse-grow;
+  animation-name: hvr-pulse-grow;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+}
+
+.bg-danger{
+    background: #e74c3c !important;
+    color: #FFF !important;
+}
+.bg-grey{
+    background: #eee !important;
 }

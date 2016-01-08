@@ -11,10 +11,8 @@
 |
 */
 Route::get('test', function(){
-    $user2 = App\User::find(2);
-    $user1 = App\User::find(1);
-    $user2->follows()->save($user1);
-    dd($user2->follows->toArray());
+    $user = auth()->user();
+    dd($user->notifications->toArray());
     return view('welcome');
 });
 Route::get('/', 'ArticleController@index');
@@ -48,6 +46,7 @@ Route::get('user/{id}/articles', 'UserController@articles');
 Route::get('user/{id}/collects', 'UserController@collects');
 Route::get('user/{id}/follows', 'UserController@follows');
 Route::get('user/{id}/fans', 'UserController@fans');
+Route::get('user/{id}/notifications', 'UserController@notifications');
 Route::get('user/{id}/trash', 'UserController@trash');
 Route::post('users/follow', 'UserController@follow');
 Route::get('users', 'UserController@index');

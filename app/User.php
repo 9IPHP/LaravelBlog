@@ -138,4 +138,20 @@ class User extends Model implements AuthenticatableContract,
                         ->where('follow_id', $u->id)
                         ->count();
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notify::class);
+    }
+
+    public static function noticeCount()
+    {
+        if(auth()->user()->notice_count){
+            return (int)auth()->user()->notice_count;
+        }elseif(session('notice_count') != null){
+            return session('notice_count');
+        }else{
+            return 0;
+        }
+    }
 }

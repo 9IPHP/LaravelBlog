@@ -3,6 +3,7 @@
 @section('title')修改密码 - @parent @stop
 
 @section('container')
+    @include('users._rightnav')
     {{-- <div class="panel panel-default"> --}}
         <div class="panel-body ">
             @include('flash::message')

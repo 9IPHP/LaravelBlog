@@ -7,5 +7,5 @@
     @if($currentUser && $user->id == $currentUser->id)
         <li role="presentation" class="{{ classActiveSegment(3, 'trash') }}"><a href="/user/{{ $user->id }}/trash">回收站</a></li>
     @endif
-    <li role="presentation"><a href="#">Messages</a></li>
+    <li role="presentation" class="{{ classActiveSegment(3, 'notifications') }}"><a href="/user/{{ $user->id }}/notifications">Notifications <span class="badge @if(App\User::noticeCount())grow bg-danger @endif">{{App\User::noticeCount()}}</span></a></li>
 </ul>

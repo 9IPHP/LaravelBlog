@@ -10,6 +10,7 @@ use App\Collect;
 use App\Image;
 use App\History;
 use App\Comment;
+use App\Notify;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -140,19 +141,21 @@ class ArticleController extends Controller
         $article = Article::find($request->id, ['id', 'user_id', 'title']);
         if (empty($article)) return response()->json(['status' => 404]);
 
-        $user_id = Auth::id();
+        $user = Auth::user();
 
-        if($like = $article->likes()->byUser($user_id)->first()){
+        if($like = $article->likes()->byUser($user->id)->first()){
             $like->delete();
             $article->decrement('like_count');
             return response()->json(['status' => 200, 'action' => 'down']);
         }else{
-            $like = $article->likes()->create(['user_id' => $user_id]);
+            $like = $article->likes()->create(['user_id' => $user->id]);
             $article->increment('like_count');
-            Auth::user()->histories()->create([
+            $user->histories()->create([
                 'type' => 'like',
                 'content' => '赞了文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
             ]);
+            Notify::notify($article->user_id, '<a href="/user/' . $user->id . 
+                '" target="_blank">' . $user->name . '</a> 赞了您的文章 <a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>', 'like');
             return response()->json(['status' => 200, 'action' => 'up']);
         }
     }
@@ -171,10 +174,12 @@ class ArticleController extends Controller
         }else{
             $user->collects()->attach($article->id);
             $article->increment('collect_count');
-            Auth::user()->histories()->create([
+            $user->histories()->create([
                 'type' => 'collect',
                 'content' => '收藏文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
             ]);
+            Notify::notify($article->user_id, '<a href="/user/' . $user->id . 
+                '" target="_blank">' . $user->name . '</a> 收藏了您的文章 <a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>', 'collect');
             return response()->json(['status' => 200, 'action' => 'up']);
         }
     }
