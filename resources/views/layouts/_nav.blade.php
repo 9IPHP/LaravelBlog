@@ -44,7 +44,7 @@
                     @endif
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-fw"></i>  {{ Auth::user()->name }} <i class="fa fa-caret-down"></i>
+                            {{ Auth::user()->name }} @if(App\User::noticeCount())<span class="badge grow bg-danger">{{ App\User::noticeCount() }}</span>@endif <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li>

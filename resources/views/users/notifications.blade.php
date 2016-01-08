@@ -24,7 +24,7 @@
             </ul>
         @else
             <div class="alert alert-warning text-center">
-                暂无动态
+                暂无消息 && 通知
             </div>
         @endif
     </div>

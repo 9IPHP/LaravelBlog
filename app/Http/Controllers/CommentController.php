@@ -10,6 +10,7 @@ use App\Article;
 use App\Comment;
 use App\User;
 use App\History;
+use App\Notify;
 use Auth;
 use Validator;
 use Markdown;
@@ -33,19 +34,33 @@ class CommentController extends Controller
         $rules = array(
             'body' => 'required',
         );
-        $validation = Validator::make($data = $request->all(), $rules);
+        $validation = Validator::make($commentData = $request->all(), $rules);
         if ($validation->fails())
             return response()->json(['status' => 0, 'msg' => '评论内容不能为空']);
 
-        $data['user_id'] = Auth::id();
-        $data['body'] = Markdown::parse(parseAt($data['body']));
-        $comment = Comment::create($data);
+        $user = Auth::user();
+        $commentData['user_id'] = $user->id;
+        $parsedComment = parseAt($commentData['body']);
+        $atUidArr = $parsedComment['uidArr'];
+        $commentData['body'] = Markdown::parse($parsedComment['comments']);
+        $comment = Comment::create($commentData);
         $html = view('articles._comment', compact('comment'))->render();
         $comment->article->increment('comment_count');
-        Auth::user()->histories()->create([
+
+        $user->histories()->create([
             'type' => 'comment',
             'content' => '评论文章《<a href="/article/'.$article->id.'#comment-'.$comment->id.'" target="_blank">'.$article->title.'</a>》'
         ]);
+        Notify::notify([$article->user_id], '<a href="/user/' . $user->id . 
+                '" target="_blank">' . $user->name . '</a> 评论了您的文章 <a href="/article/' . 
+                $article->id.'#comment-'.$comment->id.'" target="_blank">' . 
+                $article->title.'</a>', 'comment');
+        if($atUidArr){
+            Notify::notify($atUidArr, '<a href="/user/' . $user->id . 
+                    '" target="_blank">' . $user->name . '</a> 在文章 <a href="/article/' . 
+                    $article->id.'#comment-'.$comment->id.'" target="_blank">' . 
+                    $article->title.'</a> 的评论中提到了您', 'comment');
+        }
         return response()->json(['status' => 200, 'msg' => '评论成功', 'html' => $html]);
     }
 

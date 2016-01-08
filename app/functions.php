@@ -143,7 +143,7 @@ function getAvarar($email, $size = 50)
 }
 
 function parseAt($comment){
-    $atUsers = [];
+    $atUsers = $uidArr = [];
     preg_match_all("/(\S*)\@([^\r\n\s]*)/i", $comment, $atUsers);
     $usernames = [];
     foreach ($atUsers[2] as $k=>$v) {
@@ -156,13 +156,14 @@ function parseAt($comment){
     if (count($usernames)){
         $users = App\User::whereIn('name', $usernames)->get();
         if($users) foreach ($users as $user) {
+            $uidArr[] = $user->id;
             $search = '@' . $user->name;
             // $place = '<a href="'.route('user.show', $user->id).'" target="_blank" title="'.$user->name.'" data-toggle="tooltip">'.$search.'</a>';
             $place = '['.$search.']('.route('user.show', $user->id).' "'.$user->name.'")';
             $comment = str_replace($search, $place, $comment);
         }
     }
-    return $comment;
+    return ['comments' => $comment, 'uidArr' => array_unique($uidArr)];
 }
 
 /**

@@ -10,21 +10,34 @@ class Notify extends Model
 {
     protected $fillable = ['user_id', 'body', 'type', 'to_all'];
 
-    public static function notify($user_id, $body, $type, $to_all = 0)
+    public static function notify($idArr = array(), $body, $type, $to_all = 0)
     {
-        if ($user_id == auth()->id()) {
-            return;
+        $currentId = auth()->id();
+        if (!$currentId) return;
+        $data = $notifiedUidArr = [];
+        $now = \Carbon\Carbon::now();
+        if (!empty($idArr)) {
+            $idArr = array_unique($idArr);
+            foreach ($idArr as $id) {
+                if($id == $currentId) return;
+                $data[] = [
+                    'user_id' => $id,
+                    'body' => $body,
+                    'type' => $type,
+                    'to_all' => $to_all,
+                    'created_at' => $now,
+                    'updated_at' => $now
+                ];
+                $notifiedUidArr[] = $id;
+            }
         }
-        Notify::create([
-            'user_id' => $user_id,
-            'body' => $body,
-            'type' => $type,
-            'to_all' => $to_all
-        ]);
+        if (!empty($data)) {
+            Notify::insert($data);
+        }
         if ($to_all) {
             User::all()->increment('notice_count');
-        }else{
-            User::whereId($user_id)->increment('notice_count');
+        }elseif($notifiedUidArr){
+            User::whereIn('id', $notifiedUidArr)->increment('notice_count');
         }
     }
 }

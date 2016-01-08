@@ -154,7 +154,7 @@ class ArticleController extends Controller
                 'type' => 'like',
                 'content' => '赞了文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
             ]);
-            Notify::notify($article->user_id, '<a href="/user/' . $user->id . 
+            Notify::notify([$article->user_id], '<a href="/user/' . $user->id . 
                 '" target="_blank">' . $user->name . '</a> 赞了您的文章 <a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>', 'like');
             return response()->json(['status' => 200, 'action' => 'up']);
         }
@@ -178,7 +178,7 @@ class ArticleController extends Controller
                 'type' => 'collect',
                 'content' => '收藏文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
             ]);
-            Notify::notify($article->user_id, '<a href="/user/' . $user->id . 
+            Notify::notify([$article->user_id], '<a href="/user/' . $user->id . 
                 '" target="_blank">' . $user->name . '</a> 收藏了您的文章 <a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>', 'collect');
             return response()->json(['status' => 200, 'action' => 'up']);
         }
