@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Validator, Cache;
-use App\Option;
+use App\Notify;
+use App\User;
+use Validator;
+use App\Http\Requests\NotifyRequest;
 
-class OptionController extends BaseController
+class NotifyController extends BaseController
 {
 
     public function __construct()
@@ -25,9 +27,8 @@ class OptionController extends BaseController
      */
     public function index()
     {
-        $options = Option::oldest('id')->get();
-        return view('admin.options.index', compact('options'));
-        dd($options);
+        $notifications = Notify::with('user')->whereIsSystem(1)->latest()->paginate(10);
+        return view('admin.notifications.index', compact('notifications'));
     }
 
     /**
@@ -37,7 +38,7 @@ class OptionController extends BaseController
      */
     public function create()
     {
-        return view('admin.options.create');
+        return view('admin.notifications.create');
     }
 
     /**
@@ -46,20 +47,18 @@ class OptionController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NotifyRequest $request)
     {
-        $validation = Validator::make($request->all(), [
-            'label' => 'required',
-            'name' => 'required|alpha|unique:options',
-            'value' => 'required',
-            'type' => 'required|alpha',
-        ]);
-        if ($validation->fails()){
-            return redirect()->back()->withErrors($validation);
+        $data = $request->all();
+        $data['is_system'] = 1;
+        if(!$data['to_all'] && !$data['user_id']){
+            return redirect()->back()->withErrors(['请指定用户ID或发送给所有用户'])->withInput();
         }
-        Option::create($request->all());
-        flash()->message('添加成功');
-        return redirect()->back();
+        Notify::notify([$request->user_id], $request->body, $request->type, $request->to_all, 1);
+
+        flash()->message('发送成功！');
+        return redirect('/admin/notifications/index');
+        dd($request->all());
     }
 
     /**
@@ -70,7 +69,7 @@ class OptionController extends BaseController
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -91,21 +90,9 @@ class OptionController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        Cache::forget('system-options');
-        $requests = $request->except(['_token', '_method']);
-        $options = Option::latest()->get();
-        foreach ($options as $option) {
-            if($requests[$option->name] != $option->value){
-                $option->value = htmlspecialchars($requests[$option->name]);
-                $option->save();
-            }
-            $data[$option->name] = $option->value;
-        }
-        Cache::forever('system-options', $data);
-        flash()->message('修改成功！');
-        return redirect()->back();
+        //
     }
 
     /**
@@ -116,6 +103,7 @@ class OptionController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        Notify::whereId($id)->delete();
+        return response()->json(200);
     }
 }

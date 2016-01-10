@@ -135,6 +135,15 @@ $(function() {
         modal.find('.modal-body img').attr('src', url);
     })
 
+    $('#delNotificationAdmin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget),
+            body = button.data('body'),
+            id = button.data('id'),
+            modal = $(this);
+        modal.find('.body').text(body);
+        modal.find('.modal-body input[name="id"]').val(id);
+    })
+
     // ParseEmoji
     $.fn.ParseEmoji = function() {
         emotionsMap = {};
@@ -477,6 +486,27 @@ function delUser () {
             AlertMsg('删除成功');
         }else {
             AlertMsg(response.msg, 'Alert--Danger');
+        }
+    });
+}
+
+function delNotification () {
+    var modal = $("#delNotificationAdmin"),
+        id = modal.find('input[name="id"]').val();
+
+    $.post('/admin/notifications/'+id, {
+        id: id,
+        _method: 'DELETE'
+    }, function(response) {
+        if (response == 200) {
+            $('tr#notification-'+id).slideUp(function(){
+                $(this).remove();
+            })
+            AlertMsg('删除成功');
+        }else if(response == 404){
+            AlertMsg('消息不存在', 'Alert--Danger');
+        }else{
+            AlertMsg('删除失败', 'Alert--Danger');
         }
     });
 }

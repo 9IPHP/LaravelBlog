@@ -148,8 +148,8 @@ class User extends Model implements AuthenticatableContract,
     {
         if(auth()->user()->notice_count){
             return (int)auth()->user()->notice_count;
-        }elseif(session('notice_count') != null){
-            return session('notice_count');
+        }elseif(isset($notice_count)){
+            return $notice_count;
         }else{
             return 0;
         }

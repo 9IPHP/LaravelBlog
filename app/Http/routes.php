@@ -11,6 +11,8 @@
 |
 */
 Route::get('test', function(){
+    // dd(App\User::whereId(1));
+    dd(App\User::increment('notice_count'));
     $user = auth()->user();
     dd($user->notifications->toArray());
     return view('welcome');
@@ -83,4 +85,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:editor', 'namespace' =>
 
     Route::resource('options', 'OptionController', ['except' => ['show', 'edit', 'destroy']]);
     Route::get('options/index', 'OptionController@index');
+
+    Route::get('notifications/index', 'NotifyController@index');
+    Route::resource('notifications', 'NotifyController');
 });

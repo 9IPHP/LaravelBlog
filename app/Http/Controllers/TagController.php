@@ -14,7 +14,8 @@ class TagController extends Controller
     {
         // $this->middleware('level:5');
     }
-    public function index(Request $request)
+
+    public function index()
     {
         $tags = Tag::where('count', '>', 0)->get();
         $tagLists = [];

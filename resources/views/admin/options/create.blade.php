@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('page-header')
-Options Lists
+Options Create
 @stop
 
 @section('content')

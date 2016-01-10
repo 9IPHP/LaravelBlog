@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\History;
-use Auth, Validator;
+use App\Notify;
+use Auth, Validator, Session;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -86,13 +87,13 @@ class UserController extends Controller
         if ($user->id != $currentUser->id) {
             return redirect('/');
         }
-        $notifications = $user->notifications()->latest()->simplePaginate(10);
+        $notifications = $user->notifications()->orWhere('to_all', 1)->latest()->simplePaginate(10);
         $notice_count = $user->notice_count;
-        flash('notice_count', $notice_count);
+        // Session::flash('notice_count', $notice_count);
         $user->decrement('notice_count', $notice_count);
         $count = $notice_count - ($notifications->currentPage() - 1) * $notifications->perPage();
         $count = $count > 0 ? $count : 0;
-        return view('users.notifications', compact('user', 'notifications', 'count'));
+        return view('users.notifications', compact('user', 'notifications', 'notice_count', 'count'));
     }
 
     public function edit(User $user)

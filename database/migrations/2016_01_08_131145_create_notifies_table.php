@@ -18,6 +18,7 @@ class CreateNotifiesTable extends Migration
             $table->text('body');
             $table->string('type');
             $table->boolean('to_all')->default(0);
+            $table->boolean('is_system')->default(0);
             $table->timestamps();
         });
     }

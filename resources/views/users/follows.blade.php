@@ -6,11 +6,9 @@
     @include('users._rightnav')
     <div class="panel-body remove-pd-h">
         @if(count($follows))
-            @if($currentUser && $currentUser->id == $user->id)
-                <div class="alert alert-info text-center clearfix">
-                    TA的关注
-                </div>
-            @endif
+            <div class="alert alert-info text-center clearfix">
+                @if($currentUser && $currentUser->id == $user->id) 我的关注 @else TA的关注 @endif
+            </div>
             <div class="follow-list">
                 @foreach($follows as $follow)
                     <div class="media col-md-4 col-sm-6 bb-15">

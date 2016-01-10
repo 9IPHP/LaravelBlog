@@ -138,6 +138,17 @@
                                 </li> --}}
                             </ul>
                         </li>
+                        <li>
+                            <a href="javascript:;"><i class="fa fa-info-circle fa-fw"></i> Notificatins<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/notifications/index">系统消息</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/notifications/create">发布消息</a>
+                                </li>
+                            </ul>
+                        </li>
                         @endcan
                     </ul>
                 </div>

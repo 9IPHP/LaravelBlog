@@ -8,15 +8,30 @@ use App\User;
 
 class Notify extends Model
 {
-    protected $fillable = ['user_id', 'body', 'type', 'to_all'];
+    protected $fillable = ['user_id', 'body', 'type', 'to_all', 'is_system'];
 
-    public static function notify($idArr = array(), $body, $type, $to_all = 0)
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public static function notify($idArr = array(), $body, $type, $to_all = 0, $is_system = 0)
     {
         $currentId = auth()->id();
         if (!$currentId) return;
         $data = $notifiedUidArr = [];
         $now = \Carbon\Carbon::now();
-        if (!empty($idArr)) {
+        if($to_all){
+            $data = [
+                'user_id' => 0,
+                'body' => $body,
+                'type' => $type,
+                'to_all' => $to_all,
+                'is_system' => $is_system,
+                'created_at' => $now,
+                'updated_at' => $now
+            ];
+        } elseif (!empty($idArr)) {
             $idArr = array_unique($idArr);
             foreach ($idArr as $id) {
                 if($id == $currentId) return;
@@ -25,6 +40,7 @@ class Notify extends Model
                     'body' => $body,
                     'type' => $type,
                     'to_all' => $to_all,
+                    'is_system' => $is_system,
                     'created_at' => $now,
                     'updated_at' => $now
                 ];
@@ -33,11 +49,11 @@ class Notify extends Model
         }
         if (!empty($data)) {
             Notify::insert($data);
-        }
-        if ($to_all) {
-            User::all()->increment('notice_count');
-        }elseif($notifiedUidArr){
-            User::whereIn('id', $notifiedUidArr)->increment('notice_count');
+            if ($to_all) {
+                \DB::table('users')->increment('notice_count');
+            }elseif($notifiedUidArr){
+                User::whereIn('id', $notifiedUidArr)->increment('notice_count');
+            }
         }
     }
 }

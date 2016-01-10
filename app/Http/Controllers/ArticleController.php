@@ -95,10 +95,10 @@ class ArticleController extends Controller
         $requests['comment_status'] = $request->comment_status ? $request->comment_status : 0;
         $requests['excerpt'] = $requests['excerpt'] ? $requests['excerpt'] : mb_content_filter_cut($requests['body']);
         $article->update($requests);
-        Auth::user()->histories()->create([
+        /*Auth::user()->histories()->create([
             'type' => 'article',
             'content' => '修改文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
-        ]);
+        ]);*/
         flash()->message('文章修改成功！');
         return redirect('article/' . $article->id);
     }
@@ -131,7 +131,8 @@ class ArticleController extends Controller
         if (!in_array($request->type, array('comment_status')))
             return response()->json(403);
 
-        $data[$request->type] = $request->newStatus;
+        // $data[$request->type] = $request->newStatus;
+        $data[$request->type] = ! $data[$request->type];
         if($article->update($data)) return response()->json(200);
         return response()->json(500);
     }
@@ -154,7 +155,7 @@ class ArticleController extends Controller
                 'type' => 'like',
                 'content' => '赞了文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
             ]);
-            Notify::notify([$article->user_id], '<a href="/user/' . $user->id . 
+            Notify::notify([$article->user_id], '<a href="/user/' . $user->id .
                 '" target="_blank">' . $user->name . '</a> 赞了您的文章 <a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>', 'like');
             return response()->json(['status' => 200, 'action' => 'up']);
         }
@@ -178,7 +179,7 @@ class ArticleController extends Controller
                 'type' => 'collect',
                 'content' => '收藏文章《<a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>》'
             ]);
-            Notify::notify([$article->user_id], '<a href="/user/' . $user->id . 
+            Notify::notify([$article->user_id], '<a href="/user/' . $user->id .
                 '" target="_blank">' . $user->name . '</a> 收藏了您的文章 <a href="/article/'.$article->id.'" target="_blank">'.$article->title.'</a>', 'collect');
             return response()->json(['status' => 200, 'action' => 'up']);
         }

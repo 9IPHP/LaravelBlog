@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\User;
 use App\Follower;
 use App\History;
+use App\Notify;
 use Auth;
 
 class UserRepository{
@@ -31,6 +32,8 @@ class UserRepository{
                 'type' => 'follow',
                 'content' => '关注用户：<strong><a href="/user/'.$u->id.'" target="_blank">'.$u->name.'</a></strong>'
             ]);
+            Notify::notify([$u->id], '<a href="/user/' . $user->id .
+                '" target="_blank">' . $user->name . '</a> 关注了您', 'follow');
             return 1;
 
         }

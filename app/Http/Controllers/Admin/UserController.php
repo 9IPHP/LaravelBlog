@@ -12,7 +12,7 @@ use App\Role;
 use App\Permission;
 use App\Article;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     public function __construct()

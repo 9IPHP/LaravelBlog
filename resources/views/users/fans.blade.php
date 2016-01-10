@@ -6,11 +6,9 @@
     @include('users._rightnav')
     <div class="panel-body remove-pd-h">
         @if(count($fans))
-            @if($currentUser && $currentUser->id == $user->id)
-                <div class="alert alert-info text-center clearfix">
-                    TA的粉丝
-                </div>
-            @endif
+            <div class="alert alert-info text-center clearfix">
+                @if($currentUser && $currentUser->id == $user->id) 我的粉丝 @else TA的粉丝 @endif
+            </div>
             <div class="fan-list">
                 @foreach($fans as $fan)
                     <div class="media col-md-4 col-sm-6 bb-15">

@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Image;
 
-class ImageController extends Controller
+class ImageController extends BaseController
 {
 
     public function __construct()
