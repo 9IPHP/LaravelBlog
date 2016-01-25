@@ -88,6 +88,9 @@ class UserController extends Controller
             return redirect('/');
         }
         $notifications = $user->notifications()->orWhere('to_all', 1)->latest()->simplePaginate(10);
+        $notifications = $user->notifications()->orWhere(function($query) use ($currentUser){
+                $query->where('to_all', 1)->where('created_at', '>', $currentUser->created_at);
+            })->latest()->simplePaginate(10);
         $notice_count = $user->notice_count;
         // Session::flash('notice_count', $notice_count);
         $user->decrement('notice_count', $notice_count);
