@@ -17,6 +17,8 @@ $(function(){
         var $that = $(this),
             $child = $that.children('i'),
             id = $that.parents('li.article').data('id');
+        if ($that.hasClass('doing')) return false;
+        $that.addClass('doing');
         if($that.hasClass('comment')) type = 'comment_status';
         else return;
         if($child.hasClass('fa-square-o')) {
@@ -43,6 +45,7 @@ $(function(){
                     if(newStatus) $child.removeClass('fa-spinner fa-spin').addClass('fa-square-o');
                     else $child.removeClass('fa-spinner fa-spin').addClass('fa-check-square-o');
                 }
+                $that.removeClass('doing')
             },
             error: function(data){
 

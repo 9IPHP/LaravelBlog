@@ -132,9 +132,8 @@ class ArticleController extends Controller
         if (!in_array($request->type, array('comment_status')))
             return response()->json(403);
 
-        // $data[$request->type] = $request->newStatus;
-        $data[$request->type] = ! $data[$request->type];
-        if($article->update($data)) return response()->json(200);
+        $requests[$request->type] = $request->newStatus;
+        if($article->update($requests)) return response()->json(200);
         return response()->json(500);
     }
 

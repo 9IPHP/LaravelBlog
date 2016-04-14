@@ -25,13 +25,13 @@
                                 <i class="fa fa-comments"></i> {{ $article->comment_count }}
                                 <i class="fa fa-bookmark"></i> {{ $article->collect_count }}
                                 <i class="fa fa-heart"></i> {{ $article->like_count }}
-                                @can('active', $article)
+                                @can('owns', $article)
                                     <label class="opt article-opt comment"><i class="fa fa-{{$commentStatus}}"></i> 评论</label>
                                 @endcan
-                                @can('update', $article)
+                                @can('owns', $article)
                                     <i class="fa fa-edit"></i> <a href="/article/{{ $article->id }}/edit" target="_blank">Edit</a>
                                 @endcan
-                                @can('destroy', $article)
+                                @can('owns', $article)
                                     <label class="opt article-del" data-toggle="modal" data-target="#delArticleUserCenter" data-title="{{ $article->title }}" data-id="{{ $article->id }}"><i class="fa fa-trash-o"></i> Delete</label>
                                 @endcan
                             </span>
