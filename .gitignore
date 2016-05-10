@@ -7,3 +7,6 @@ Homestead.json
 laravel.blog.sublime-project
 laravel.blog.sublime-workspace
 .idea
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
